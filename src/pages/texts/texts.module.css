@@ -1,0 +1,13 @@
+.aiHint {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  margin: 0.8rem 0 1rem;
+  line-height: 1.5;
+  font-size: 0.93rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.5rem;
+}

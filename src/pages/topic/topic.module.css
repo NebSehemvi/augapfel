@@ -1,0 +1,32 @@
+.header {
+  margin-bottom: 1rem;
+}
+
+.de {
+  margin: 0;
+  color: var(--muted);
+}
+
+.explain {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.1rem 0.6rem;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.8rem 0 0;
+  text-align: center;
+}
+
+.next {
+  display: block;
+  margin-top: 1.4rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  border: 1px dashed var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}

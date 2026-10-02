@@ -1,0 +1,43 @@
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.4rem 0 1.1rem;
+}
+
+.quick {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+
+.quickCard {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.quickHot {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.quickIcon {
+  font-size: 1.5rem;
+}
+
+.quickSub {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

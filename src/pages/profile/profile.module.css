@@ -1,0 +1,117 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statIcon {
+  font-size: 1.3rem;
+}
+
+.statN {
+  font-size: 1.5rem;
+}
+
+.topicStats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topicStats li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.topicStats li:last-child {
+  border-bottom: none;
+}
+
+.topicStats a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.toggle {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+}
+
+.toggle input {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+.toggleHint {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.6rem 0;
+}
+
+.paste {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  padding: 0.6rem;
+  margin: 0.4rem 0;
+  font-size: 0.85rem;
+}
+
+.msg {
+  background: var(--info-soft);
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+}
+
+.steps {
+  margin: 0 0 0.6rem;
+  padding-left: 1.2rem;
+  line-height: 1.8;
+}
+
+.keyRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.keyMask {
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 0.85rem;
+}
+
+.segment {
+  margin: 0.4rem 0 0.8rem;
+}

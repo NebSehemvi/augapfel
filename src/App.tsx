@@ -1,14 +1,15 @@
 import { Component, type ReactNode } from 'react';
 import { useRoute, href } from './lib/router';
 import { useProgress, dueKeys } from './lib/progress';
-import { Home } from './pages/Home';
-import { TopicPage } from './pages/TopicPage';
-import { Practice } from './pages/Practice';
-import { WordsPage } from './pages/WordsPage';
-import { TextsPage } from './pages/TextsPage';
-import { ReaderPage } from './pages/ReaderPage';
-import { ReviewPage } from './pages/ReviewPage';
-import { ProfilePage } from './pages/ProfilePage';
+import { Home } from './pages/home';
+import { TopicPage } from './pages/topic';
+import { Practice } from './pages/practice';
+import { WordsPage } from './pages/words';
+import { VerbsPage } from './pages/verbs';
+import { TextsPage } from './pages/texts';
+import { ReaderPage } from './pages/reader';
+import { ReviewPage } from './pages/review';
+import { ProfilePage } from './pages/profile';
 import s from './App.module.css';
 
 export default function App() {
@@ -24,8 +25,8 @@ export default function App() {
   let page: ReactNode;
   if (practicing) page = <Practice route={route} />;
   else if (section === 't' && id) page = <TopicPage id={id} />;
-  else if (section === 'verbs') page = <WordsPage tab="verbs" />;
-  else if (section === 'words') page = <WordsPage tab="mine" />;
+  else if (section === 'verbs') page = <VerbsPage />;
+  else if (section === 'words') page = <WordsPage />;
   else if (section === 'texts') page = <TextsPage />;
   else if (section === 'read' && id) page = <ReaderPage id={id} />;
   else if (section === 'review') page = <ReviewPage />;
