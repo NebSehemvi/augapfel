@@ -1,0 +1,307 @@
+[
+  {
+    "id": "leisure-hobby",
+    "theme": "leisure",
+    "level": "A1",
+    "title": "Das Hobby",
+    "source": "Hobby",
+    "paragraphs": [
+      "Ein Hobby ist eine Aktivität für die Freizeit. Man macht ein Hobby gern und oft. Mit einem Hobby verdient man kein Geld. Man macht es zum Spaß oder zur Entspannung.",
+      "Es gibt sehr viele Hobbys: lesen, Fußball spielen, Fahrrad fahren, kochen, backen, tanzen oder ein Instrument spielen. Manche Menschen sammeln Briefmarken. Andere malen oder fotografieren.",
+      "Das Wort „Hobby“ kommt aus dem Englischen. Ein „hobby horse“ ist ein Spielzeug für Kinder: ein Stock mit einem Pferdekopf.",
+      "Manche Menschen machen ihr Hobby sehr oft und werden sehr gut. Dann können sie das Hobby vielleicht zum Beruf machen. Was ist dein Hobby?"
+    ],
+    "glossary": {
+      "Aktivität": {
+        "lemma": "die Aktivität",
+        "pos": "noun",
+        "ru": "занятие, активность",
+        "en": "activity"
+      },
+      "Spaß": {
+        "lemma": "der Spaß",
+        "pos": "noun",
+        "ru": "удовольствие, веселье",
+        "en": "fun"
+      },
+      "Entspannung": {
+        "lemma": "die Entspannung",
+        "pos": "noun",
+        "ru": "отдых, расслабление",
+        "en": "relaxation"
+      },
+      "Fußball": {
+        "lemma": "der Fußball",
+        "pos": "noun",
+        "ru": "футбол",
+        "en": "football"
+      },
+      "Instrument": {
+        "lemma": "das Instrument",
+        "pos": "noun",
+        "ru": "инструмент",
+        "en": "instrument"
+      },
+      "Briefmarken": {
+        "lemma": "die Briefmarke",
+        "pos": "noun",
+        "ru": "почтовая марка",
+        "en": "stamp"
+      },
+      "horse": {
+        "lemma": "horse (англ.)",
+        "pos": "other",
+        "ru": "лошадь (по-английски)",
+        "en": "horse"
+      },
+      "Spielzeug": {
+        "lemma": "das Spielzeug",
+        "pos": "noun",
+        "ru": "игрушка",
+        "en": "toy"
+      },
+      "Stock": {
+        "lemma": "der Stock",
+        "pos": "noun",
+        "ru": "палка",
+        "en": "stick"
+      },
+      "Pferdekopf": {
+        "lemma": "der Pferdekopf",
+        "pos": "noun",
+        "ru": "лошадиная голова",
+        "en": "horse's head"
+      }
+    },
+    "questions": [
+      {
+        "q": "Verdient man mit einem Hobby Geld?",
+        "options": [
+          "Nein, man macht es zum Spaß.",
+          "Ja, sehr viel.",
+          "Ja, aber nur am Wochenende."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Woher kommt das Wort „Hobby“?",
+        "options": [
+          "Aus dem Französischen.",
+          "Aus dem Englischen.",
+          "Aus dem Lateinischen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was ist ein „hobby horse“?",
+        "options": [
+          "Ein echtes Pferd.",
+          "Eine Sportart.",
+          "Ein Spielzeug für Kinder."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "leisure-fussball",
+    "theme": "leisure",
+    "level": "A1",
+    "title": "Fußball",
+    "source": "Fußball",
+    "paragraphs": [
+      "Fußball ist eine Sportart. Zwei Mannschaften spielen mit einem Ball. Jede Mannschaft hat elf Spieler, einer ist der Torwart. Die Spieler dürfen den Ball nicht mit der Hand spielen. Nur der Torwart darf das.",
+      "Eine Mannschaft will mehr Tore schießen als die andere. Ein Spiel dauert 90 Minuten: zwei Halbzeiten mit je 45 Minuten. Dazwischen gibt es eine Pause.",
+      "Fußball kommt ursprünglich aus England. Heute ist Fußball eine der beliebtesten Sportarten der Welt. Viele Kinder und Erwachsene spielen in einem Verein.",
+      "Alle vier Jahre gibt es eine Weltmeisterschaft. Dann sehen Millionen Menschen die Spiele im Fernsehen."
+    ],
+    "glossary": {
+      "Fußball": {
+        "lemma": "der Fußball",
+        "pos": "noun",
+        "ru": "футбол",
+        "en": "football"
+      },
+      "Sportart": {
+        "lemma": "die Sportart",
+        "pos": "noun",
+        "ru": "вид спорта",
+        "en": "sport"
+      },
+      "Sportarten": {
+        "lemma": "die Sportart",
+        "pos": "noun",
+        "ru": "вид спорта",
+        "en": "sport"
+      },
+      "Spieler": {
+        "lemma": "der Spieler",
+        "pos": "noun",
+        "ru": "игрок",
+        "en": "player"
+      },
+      "Torwart": {
+        "lemma": "der Torwart",
+        "pos": "noun",
+        "ru": "вратарь",
+        "en": "goalkeeper"
+      },
+      "Tore": {
+        "lemma": "das Tor",
+        "pos": "noun",
+        "ru": "гол; ворота",
+        "en": "goal"
+      },
+      "Halbzeiten": {
+        "lemma": "die Halbzeit",
+        "pos": "noun",
+        "ru": "тайм",
+        "en": "half (time)"
+      },
+      "England": {
+        "lemma": "England",
+        "pos": "noun",
+        "ru": "Англия",
+        "en": "England"
+      },
+      "Weltmeisterschaft": {
+        "lemma": "die Weltmeisterschaft",
+        "pos": "noun",
+        "ru": "чемпионат мира",
+        "en": "world cup"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wie viele Spieler hat eine Mannschaft?",
+        "options": [
+          "Elf.",
+          "Zehn.",
+          "Zwölf."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wie lange dauert ein Spiel?",
+        "options": [
+          "45 Minuten.",
+          "90 Minuten.",
+          "Zwei Stunden."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wer darf den Ball mit der Hand spielen?",
+        "options": [
+          "Alle Spieler.",
+          "Niemand.",
+          "Nur der Torwart."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "leisure-kino",
+    "theme": "leisure",
+    "level": "A2",
+    "title": "Im Kino",
+    "source": "Kino",
+    "paragraphs": [
+      "Im Kino zeigt man Filme. Wer einen Film sehen will, kauft am Eingang eine Eintrittskarte. Der große Raum heißt „Kinosaal“. Dort sitzen die Zuschauer und schauen auf eine große weiße Leinwand. Hinten im Saal steht der Projektor. Er wirft das Licht und die Bilder auf die Leinwand.",
+      "Die ersten Filme hat man auf Jahrmärkten oder im Theater gezeigt. Diese Filme waren stumm, denn man konnte noch keinen Ton aufnehmen. Deshalb hat oft ein Musiker am Klavier Musik zum Film gespielt. Um das Jahr 1930 hatten die meisten Filme schon Ton.",
+      "Heute sehen viele Leute Filme zu Hause im Internet. Trotzdem gehen viele Menschen gern ins Kino, weil der Film auf der großen Leinwand viel besser aussieht."
+    ],
+    "glossary": {
+      "Eingang": {
+        "lemma": "der Eingang",
+        "pos": "noun",
+        "ru": "вход",
+        "en": "entrance"
+      },
+      "Eintrittskarte": {
+        "lemma": "die Eintrittskarte",
+        "pos": "noun",
+        "ru": "входной билет",
+        "en": "ticket"
+      },
+      "Kinosaal": {
+        "lemma": "der Kinosaal",
+        "pos": "noun",
+        "ru": "кинозал",
+        "en": "cinema hall"
+      },
+      "Zuschauer": {
+        "lemma": "der Zuschauer",
+        "pos": "noun",
+        "ru": "зритель",
+        "en": "viewer"
+      },
+      "Leinwand": {
+        "lemma": "die Leinwand",
+        "pos": "noun",
+        "ru": "экран",
+        "en": "screen"
+      },
+      "Saal": {
+        "lemma": "der Saal",
+        "pos": "noun",
+        "ru": "зал",
+        "en": "hall"
+      },
+      "Projektor": {
+        "lemma": "der Projektor",
+        "pos": "noun",
+        "ru": "проектор",
+        "en": "projector"
+      },
+      "Jahrmärkten": {
+        "lemma": "der Jahrmarkt",
+        "pos": "noun",
+        "ru": "ярмарка",
+        "en": "fair"
+      },
+      "Ton": {
+        "lemma": "der Ton",
+        "pos": "noun",
+        "ru": "звук",
+        "en": "sound"
+      },
+      "Musiker": {
+        "lemma": "der Musiker",
+        "pos": "noun",
+        "ru": "музыкант",
+        "en": "musician"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was kauft man am Eingang?",
+        "options": [
+          "Eine Eintrittskarte.",
+          "Einen Projektor.",
+          "Ein Klavier."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Warum hat früher ein Musiker Klavier gespielt?",
+        "options": [
+          "Weil die Zuschauer tanzen wollten.",
+          "Weil die Filme stumm waren.",
+          "Weil das Kino zu klein war."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Warum gehen viele Menschen trotzdem ins Kino?",
+        "options": [
+          "Weil Filme im Internet teuer sind.",
+          "Weil man dort schlafen kann.",
+          "Weil der Film auf der großen Leinwand besser aussieht."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

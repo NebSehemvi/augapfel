@@ -1,0 +1,259 @@
+[
+  {
+    "id": "nature-wetter",
+    "theme": "nature",
+    "level": "A1",
+    "title": "Das Wetter",
+    "source": "Wetter",
+    "paragraphs": [
+      "Das Wetter ist jeden Tag anders. Zum Wetter gehören Sonne, Wind, Wolken, Regen und Schnee.",
+      "Die Sonne macht das Wetter. Sie wärmt das Wasser im Meer. Das Wasser steigt in die Luft, und es entstehen Wolken. Aus den Wolken kommt später Regen oder Schnee. Die Luft ist an manchen Orten wärmer und an anderen Orten kälter. So entsteht Wind.",
+      "Gutes Wetter ist für viele Menschen Sonnenschein. Aber die Bauern brauchen Sonne und Regen. Ohne Regen bekommen die Pflanzen kein Wasser.",
+      "Im Fernsehen und im Internet gibt es jeden Tag den Wetterbericht. Wie ist das Wetter heute bei dir?"
+    ],
+    "glossary": {
+      "Sonnenschein": {
+        "lemma": "der Sonnenschein",
+        "pos": "noun",
+        "ru": "солнечный свет",
+        "en": "sunshine"
+      },
+      "Bauern": {
+        "lemma": "der Bauer",
+        "pos": "noun",
+        "ru": "крестьянин, фермер",
+        "en": "farmer"
+      },
+      "Wetterbericht": {
+        "lemma": "der Wetterbericht",
+        "pos": "noun",
+        "ru": "прогноз погоды",
+        "en": "weather report"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was macht das Wetter?",
+        "options": [
+          "Die Sonne.",
+          "Der Mond.",
+          "Das Meer."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was brauchen die Bauern?",
+        "options": [
+          "Nur Sonne.",
+          "Sonne und Regen.",
+          "Nur Schnee."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo gibt es den Wetterbericht?",
+        "options": [
+          "Nur in der Zeitung.",
+          "In der Schule.",
+          "Im Fernsehen und im Internet."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "nature-wald",
+    "theme": "nature",
+    "level": "A1",
+    "title": "Der Wald",
+    "source": "Wald",
+    "paragraphs": [
+      "Ein Wald ist ein Stück Land mit vielen Bäumen. Wälder brauchen genug Regen. Es darf auch nicht zu kalt sein. Darum gibt es keine Wälder in der Wüste oder am Nordpol.",
+      "In Deutschland gibt es Nadelwälder und Laubwälder. Nadelbäume haben Nadeln, zum Beispiel die Tanne. Laubbäume haben Blätter, zum Beispiel die Buche. In einem Mischwald stehen verschiedene Bäume zusammen.",
+      "Im Wald leben viele Tiere: Vögel, Rehe, Füchse und Wildschweine. Viele Menschen gehen am Wochenende im Wald spazieren oder wandern. Die Luft ist dort frisch, und es ist ruhig."
+    ],
+    "glossary": {
+      "Stück": {
+        "lemma": "das Stück",
+        "pos": "noun",
+        "ru": "кусок",
+        "en": "piece"
+      },
+      "Wüste": {
+        "lemma": "die Wüste",
+        "pos": "noun",
+        "ru": "пустыня",
+        "en": "desert"
+      },
+      "Nordpol": {
+        "lemma": "der Nordpol",
+        "pos": "noun",
+        "ru": "Северный полюс",
+        "en": "North Pole"
+      },
+      "Nadelwälder": {
+        "lemma": "der Nadelwald",
+        "pos": "noun",
+        "ru": "хвойный лес",
+        "en": "coniferous forest"
+      },
+      "Laubwälder": {
+        "lemma": "der Laubwald",
+        "pos": "noun",
+        "ru": "лиственный лес",
+        "en": "deciduous forest"
+      },
+      "Nadelbäume": {
+        "lemma": "der Nadelbaum",
+        "pos": "noun",
+        "ru": "хвойное дерево",
+        "en": "conifer"
+      },
+      "Nadeln": {
+        "lemma": "die Nadel",
+        "pos": "noun",
+        "ru": "иголка, хвоинка",
+        "en": "needle"
+      },
+      "Tanne": {
+        "lemma": "die Tanne",
+        "pos": "noun",
+        "ru": "пихта, ёлка",
+        "en": "fir"
+      },
+      "Laubbäume": {
+        "lemma": "der Laubbaum",
+        "pos": "noun",
+        "ru": "лиственное дерево",
+        "en": "deciduous tree"
+      },
+      "Blätter": {
+        "lemma": "das Blatt",
+        "pos": "noun",
+        "ru": "лист",
+        "en": "leaf"
+      },
+      "Mischwald": {
+        "lemma": "der Mischwald",
+        "pos": "noun",
+        "ru": "смешанный лес",
+        "en": "mixed forest"
+      },
+      "Rehe": {
+        "lemma": "das Reh",
+        "pos": "noun",
+        "ru": "косуля",
+        "en": "deer"
+      },
+      "Füchse": {
+        "lemma": "der Fuchs",
+        "pos": "noun",
+        "ru": "лиса",
+        "en": "fox"
+      },
+      "Wildschweine": {
+        "lemma": "das Wildschwein",
+        "pos": "noun",
+        "ru": "кабан",
+        "en": "wild boar"
+      },
+      "Buche": {
+        "lemma": "die Buche",
+        "pos": "noun",
+        "ru": "бук",
+        "en": "beech"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was brauchen Wälder?",
+        "options": [
+          "Genug Regen.",
+          "Viel Schnee.",
+          "Eine Wüste."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was haben Laubbäume?",
+        "options": [
+          "Nadeln.",
+          "Blätter.",
+          "Steine."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was machen viele Menschen am Wochenende im Wald?",
+        "options": [
+          "Sie arbeiten.",
+          "Sie kaufen ein.",
+          "Sie gehen spazieren oder wandern."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "nature-jahreszeiten",
+    "theme": "nature",
+    "level": "A2",
+    "title": "Die Jahreszeiten",
+    "source": "Jahreszeiten",
+    "paragraphs": [
+      "Ein Jahr hat vier Jahreszeiten: Frühling, Sommer, Herbst und Winter. Zum Frühling gehören März, April und Mai. Zum Sommer gehören Juni, Juli und August. Der Herbst hat September, Oktober und November, und im Winter sind Dezember, Januar und Februar.",
+      "Warum gibt es Jahreszeiten? Die Erde dreht sich einmal im Jahr um die Sonne. Dabei steht die Erdachse schief. Deshalb bekommt Europa im Sommer mehr Sonne als im Winter.",
+      "Viele Menschen glauben, dass es im Winter kalt ist, weil die Erde weiter von der Sonne weg ist. Das stimmt aber nicht.",
+      "Meine Lieblingsjahreszeit ist der Herbst. Letztes Jahr bin ich im Oktober oft im Wald spazieren gegangen. Die Blätter waren gelb, rot und braun."
+    ],
+    "glossary": {
+      "Erdachse": {
+        "lemma": "die Erdachse",
+        "pos": "noun",
+        "ru": "земная ось",
+        "en": "Earth's axis"
+      },
+      "Lieblingsjahreszeit": {
+        "lemma": "die Lieblingsjahreszeit",
+        "pos": "noun",
+        "ru": "любимое время года",
+        "en": "favourite season"
+      },
+      "Blätter": {
+        "lemma": "das Blatt",
+        "pos": "noun",
+        "ru": "лист",
+        "en": "leaf"
+      }
+    },
+    "questions": [
+      {
+        "q": "Welche Monate gehören zum Sommer?",
+        "options": [
+          "Juni, Juli und August.",
+          "März, April und Mai.",
+          "Dezember, Januar und Februar."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Warum gibt es Jahreszeiten?",
+        "options": [
+          "Weil die Erde weit weg ist.",
+          "Weil die Erdachse schief steht.",
+          "Weil es oft regnet."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was ist die Lieblingsjahreszeit der Person?",
+        "options": [
+          "Der Sommer.",
+          "Der Winter.",
+          "Der Herbst."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

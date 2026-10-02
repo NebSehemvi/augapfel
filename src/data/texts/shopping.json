@@ -1,0 +1,265 @@
+[
+  {
+    "id": "shopping-supermarkt",
+    "theme": "shopping",
+    "level": "A1",
+    "title": "Der Supermarkt",
+    "source": "Supermarkt",
+    "paragraphs": [
+      "Ein Supermarkt ist ein großer Laden. Dort gibt es viele verschiedene Waren, vor allem Lebensmittel: Brot, Obst, Gemüse, Milch, Käse und Fleisch. Man kann dort auch Seife, Zahnpasta oder Putzmittel kaufen.",
+      "Im Supermarkt nimmt man die Waren selbst aus dem Regal und legt sie in den Einkaufswagen oder in einen Korb. Das nennt man „Selbstbedienung“. Am Ende bezahlt man an der Kasse.",
+      "Früher hat die Kassiererin jeden Preis in die Kasse getippt. Heute scannt die Kasse einen Strichcode. Das geht viel schneller. In vielen Supermärkten kann man die Waren sogar selbst scannen.",
+      "Supermärkte gibt es in Deutschland seit ungefähr 1950. Davor hat man in kleinen Läden eingekauft. Dort hat ein Verkäufer die Waren gebracht."
+    ],
+    "glossary": {
+      "Seife": {
+        "lemma": "die Seife",
+        "pos": "noun",
+        "ru": "мыло",
+        "en": "soap"
+      },
+      "Zahnpasta": {
+        "lemma": "die Zahnpasta",
+        "pos": "noun",
+        "ru": "зубная паста",
+        "en": "toothpaste"
+      },
+      "Putzmittel": {
+        "lemma": "das Putzmittel",
+        "pos": "noun",
+        "ru": "чистящее средство",
+        "en": "cleaning product"
+      },
+      "Einkaufswagen": {
+        "lemma": "der Einkaufswagen",
+        "pos": "noun",
+        "ru": "тележка для покупок",
+        "en": "shopping trolley"
+      },
+      "Selbstbedienung": {
+        "lemma": "die Selbstbedienung",
+        "pos": "noun",
+        "ru": "самообслуживание",
+        "en": "self-service"
+      },
+      "Kassiererin": {
+        "lemma": "die Kassiererin",
+        "pos": "noun",
+        "ru": "кассирша",
+        "en": "cashier"
+      },
+      "Strichcode": {
+        "lemma": "der Strichcode",
+        "pos": "noun",
+        "ru": "штрихкод",
+        "en": "barcode"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was kauft man vor allem im Supermarkt?",
+        "options": [
+          "Lebensmittel.",
+          "Autos.",
+          "Möbel."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was ist „Selbstbedienung“?",
+        "options": [
+          "Ein Verkäufer bringt die Waren.",
+          "Man nimmt die Waren selbst aus dem Regal.",
+          "Man bestellt im Internet."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Seit wann gibt es Supermärkte in Deutschland?",
+        "options": [
+          "Seit 1800.",
+          "Seit 2000.",
+          "Seit ungefähr 1950."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "shopping-kleidung",
+    "theme": "shopping",
+    "level": "A1",
+    "title": "Kleidung",
+    "source": "Kleidung",
+    "paragraphs": [
+      "Kleidung tragen Menschen auf dem Körper: Hosen, Hemden, Pullover, Jacken, Kleider und Röcke. Auch Schuhe gehören dazu. Kleidung hält uns warm. Im Winter tragen wir einen Mantel, eine Mütze und einen Schal. Im Sommer tragen wir T-Shirts und kurze Hosen.",
+      "Mit Kleidung kann man auch zeigen, wer man ist. Früher konnten nur reiche Leute bunte Kleidung kaufen. Blau war teuer, Rot war am teuersten. Arme Leute hatten Kleidung ohne Farbe.",
+      "Kleidung hat auch mit Mode zu tun. Man trägt, was gerade modern ist. Heute tragen viele Menschen Jeans. Die Jeans kommt aus Amerika. Zuerst war sie eine Hose für Arbeiter, heute trägt man sie überall."
+    ],
+    "glossary": {
+      "Mode": {
+        "lemma": "die Mode",
+        "pos": "noun",
+        "ru": "мода",
+        "en": "fashion"
+      },
+      "Jeans": {
+        "lemma": "die Jeans",
+        "pos": "noun",
+        "ru": "джинсы",
+        "en": "jeans"
+      },
+      "Arbeiter": {
+        "lemma": "der Arbeiter",
+        "pos": "noun",
+        "ru": "рабочий",
+        "en": "worker"
+      },
+      "Arme": {
+        "lemma": "arm",
+        "pos": "adj",
+        "ru": "бедный",
+        "en": "poor"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was tragen wir im Winter?",
+        "options": [
+          "Einen Mantel und eine Mütze.",
+          "Kurze Hosen.",
+          "Nur T-Shirts."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Welche Farbe war früher am teuersten?",
+        "options": [
+          "Blau.",
+          "Rot.",
+          "Grün."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Für wen war die Jeans zuerst?",
+        "options": [
+          "Für reiche Leute.",
+          "Für Kinder.",
+          "Für Arbeiter."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "shopping-geld",
+    "theme": "shopping",
+    "level": "A2",
+    "title": "Geld",
+    "source": "Geld",
+    "paragraphs": [
+      "Zum Geld gehören Münzen und Geldscheine. Das nennt man „Bargeld“. Aber auch das Geld auf einem Konto bei der Bank ist Geld. Heute bezahlen viele Menschen mit Karte oder mit dem Handy.",
+      "Früher kannten die Menschen kein Geld. Sie haben Dinge getauscht: zum Beispiel Getreide gegen ein Schaf. Später hatte man eine bessere Idee: Man hat aus wertvollem Metall Münzen gemacht. Münzen waren praktischer als Tiere oder Getreide.",
+      "Lange waren Münzen aus Silber oder Gold das richtige Geld. Vor etwa 1000 Jahren gab es in China das erste Papiergeld.",
+      "In Deutschland und Österreich bezahlt man mit dem Euro, in der Schweiz mit dem Franken. Ich bezahle im Café meistens mit Karte, weil ich selten Bargeld dabeihabe."
+    ],
+    "glossary": {
+      "Münzen": {
+        "lemma": "die Münze",
+        "pos": "noun",
+        "ru": "монета",
+        "en": "coin"
+      },
+      "Geldscheine": {
+        "lemma": "der Geldschein",
+        "pos": "noun",
+        "ru": "банкнота",
+        "en": "banknote"
+      },
+      "Bargeld": {
+        "lemma": "das Bargeld",
+        "pos": "noun",
+        "ru": "наличные",
+        "en": "cash"
+      },
+      "Konto": {
+        "lemma": "das Konto",
+        "pos": "noun",
+        "ru": "счёт (в банке)",
+        "en": "account"
+      },
+      "Getreide": {
+        "lemma": "das Getreide",
+        "pos": "noun",
+        "ru": "зерно, злаки",
+        "en": "grain"
+      },
+      "Schaf": {
+        "lemma": "das Schaf",
+        "pos": "noun",
+        "ru": "овца",
+        "en": "sheep"
+      },
+      "Silber": {
+        "lemma": "das Silber",
+        "pos": "noun",
+        "ru": "серебро",
+        "en": "silver"
+      },
+      "Gold": {
+        "lemma": "das Gold",
+        "pos": "noun",
+        "ru": "золото",
+        "en": "gold"
+      },
+      "China": {
+        "lemma": "China",
+        "pos": "noun",
+        "ru": "Китай",
+        "en": "China"
+      },
+      "Papiergeld": {
+        "lemma": "das Papiergeld",
+        "pos": "noun",
+        "ru": "бумажные деньги",
+        "en": "paper money"
+      },
+      "Franken": {
+        "lemma": "der Franken",
+        "pos": "noun",
+        "ru": "франк",
+        "en": "franc"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was ist Bargeld?",
+        "options": [
+          "Münzen und Geldscheine.",
+          "Geld auf dem Konto.",
+          "Eine Kreditkarte."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was haben die Menschen ohne Geld gemacht?",
+        "options": [
+          "Sie haben nichts gekauft.",
+          "Sie haben Dinge getauscht.",
+          "Sie haben in der Bank gearbeitet."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo gab es das erste Papiergeld?",
+        "options": [
+          "In Deutschland.",
+          "In der Schweiz.",
+          "In China."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

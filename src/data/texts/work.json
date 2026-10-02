@@ -1,0 +1,236 @@
+[
+  {
+    "id": "work-beruf",
+    "theme": "work",
+    "level": "A1",
+    "title": "Der Beruf",
+    "source": "Beruf",
+    "paragraphs": [
+      "Ein Beruf ist eine Arbeit. Mit einem Beruf verdient man Geld, und davon lebt man. Für einen Beruf muss man oft lange lernen. Am Ende macht man eine Prüfung.",
+      "Es gibt sehr viele Berufe: Lehrer, Ärztin, Koch, Verkäuferin, Mechaniker und viele mehr. Für manche Berufe muss man studieren. Eine Ärztin studiert zum Beispiel viele Jahre an der Universität.",
+      "Manche Berufe waren früher sehr wichtig. Heute gibt es sie fast nicht mehr. Früher gab es zum Beispiel viele Schmiede, denn die Menschen hatten Pferde. Heute haben die Menschen Autos und brauchen Mechaniker.",
+      "Viele Leute finden ihre Arbeit wichtig. Sie möchten etwas Gutes für andere Menschen tun. Und du? Was bist du von Beruf?"
+    ],
+    "glossary": {
+      "Koch": {
+        "lemma": "der Koch",
+        "pos": "noun",
+        "ru": "повар",
+        "en": "cook"
+      },
+      "Mechaniker": {
+        "lemma": "der Mechaniker",
+        "pos": "noun",
+        "ru": "механик",
+        "en": "mechanic"
+      },
+      "Schmiede": {
+        "lemma": "der Schmied",
+        "pos": "noun",
+        "ru": "кузнец",
+        "en": "blacksmith"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was macht man mit einem Beruf?",
+        "options": [
+          "Man verdient Geld.",
+          "Man macht Urlaub.",
+          "Man schläft lange."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wo studiert eine Ärztin?",
+        "options": [
+          "Im Büro.",
+          "An der Universität.",
+          "Im Supermarkt."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Warum gibt es heute fast keine Schmiede mehr?",
+        "options": [
+          "Weil Pferde teuer sind.",
+          "Weil niemand Geld hat.",
+          "Weil die Menschen jetzt Autos haben."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "work-buero",
+    "theme": "work",
+    "level": "A1",
+    "title": "Das Büro",
+    "source": "Büro",
+    "paragraphs": [
+      "Ein Büro ist ein Raum. Dort arbeiten Menschen vor allem am Schreibtisch. Auf dem Schreibtisch stehen meistens ein Computer und ein Telefon. Dort liegen auch Papiere, Ordner und Stifte.",
+      "Im Büro schreibt man E-Mails, telefoniert mit Kunden und hat Besprechungen mit Kollegen. Viele Firmen haben große Büros mit vielen Mitarbeitern. Andere Büros sind klein, nur für eine Person.",
+      "Das Wort „Büro“ kommt aus dem Französischen: „bureau“ bedeutet „Schreibtisch“. So hat der Schreibtisch dem ganzen Raum den Namen gegeben.",
+      "Heute arbeiten viele Menschen nicht jeden Tag im Büro. Sie arbeiten auch zu Hause am Computer. Das nennt man „Homeoffice“."
+    ],
+    "glossary": {
+      "Papiere": {
+        "lemma": "das Papier",
+        "pos": "noun",
+        "ru": "бумага, документ",
+        "en": "paper"
+      },
+      "Stifte": {
+        "lemma": "der Stift",
+        "pos": "noun",
+        "ru": "ручка, карандаш",
+        "en": "pen, pencil"
+      },
+      "Mitarbeitern": {
+        "lemma": "der Mitarbeiter",
+        "pos": "noun",
+        "ru": "сотрудник",
+        "en": "employee"
+      },
+      "Person": {
+        "lemma": "die Person",
+        "pos": "noun",
+        "ru": "человек, лицо",
+        "en": "person"
+      },
+      "bureau": {
+        "lemma": "bureau (франц.)",
+        "pos": "other",
+        "ru": "письменный стол (по-французски)",
+        "en": "desk (French)"
+      },
+      "Homeoffice": {
+        "lemma": "das Homeoffice",
+        "pos": "noun",
+        "ru": "удалённая работа из дома",
+        "en": "working from home"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was steht meistens auf dem Schreibtisch?",
+        "options": [
+          "Ein Computer und ein Telefon.",
+          "Ein Bett.",
+          "Ein Kühlschrank."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was bedeutet „bureau“ auf Französisch?",
+        "options": [
+          "Firma.",
+          "Schreibtisch.",
+          "Kollege."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was ist „Homeoffice“?",
+        "options": [
+          "Ein Büro in einem Hotel.",
+          "Ein sehr großes Büro.",
+          "Arbeit zu Hause am Computer."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "work-feuerwehr",
+    "theme": "work",
+    "level": "A2",
+    "title": "Die Feuerwehr",
+    "source": "Feuerwehr",
+    "paragraphs": [
+      "Die Feuerwehr hilft Menschen bei Bränden, Unfällen und Naturkatastrophen. In Europa ruft man die Feuerwehr über die Notrufnummer 112 an. Am Telefon muss man sagen, wo man ist, was passiert ist und wie viele Menschen in Gefahr sind.",
+      "Dann fahren die Feuerwehrleute schnell mit ihren roten Autos los. In der Stadt brauchen sie nur ungefähr zehn Minuten. Auf dem Land dauert es oft länger.",
+      "Viele Feuerwehrleute bekommen Geld für ihre Arbeit. Es gibt aber auch die freiwillige Feuerwehr. Ihre Mitglieder haben einen anderen Beruf und helfen in ihrer Freizeit. Meistens bekommen sie dafür kein Geld.",
+      "Letztes Jahr hat es in unserer Straße gebrannt. Die Feuerwehr ist sehr schnell gekommen und hat das Feuer gelöscht. Zum Glück war niemand verletzt."
+    ],
+    "glossary": {
+      "Feuerwehr": {
+        "lemma": "die Feuerwehr",
+        "pos": "noun",
+        "ru": "пожарная служба",
+        "en": "fire brigade"
+      },
+      "Bränden": {
+        "lemma": "der Brand",
+        "pos": "noun",
+        "ru": "пожар",
+        "en": "fire (blaze)"
+      },
+      "Unfällen": {
+        "lemma": "der Unfall",
+        "pos": "noun",
+        "ru": "авария, несчастный случай",
+        "en": "accident"
+      },
+      "Naturkatastrophen": {
+        "lemma": "die Naturkatastrophe",
+        "pos": "noun",
+        "ru": "стихийное бедствие",
+        "en": "natural disaster"
+      },
+      "Notrufnummer": {
+        "lemma": "die Notrufnummer",
+        "pos": "noun",
+        "ru": "номер экстренной службы",
+        "en": "emergency number"
+      },
+      "Gefahr": {
+        "lemma": "die Gefahr",
+        "pos": "noun",
+        "ru": "опасность",
+        "en": "danger"
+      },
+      "Feuerwehrleute": {
+        "lemma": "die Feuerwehrleute (мн.)",
+        "pos": "noun",
+        "ru": "пожарные",
+        "en": "firefighters"
+      },
+      "Mitglieder": {
+        "lemma": "das Mitglied",
+        "pos": "noun",
+        "ru": "член (организации)",
+        "en": "member"
+      }
+    },
+    "questions": [
+      {
+        "q": "Welche Nummer ruft man in Europa an?",
+        "options": [
+          "112",
+          "110",
+          "911"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wie lange braucht die Feuerwehr in der Stadt?",
+        "options": [
+          "Eine Stunde.",
+          "Ungefähr zehn Minuten.",
+          "Zwei Tage."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was ist besonders an der freiwilligen Feuerwehr?",
+        "options": [
+          "Sie fährt nur in der Stadt.",
+          "Sie hat keine Autos.",
+          "Ihre Mitglieder helfen in der Freizeit."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

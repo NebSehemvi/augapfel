@@ -21,7 +21,10 @@ Each topic has an **explanation** (in Russian, with English comparisons where th
   - a word snake
 - **Verb trainer**: the full strong/irregular verb table, with each verb tagged A1/A2/B1. It also covers regular, separable, modal and preposition verbs.
 - **Spaced repetition**: mistakes on verb forms, genders, plurals and prepositions go into a review queue (Leitner boxes).
-- **Offline**, with no backend. Progress lives in `localStorage`. To move it between devices, export it to a file or the clipboard and import it on the other device.
+- **Reading**: 36 short A1/A2 texts (3 per theme), adapted from Klexikon (CC BY-SA). Tap any word for its translation: the text's own word list → the app's verb/noun database → common words → Wiktionary online. Each text has comprehension questions and word practice.
+- **My words**: save words from texts (or add them manually) and practise them with four-card choice and typing the German word; they also feed the review queue.
+- **AI (optional): Claude or Gemini.** Paste your own API key in Profile — an Anthropic key, or a Google AI Studio key (Gemini Flash has a free tier) — to get AI-generated exercise sets per topic and reading texts on any subject (from a Klexikon/Wikipedia article). Prompts live in `src/ai/prompts.ts`: one per exercise type plus a focus brief per topic. Both providers return JSON enforced by a schema (`src/ai/providers/`), validated in `src/ai/generate.ts`. Keys stay in the browser and never go into the progress export.
+- **Offline**, with no backend (Claude features and the Wiktionary fallback need internet). Progress lives in `localStorage`. To move it between devices, export it to a file or the clipboard and import it on the other device.
 
 ## Development
 

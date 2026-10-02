@@ -1,0 +1,230 @@
+[
+  {
+    "id": "city-berlin",
+    "theme": "city",
+    "level": "A1",
+    "title": "Berlin",
+    "source": "Berlin",
+    "paragraphs": [
+      "Berlin ist die Hauptstadt von Deutschland. In Berlin wohnen ungefähr dreieinhalb Millionen Menschen. Es ist die größte Stadt in Deutschland.",
+      "Berlin liegt im Osten von Deutschland. Um Berlin herum liegt das Bundesland Brandenburg.",
+      "In Berlin gibt es viele wichtige Gebäude, zum Beispiel den Reichstag. Dort arbeitet das Parlament. Es gibt auch viele Museen, Theater und Parks. Jedes Jahr kommen sehr viele Touristen nach Berlin.",
+      "In Berlin leben Menschen aus der ganzen Welt. Darum ist die Stadt sehr bunt. Jeder Stadtteil ist anders: In manchen Stadtteilen gibt es hohe Häuser und enge Straßen, in anderen gibt es viel Grün und kleine Häuser."
+    ],
+    "glossary": {
+      "Hauptstadt": {
+        "lemma": "die Hauptstadt",
+        "pos": "noun",
+        "ru": "столица",
+        "en": "capital"
+      },
+      "dreieinhalb": {
+        "lemma": "dreieinhalb",
+        "pos": "num",
+        "ru": "три с половиной",
+        "en": "three and a half"
+      },
+      "Osten": {
+        "lemma": "der Osten",
+        "pos": "noun",
+        "ru": "восток",
+        "en": "east"
+      },
+      "Brandenburg": {
+        "lemma": "Brandenburg",
+        "pos": "noun",
+        "ru": "Бранденбург",
+        "en": "Brandenburg"
+      },
+      "Reichstag": {
+        "lemma": "der Reichstag",
+        "pos": "noun",
+        "ru": "Рейхстаг (здание парламента)",
+        "en": "Reichstag"
+      },
+      "Parlament": {
+        "lemma": "das Parlament",
+        "pos": "noun",
+        "ru": "парламент",
+        "en": "parliament"
+      },
+      "Stadtteil": {
+        "lemma": "der Stadtteil",
+        "pos": "noun",
+        "ru": "район города",
+        "en": "district"
+      },
+      "Stadtteilen": {
+        "lemma": "der Stadtteil",
+        "pos": "noun",
+        "ru": "район города",
+        "en": "district"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wie viele Menschen wohnen in Berlin?",
+        "options": [
+          "Ungefähr dreieinhalb Millionen.",
+          "Ungefähr 300.000.",
+          "Ungefähr 30 Millionen."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wo arbeitet das Parlament?",
+        "options": [
+          "Im Museum.",
+          "Im Reichstag.",
+          "Im Theater."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Warum ist Berlin so bunt?",
+        "options": [
+          "Weil die Häuser bunt sind.",
+          "Weil es viele Parks gibt.",
+          "Weil dort Menschen aus der ganzen Welt leben."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "city-strassenbahn",
+    "theme": "city",
+    "level": "A1",
+    "title": "Die Straßenbahn",
+    "source": "Straßenbahn",
+    "paragraphs": [
+      "Die Straßenbahn fährt auf Schienen, wie ein Zug. Aber die Schienen liegen in der Straße. Fast alle Straßenbahnen fahren in einer Stadt.",
+      "In Österreich und in der Schweiz sagt man oft „Tram“. Das Wort kommt aus dem Englischen.",
+      "Eine Straßenbahn kann viel mehr Menschen transportieren als ein Bus. Sie fährt auch ruhiger, denn die Schienen haben keine Löcher wie manche Straßen. Die ersten Straßenbahnen haben Pferde gezogen. Heute fahren Straßenbahnen mit Strom.",
+      "An der Haltestelle wartet man auf die Straßenbahn. Vor dem Einsteigen braucht man eine Fahrkarte. In der Straßenbahn sagt eine Stimme die nächste Haltestelle an."
+    ],
+    "glossary": {
+      "Tram": {
+        "lemma": "die Tram",
+        "pos": "noun",
+        "ru": "трамвай",
+        "en": "tram"
+      },
+      "Löcher": {
+        "lemma": "das Loch",
+        "pos": "noun",
+        "ru": "дыра, яма",
+        "en": "hole"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wo liegen die Schienen der Straßenbahn?",
+        "options": [
+          "In der Straße.",
+          "Im Wald.",
+          "Unter der Erde."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wie sagt man in Österreich oft?",
+        "options": [
+          "Bus.",
+          "Tram.",
+          "U-Bahn."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Womit fahren Straßenbahnen heute?",
+        "options": [
+          "Mit Pferden.",
+          "Mit Dampf.",
+          "Mit Strom."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "city-ampel",
+    "theme": "city",
+    "level": "A2",
+    "title": "Die Ampel",
+    "source": "Ampel",
+    "paragraphs": [
+      "Eine Ampel regelt den Verkehr mit farbigen Lichtern: Rot, Gelb und Grün. Bei Rot muss man stehen bleiben, bei Grün darf man fahren oder gehen.",
+      "Ampeln stehen vor allem an Kreuzungen. Sie sorgen dafür, dass der Verkehr besser fließt und dass es weniger Unfälle gibt.",
+      "Es gibt Ampeln für Autos, für Fußgänger, für Radfahrer und für Busse und Straßenbahnen. Die Ampeln sehen nicht überall gleich aus. Trotzdem versteht man die Signale auf der ganzen Welt.",
+      "Gestern bin ich bei Rot über die Straße gegangen, weil ich es eilig hatte. Ein Polizist hat mich gesehen, und ich musste zehn Euro bezahlen."
+    ],
+    "glossary": {
+      "Verkehr": {
+        "lemma": "der Verkehr",
+        "pos": "noun",
+        "ru": "движение (транспорт)",
+        "en": "traffic"
+      },
+      "Unfälle": {
+        "lemma": "der Unfall",
+        "pos": "noun",
+        "ru": "авария",
+        "en": "accident"
+      },
+      "Fußgänger": {
+        "lemma": "der Fußgänger",
+        "pos": "noun",
+        "ru": "пешеход",
+        "en": "pedestrian"
+      },
+      "Radfahrer": {
+        "lemma": "der Radfahrer",
+        "pos": "noun",
+        "ru": "велосипедист",
+        "en": "cyclist"
+      },
+      "Signale": {
+        "lemma": "das Signal",
+        "pos": "noun",
+        "ru": "сигнал",
+        "en": "signal"
+      },
+      "Polizist": {
+        "lemma": "der Polizist",
+        "pos": "noun",
+        "ru": "полицейский",
+        "en": "police officer"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was muss man bei Rot machen?",
+        "options": [
+          "Stehen bleiben.",
+          "Schnell fahren.",
+          "Über die Straße gehen."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wo stehen Ampeln vor allem?",
+        "options": [
+          "Im Wald.",
+          "An Kreuzungen.",
+          "Im Supermarkt."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Warum musste die Person zehn Euro bezahlen?",
+        "options": [
+          "Weil sie zu schnell gefahren ist.",
+          "Weil sie keine Fahrkarte hatte.",
+          "Weil sie bei Rot über die Straße gegangen ist."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

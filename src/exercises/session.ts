@@ -12,6 +12,9 @@ import { PRONOUNS } from '../grammar/subjects';
 import { render, sentence } from '../grammar/clause';
 import type { Level, Verb } from '../grammar/types';
 import type { Progress } from '../lib/progress';
+import { cardsEx, translateEx as translateWordsEx, vocabExercises, type VocabWord } from './vocab';
+import type { ReadingText } from '../data/texts';
+import { isContentWord, lookupLocal, tokenize, type WordInfo } from '../lib/dictionary';
 
 export interface Session {
   title: string;
@@ -45,12 +48,14 @@ export function topicSession(topicId: string, progress: Progress, themeId?: stri
 // ---------------------------------------------------------------------------
 // review (spaced repetition)
 
-export function reviewSession(keys: string[], rng: Rng = defaultRng): Session {
+export function reviewSession(keys: string[], words: Progress['words'] = {}, rng: Rng = defaultRng): Session {
   const verbForms = new Map<string, Set<FormField>>();
   const genders: string[] = [];
   const plurals: string[] = [];
   const preps: [string, string][] = [];
   const infs: string[] = [];
+  const wordRec: VocabWord[] = [];
+  const wordProd: VocabWord[] = [];
 
   for (const key of keys) {
     const [kind, a, b] = key.split('|');
@@ -65,6 +70,7 @@ export function reviewSession(keys: string[], rng: Rng = defaultRng): Session {
       if (b === 'g') genders.push(a);
       else if (b === 'pl') plurals.push(a);
     } else if (kind === 'p' && findPrepVerb(a, b)) preps.push([a, b]);
+    else if (kind === 'w' && words[a]) (b === 'rec' ? wordRec : wordProd).push(words[a]);
   }
 
   const exercises: Exercise[] = [];
@@ -81,6 +87,8 @@ export function reviewSession(keys: string[], rng: Rng = defaultRng): Session {
   if (genders.length) exercises.push(genderEx(genders.slice(0, 10)));
   if (plurals.length) exercises.push(pluralEx(plurals.slice(0, 8)));
   if (preps.length) exercises.push(prepEx(preps.slice(0, 8), rng));
+  if (wordRec.length) exercises.push(cardsEx(wordRec.slice(0, 12), rng, { srs: true, extraPool: Object.values(words) }));
+  if (wordProd.length) exercises.push(translateWordsEx(wordProd.slice(0, 8), { srs: true }));
   return { title: 'Повторение', exercises: shuffle(rng, exercises), srsCreate: true };
 }
 
@@ -260,4 +268,66 @@ export function trainerSession(o: TrainerOptions, progress: Progress, rng: Rng =
       });
   }
   return { title: 'Тренажёр глаголов', exercises, srsCreate: true };
+}
+
+// ---------------------------------------------------------------------------
+// saved words ("Мои слова")
+
+export function wordsSession(progress: Progress, rng: Rng = defaultRng): Session {
+  const now = Date.now();
+  const list = Object.values(progress.words);
+  const score = (w: VocabWord) => {
+    const a = progress.srs[`w|${w.lemma}|rec`];
+    const b = progress.srs[`w|${w.lemma}|prod`];
+    const due = [a, b].filter((x) => !x || x.due <= now).length;
+    return due * 10 - Math.min(a?.box ?? 0, b?.box ?? 0) + rng();
+  };
+  const chosen = [...list].sort((x, y) => score(y) - score(x)).slice(0, 12);
+  return { title: 'Мои слова', exercises: vocabExercises(chosen, rng, { srs: true, maxCards: 12, maxTyping: 8 }), srsCreate: true };
+}
+
+// ---------------------------------------------------------------------------
+// reading texts
+
+/** Unique content words (nouns, verbs, adjectives) of a text, resolved offline. */
+export function textWords(text: ReadingText): WordInfo[] {
+  const seen = new Map<string, WordInfo>();
+  for (const p of text.paragraphs)
+    for (const tok of tokenize(p)) {
+      if (!tok.word) continue;
+      const info = lookupLocal(tok.word, text.glossary);
+      if (info && isContentWord(info) && !seen.has(info.lemma) && (info.pos !== 'noun' || /^(der|die|das) /.test(info.lemma))) seen.set(info.lemma, info);
+    }
+  return [...seen.values()];
+}
+
+export function textSession(text: ReadingText, progress: Progress, rng: Rng = defaultRng): Session {
+  const exercises: Exercise[] = [];
+  if (text.questions.length) {
+    exercises.push({
+      type: 'choice',
+      title: 'Понимание текста',
+      instruction: 'Ответьте на вопросы по тексту.',
+      layout: 'list',
+      items: text.questions.map((q) => {
+        const options = shuffle(rng, q.options);
+        return { question: q.q, options, answer: options.indexOf(q.options[q.answer]) };
+      }),
+    });
+  }
+  if (text.fill?.length) {
+    exercises.push({
+      type: 'bank',
+      title: 'Слова из текста',
+      instruction: 'Перетащите слова в пропуски. Лишние слова останутся.',
+      items: text.fill.map((f) => {
+        const [before, after = ''] = f.sentence.split('___');
+        return { parts: [before, 0, after], answers: [f.answer], hint: f.hint_ru };
+      }),
+      bank: shuffle(rng, text.fill.flatMap((f) => [f.answer, f.wrong[0] ?? f.answer])),
+    });
+  }
+  const words = textWords(text).map((w) => ({ ...w, saved: !!progress.words[w.lemma] }));
+  exercises.push(...vocabExercises(words, rng, { maxCards: 8, maxTyping: 5 }));
+  return { title: text.title, exercises, srsCreate: false };
 }

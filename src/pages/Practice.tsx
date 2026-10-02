@@ -1,8 +1,10 @@
-import { Component, useState, type ReactNode } from 'react';
+import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Route } from '../lib/router';
 import { href, navigate } from '../lib/router';
 import { dueKeys, getProgress, recordSession, recordSrs, useProgress } from '../lib/progress';
-import { reviewSession, topicSession, trainerSession, type Session, type TrainerMode, type TrainerPool } from '../exercises/session';
+import { reviewSession, textSession, topicSession, trainerSession, wordsSession, type Session, type TrainerMode, type TrainerPool } from '../exercises/session';
+import { findText } from '../lib/userTexts';
+import { providerLabel } from '../ai/llm';
 import type { ExerciseResult } from '../exercises/types';
 import type { Level } from '../grammar/types';
 import { ExerciseView } from '../components/exercises/ExerciseView';
@@ -13,15 +15,43 @@ interface Spec {
   key: string;
   back: string;
   title: string;
-  make: () => Session;
+  make: () => Session | Promise<Session>;
   topicId?: string;
+  /** shown while an async (Claude) session is being generated */
+  loading?: string;
 }
 
 function specFor(route: Route): Spec {
   const [section, id] = route.path;
   if (section === 't') {
     const topic = getTopic(id);
+    if (route.path[2] === 'ai') {
+      return {
+        key: `t/${id}/ai`,
+        back: `/t/${id}`,
+        title: topic?.ru ?? id,
+        topicId: id,
+        make: async () => (await import('../ai/generate')).aiTopicSession(id, getProgress()),
+        loading: `${providerLabel()} готовит упражнения… Обычно это занимает 20–60 секунд.`,
+      };
+    }
     return { key: `t/${id}`, back: `/t/${id}`, title: topic?.ru ?? id, topicId: id, make: () => topicSession(id, getProgress()) };
+  }
+  if (section === 'read') {
+    const text = findText(id);
+    return {
+      key: `read/${id}`,
+      back: `/read/${id}`,
+      title: text?.title ?? 'Текст',
+      topicId: `text:${id}`,
+      make: () => {
+        if (!text) throw new Error('Текст не найден');
+        return textSession(text, getProgress());
+      },
+    };
+  }
+  if (section === 'words') {
+    return { key: 'words', back: '/words', title: 'Мои слова', topicId: 'words', make: () => wordsSession(getProgress()) };
   }
   if (section === 'verbs') {
     const q = route.query;
@@ -38,7 +68,7 @@ function specFor(route: Route): Spec {
         ),
     };
   }
-  return { key: 'review', back: '/review', title: 'Повторение', topicId: 'review', make: () => reviewSession(dueKeys().slice(0, 30)) };
+  return { key: 'review', back: '/review', title: 'Повторение', topicId: 'review', make: () => reviewSession(dueKeys().slice(0, 30), getProgress().words) };
 }
 
 export function Practice({ route }: { route: Route }) {
@@ -48,8 +78,49 @@ export function Practice({ route }: { route: Route }) {
 }
 
 function Runner({ spec, restart }: { spec: Spec; restart: () => void }) {
+  const [state, setState] = useState<{ session?: Session; error?: string }>({});
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (started.current) return; // StrictMode runs effects twice in dev — never generate twice
+    started.current = true;
+    Promise.resolve()
+      .then(spec.make)
+      .then((session) => setState({ session }))
+      .catch((e: Error) => setState({ error: e.message }));
+  }, [spec]);
+
+  if (state.error) {
+    return (
+      <div className={s.empty}>
+        <p>😕 {state.error}</p>
+        <div className={s.summaryActions}>
+          <button className={s.startBtn} onClick={restart}>
+            Попробовать ещё раз
+          </button>
+          <a className={s.ghostBtn} href={href(spec.back)}>
+            Назад
+          </a>
+        </div>
+      </div>
+    );
+  }
+  if (!state.session) {
+    return (
+      <div className={s.empty}>
+        <span className={s.spinnerBig} aria-hidden />
+        <p>{spec.loading ?? 'Загрузка…'}</p>
+        <a className={s.ghostBtn} href={href(spec.back)}>
+          Отмена
+        </a>
+      </div>
+    );
+  }
+  return <SessionRunner spec={spec} session={state.session} restart={restart} />;
+}
+
+function SessionRunner({ spec, session, restart }: { spec: Spec; session: Session; restart: () => void }) {
   const progress = useProgress();
-  const [session] = useState(spec.make);
   const [i, setI] = useState(0);
   const [results, setResults] = useState<ExerciseResult[]>([]);
   const total = session.exercises.length;

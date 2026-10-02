@@ -48,6 +48,13 @@ export function Home() {
             <span className={s.quickSub}>Таблица сильных глаголов</span>
           </span>
         </a>
+        <a className={s.quickCard} href={href('/texts')}>
+          <span className={s.quickIcon}>📰</span>
+          <span>
+            <b>Читать</b>
+            <span className={s.quickSub}>Тексты A1–A2 с переводом слов</span>
+          </span>
+        </a>
       </div>
 
       {groups.map((g) => (

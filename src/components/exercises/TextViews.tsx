@@ -83,7 +83,13 @@ export function FillView({ ex, lenient, onDone }: ViewProps<'fill'>) {
                     <span key={k}>{p}</span>
                   ),
                 )}
-                {it.hint && <span className={s.hint}> ({it.hint})</span>}
+                {it.hint && (
+                  <span className={s.hint}>
+                    {' '}
+                    ({it.hint}
+                    {it.firstLetter && !results ? `; ${it.answers.map((a) => a[0][0] + '…').join(' … ')}` : ''})
+                  </span>
+                )}
               </div>
               {wrong && <Solution>{fillParts(it.parts, it.answers.map((a) => a[0]))}</Solution>}
               {results?.[i].map((r, g) => r.note && <Note key={g}>{r.note}</Note>)}

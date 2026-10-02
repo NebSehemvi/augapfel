@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { getUserTexts, mergeUserTexts } from './userTexts';
 
 export interface TopicStat {
   sessions: number;
@@ -16,6 +17,18 @@ export interface SrsItem {
   wrong: number;
 }
 
+/** A word saved from a text ("Мои слова"). Keyed by lemma. */
+export interface SavedWord {
+  lemma: string;
+  pos: string;
+  ru?: string;
+  en?: string;
+  pl?: string | null;
+  addedAt: number;
+  /** text id it was saved from */
+  source?: string;
+}
+
 export interface Settings {
   level: 'A1' | 'A2';
   includeRare: boolean;
@@ -26,6 +39,7 @@ export interface Progress {
   v: 1;
   topics: Record<string, TopicStat>;
   srs: Record<string, SrsItem>;
+  words: Record<string, SavedWord>;
   recentThemes: string[];
   /** ISO dates (yyyy-mm-dd) with at least one finished session */
   days: string[];
@@ -42,6 +56,7 @@ function empty(): Progress {
     v: 1,
     topics: {},
     srs: {},
+    words: {},
     recentThemes: [],
     days: [],
     settings: { level: 'A1', includeRare: false, lenientUmlauts: true },
@@ -66,6 +81,7 @@ function migrate(p: Partial<Progress>): Progress {
     settings: { ...base.settings, ...(p.settings ?? {}) },
     topics: p.topics ?? {},
     srs: p.srs ?? {},
+    words: p.words ?? {},
     recentThemes: p.recentThemes ?? [],
     days: p.days ?? [],
     v: 1,
@@ -149,6 +165,24 @@ export function recordSrs(results: { key: string; ok: boolean }[], create: boole
   set({ ...state, srs });
 }
 
+export const wordKeys = (lemma: string) => [`w|${lemma}|rec`, `w|${lemma}|prod`];
+
+export function addWord(w: Omit<SavedWord, 'addedAt'>) {
+  if (state.words[w.lemma]) return;
+  const now = Date.now();
+  const srs = { ...state.srs };
+  for (const k of wordKeys(w.lemma)) srs[k] ??= { box: 0, due: now, seen: 0, wrong: 0 };
+  set({ ...state, words: { ...state.words, [w.lemma]: { ...w, addedAt: now } }, srs });
+}
+
+export function removeWord(lemma: string) {
+  const words = { ...state.words };
+  delete words[lemma];
+  const srs = { ...state.srs };
+  for (const k of wordKeys(lemma)) delete srs[k];
+  set({ ...state, words, srs });
+}
+
 export function dueKeys(now = Date.now()): string[] {
   return Object.entries(state.srs)
     .filter(([, v]) => v.due <= now)
@@ -175,12 +209,13 @@ function fmt(d: Date) {
 
 // ---- export / import ----
 
+/** Progress plus the texts generated on this device. */
 export function exportProgress(): string {
-  return JSON.stringify({ app: 'augapfel', exportedAt: new Date().toISOString(), progress: state }, null, 2);
+  return JSON.stringify({ app: 'augapfel', exportedAt: new Date().toISOString(), progress: state, texts: getUserTexts() }, null, 2);
 }
 
 /** Merge imported progress: keeps the better topic stats and the more advanced SRS item. */
-export function importProgress(json: string): { topics: number; items: number } {
+export function importProgress(json: string): { topics: number; items: number; texts: number } {
   const data = JSON.parse(json);
   if (data?.app !== 'augapfel' || !data.progress) throw new Error('Это не файл прогресса Augapfel.');
   const inc = migrate(data.progress);
@@ -197,8 +232,10 @@ export function importProgress(json: string): { topics: number; items: number } 
     srs[k] = !cur || v.seen > cur.seen ? v : cur;
   }
   const days = [...new Set([...state.days, ...inc.days])].sort();
-  set({ ...state, topics, srs, days });
-  return { topics: Object.keys(inc.topics).length, items: Object.keys(inc.srs).length };
+  const words = { ...inc.words, ...state.words };
+  set({ ...state, topics, srs, days, words });
+  const texts = mergeUserTexts(data.texts);
+  return { topics: Object.keys(inc.topics).length, items: Object.keys(inc.srs).length + Object.keys(inc.words).length, texts };
 }
 
 export function resetProgress() {

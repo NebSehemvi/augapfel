@@ -1,0 +1,242 @@
+[
+  {
+    "id": "health-arzt",
+    "theme": "health",
+    "level": "A1",
+    "title": "Beim Arzt",
+    "source": "Arzt",
+    "paragraphs": [
+      "Ein Arzt oder eine Ärztin hilft kranken Menschen. Für diesen Beruf muss man lange Medizin an der Universität studieren. Viele Ärzte haben auch einen Doktortitel.",
+      "Viele Ärzte sind Spezialisten. Ein Zahnarzt kümmert sich um die Zähne, ein Augenarzt um die Augen. Ein Kinderarzt untersucht Kinder.",
+      "Manche Ärzte arbeiten im Krankenhaus. Andere haben eine eigene Praxis. Dort bleibt man nur kurz. Für die Praxis macht man meistens einen Termin.",
+      "Bei einer Erkältung oder bei Fieber geht man zuerst zum Hausarzt. Der Arzt fragt: „Was fehlt Ihnen?“ Dann untersucht er den Patienten und schreibt vielleicht ein Rezept."
+    ],
+    "glossary": {
+      "Doktortitel": {
+        "lemma": "der Doktortitel",
+        "pos": "noun",
+        "ru": "докторская степень",
+        "en": "doctorate"
+      },
+      "Spezialisten": {
+        "lemma": "der Spezialist",
+        "pos": "noun",
+        "ru": "специалист",
+        "en": "specialist"
+      },
+      "Zahnarzt": {
+        "lemma": "der Zahnarzt",
+        "pos": "noun",
+        "ru": "зубной врач",
+        "en": "dentist"
+      },
+      "Augenarzt": {
+        "lemma": "der Augenarzt",
+        "pos": "noun",
+        "ru": "окулист",
+        "en": "eye doctor"
+      },
+      "Kinderarzt": {
+        "lemma": "der Kinderarzt",
+        "pos": "noun",
+        "ru": "детский врач",
+        "en": "paediatrician"
+      },
+      "Praxis": {
+        "lemma": "die Praxis",
+        "pos": "noun",
+        "ru": "кабинет врача, практика",
+        "en": "doctor's surgery"
+      },
+      "Hausarzt": {
+        "lemma": "der Hausarzt",
+        "pos": "noun",
+        "ru": "семейный врач",
+        "en": "family doctor"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was muss man für den Beruf Arzt studieren?",
+        "options": [
+          "Medizin.",
+          "Mathematik.",
+          "Musik."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wer kümmert sich um die Zähne?",
+        "options": [
+          "Der Augenarzt.",
+          "Der Zahnarzt.",
+          "Der Kinderarzt."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wohin geht man zuerst bei Fieber?",
+        "options": [
+          "Ins Kino.",
+          "In die Apotheke.",
+          "Zum Hausarzt."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "health-apotheke",
+    "theme": "health",
+    "level": "A1",
+    "title": "Die Apotheke",
+    "source": "Apotheke",
+    "paragraphs": [
+      "In der Apotheke kauft man Medikamente. Viele Medikamente bekommt man nur mit einem Rezept vom Arzt. Andere Medikamente, zum Beispiel gegen Kopfschmerzen, kann man ohne Rezept kaufen.",
+      "In der Apotheke gibt es auch Pflaster, Tee, Salben und Babynahrung.",
+      "In der Apotheke arbeiten Apotheker und Apothekerinnen. Sie erklären den Kunden die Medikamente: Wie oft muss ich die Tabletten nehmen? Vor oder nach dem Essen?",
+      "Manche Apotheken machen Salben oder Tee selbst. Meistens kaufen sie die Medikamente aber von großen Firmen. Heute bestellen viele Menschen Medikamente im Internet. In Deutschland erkennt man eine Apotheke an einem großen roten „A“."
+    ],
+    "glossary": {
+      "Kopfschmerzen": {
+        "lemma": "die Kopfschmerzen (мн.)",
+        "pos": "noun",
+        "ru": "головная боль",
+        "en": "headache"
+      },
+      "Babynahrung": {
+        "lemma": "die Babynahrung",
+        "pos": "noun",
+        "ru": "детское питание",
+        "en": "baby food"
+      },
+      "Apotheker": {
+        "lemma": "der Apotheker",
+        "pos": "noun",
+        "ru": "фармацевт",
+        "en": "pharmacist"
+      },
+      "Apothekerinnen": {
+        "lemma": "die Apothekerin",
+        "pos": "noun",
+        "ru": "фармацевт (ж)",
+        "en": "pharmacist (f)"
+      },
+      "A": {
+        "lemma": "A",
+        "pos": "other",
+        "ru": "буква A",
+        "en": "letter A"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was braucht man für viele Medikamente?",
+        "options": [
+          "Ein Rezept.",
+          "Einen Pass.",
+          "Einen Termin."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was erklären die Apotheker?",
+        "options": [
+          "Den Weg zum Bahnhof.",
+          "Die Medikamente.",
+          "Die Grammatik."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Woran erkennt man eine Apotheke in Deutschland?",
+        "options": [
+          "An einem grünen Kreuz.",
+          "An einem blauen Haus.",
+          "An einem roten „A“."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "health-zaehne",
+    "theme": "health",
+    "level": "A2",
+    "title": "Die Zähne",
+    "source": "Zahn",
+    "paragraphs": [
+      "Die Zähne sind hart und hell. Im ganzen Körper ist nichts härter als die Zähne. Mit den Zähnen beißen und kauen wir unser Essen.",
+      "Wir haben verschiedene Zähne: Vorne sind die flachen Schneidezähne, daneben die spitzen Eckzähne und hinten die breiten Backenzähne.",
+      "Menschen bekommen zweimal im Leben Zähne. Kleine Kinder haben zwanzig Milchzähne. Ab ungefähr sechs Jahren fallen sie aus, und die neuen Zähne kommen. Ein Erwachsener hat bis zu 32 Zähne.",
+      "Damit die Zähne gesund bleiben, muss man sie zweimal am Tag putzen. Letzte Woche hatte ich starke Zahnschmerzen. Ich bin sofort zum Zahnarzt gegangen. Zum Glück war es nicht schlimm."
+    ],
+    "glossary": {
+      "Schneidezähne": {
+        "lemma": "der Schneidezahn",
+        "pos": "noun",
+        "ru": "резец",
+        "en": "incisor"
+      },
+      "Eckzähne": {
+        "lemma": "der Eckzahn",
+        "pos": "noun",
+        "ru": "клык",
+        "en": "canine tooth"
+      },
+      "Backenzähne": {
+        "lemma": "der Backenzahn",
+        "pos": "noun",
+        "ru": "коренной зуб",
+        "en": "molar"
+      },
+      "Milchzähne": {
+        "lemma": "der Milchzahn",
+        "pos": "noun",
+        "ru": "молочный зуб",
+        "en": "milk tooth"
+      },
+      "Zahnschmerzen": {
+        "lemma": "die Zahnschmerzen (мн.)",
+        "pos": "noun",
+        "ru": "зубная боль",
+        "en": "toothache"
+      },
+      "Zahnarzt": {
+        "lemma": "der Zahnarzt",
+        "pos": "noun",
+        "ru": "зубной врач",
+        "en": "dentist"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was ist im Körper am härtesten?",
+        "options": [
+          "Die Zähne.",
+          "Die Haare.",
+          "Die Augen."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wie viele Milchzähne haben kleine Kinder?",
+        "options": [
+          "32.",
+          "20.",
+          "10."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie oft soll man die Zähne putzen?",
+        "options": [
+          "Einmal pro Woche.",
+          "Nie.",
+          "Zweimal am Tag."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

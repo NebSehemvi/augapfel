@@ -1,0 +1,266 @@
+[
+  {
+    "id": "family-familie",
+    "theme": "family",
+    "level": "A1",
+    "title": "Die Familie",
+    "source": "Verwandtschaft",
+    "paragraphs": [
+      "Zur Familie gehören die Eltern, die Kinder und die Geschwister. Das ist die Kleinfamilie. Zur Großfamilie gehören auch die Großeltern, die Onkel und Tanten, die Cousins und Cousinen.",
+      "Geschwister sind Brüder und Schwestern. Die Eltern von meiner Mutter oder von meinem Vater sind meine Großeltern: Oma und Opa.",
+      "In manchen Ländern wohnt die ganze Großfamilie zusammen in einem Haus. In Deutschland wohnen die meisten Familien klein: Eltern und Kinder zusammen, die Großeltern in einer eigenen Wohnung.",
+      "Meine Familie ist groß. Ich habe zwei Brüder und eine Schwester. Am Sonntag essen wir oft zusammen bei meinen Großeltern. Meine Oma kocht dann immer sehr viel."
+    ],
+    "glossary": {
+      "Kleinfamilie": {
+        "lemma": "die Kleinfamilie",
+        "pos": "noun",
+        "ru": "нуклеарная семья",
+        "en": "nuclear family"
+      },
+      "Großfamilie": {
+        "lemma": "die Großfamilie",
+        "pos": "noun",
+        "ru": "большая семья",
+        "en": "extended family"
+      },
+      "Cousins": {
+        "lemma": "der Cousin",
+        "pos": "noun",
+        "ru": "двоюродный брат",
+        "en": "cousin (m)"
+      },
+      "Cousinen": {
+        "lemma": "die Cousine",
+        "pos": "noun",
+        "ru": "двоюродная сестра",
+        "en": "cousin (f)"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wer gehört zur Kleinfamilie?",
+        "options": [
+          "Eltern, Kinder und Geschwister.",
+          "Nur die Großeltern.",
+          "Onkel und Tanten."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was sind Geschwister?",
+        "options": [
+          "Oma und Opa.",
+          "Brüder und Schwestern.",
+          "Cousins und Cousinen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo isst die Familie am Sonntag?",
+        "options": [
+          "Im Restaurant.",
+          "Zu Hause.",
+          "Bei den Großeltern."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "family-geburtstag",
+    "theme": "family",
+    "level": "A1",
+    "title": "Der Geburtstag",
+    "source": "Geburtstag",
+    "paragraphs": [
+      "Am Geburtstag feiert man den Tag der Geburt. Ich bin zum Beispiel am 3. Mai geboren. Dann feiere ich jedes Jahr am 3. Mai Geburtstag.",
+      "Am Geburtstag ist man oft mit Freunden und mit der Familie zusammen. Es gibt Kuchen mit Kerzen und Geschenke. Alle singen „Happy Birthday“ oder „Zum Geburtstag viel Glück“.",
+      "Besonders groß feiert man runde Geburtstage, zum Beispiel den 30., den 40. oder den 50. Geburtstag.",
+      "Früher hat man nur den Geburtstag vom König gefeiert. Heute feiern fast alle Menschen ihren Geburtstag. In Deutschland gratuliert man nicht vor dem Geburtstag. Das bringt Unglück, sagen viele Leute."
+    ],
+    "glossary": {
+      "Geburt": {
+        "lemma": "die Geburt",
+        "pos": "noun",
+        "ru": "рождение",
+        "en": "birth"
+      },
+      "Kerzen": {
+        "lemma": "die Kerze",
+        "pos": "noun",
+        "ru": "свеча",
+        "en": "candle"
+      },
+      "Happy": {
+        "lemma": "Happy Birthday (англ.)",
+        "pos": "other",
+        "ru": "с днём рождения (англ.)",
+        "en": "happy"
+      },
+      "Birthday": {
+        "lemma": "Happy Birthday (англ.)",
+        "pos": "other",
+        "ru": "день рождения (англ.)",
+        "en": "birthday"
+      },
+      "König": {
+        "lemma": "der König",
+        "pos": "noun",
+        "ru": "король",
+        "en": "king"
+      },
+      "geboren": {
+        "lemma": "geboren",
+        "pos": "adj",
+        "ru": "рождённый («ich bin … geboren» — я родился)",
+        "en": "born"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was gibt es oft am Geburtstag?",
+        "options": [
+          "Kuchen und Geschenke.",
+          "Eine Prüfung.",
+          "Viel Arbeit."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Welche Geburtstage feiert man besonders groß?",
+        "options": [
+          "Alle Geburtstage gleich.",
+          "Runde Geburtstage.",
+          "Nur den ersten Geburtstag."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was macht man in Deutschland nicht?",
+        "options": [
+          "Kuchen essen.",
+          "Singen.",
+          "Vor dem Geburtstag gratulieren."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "family-hunde",
+    "theme": "family",
+    "level": "A2",
+    "title": "Hunde",
+    "source": "Hunde",
+    "paragraphs": [
+      "Hunde sind Säugetiere. Ein männlicher Hund heißt Rüde, ein weiblicher Hund heißt Hündin, und ein junger Hund heißt Welpe.",
+      "Hunde kommen ursprünglich vom Wolf. Schon vor vielen tausend Jahren haben Menschen Wölfe an sich gewöhnt. Heute gibt es ungefähr 800 Hunderassen: sehr kleine und sehr große.",
+      "Früher haben Hunde den Menschen bei der Jagd geholfen. Sie haben auch Häuser und Schafe bewacht. Heute haben manche Hunde besondere Aufgaben: Sie helfen zum Beispiel blinden Menschen. Die meisten Hunde leben aber einfach in Familien, weil die Menschen Freude an ihnen haben.",
+      "Als Kind hatte ich einen kleinen Hund. Er hieß Bruno. Ich bin jeden Tag mit ihm spazieren gegangen, auch wenn es geregnet hat."
+    ],
+    "glossary": {
+      "Säugetiere": {
+        "lemma": "das Säugetier",
+        "pos": "noun",
+        "ru": "млекопитающее",
+        "en": "mammal"
+      },
+      "Rüde": {
+        "lemma": "der Rüde",
+        "pos": "noun",
+        "ru": "кобель",
+        "en": "male dog"
+      },
+      "Hündin": {
+        "lemma": "die Hündin",
+        "pos": "noun",
+        "ru": "сука (самка собаки)",
+        "en": "female dog"
+      },
+      "Welpe": {
+        "lemma": "der Welpe",
+        "pos": "noun",
+        "ru": "щенок",
+        "en": "puppy"
+      },
+      "Wolf": {
+        "lemma": "der Wolf",
+        "pos": "noun",
+        "ru": "волк",
+        "en": "wolf"
+      },
+      "Wölfe": {
+        "lemma": "der Wolf",
+        "pos": "noun",
+        "ru": "волк",
+        "en": "wolf"
+      },
+      "Hunderassen": {
+        "lemma": "die Hunderasse",
+        "pos": "noun",
+        "ru": "порода собак",
+        "en": "dog breed"
+      },
+      "Jagd": {
+        "lemma": "die Jagd",
+        "pos": "noun",
+        "ru": "охота",
+        "en": "hunt"
+      },
+      "Schafe": {
+        "lemma": "das Schaf",
+        "pos": "noun",
+        "ru": "овца",
+        "en": "sheep"
+      },
+      "Aufgaben": {
+        "lemma": "die Aufgabe",
+        "pos": "noun",
+        "ru": "задача",
+        "en": "task"
+      },
+      "Freude": {
+        "lemma": "die Freude",
+        "pos": "noun",
+        "ru": "радость",
+        "en": "joy"
+      },
+      "Bruno": {
+        "lemma": "Bruno",
+        "pos": "noun",
+        "ru": "Бруно (кличка)",
+        "en": "Bruno (name)"
+      }
+    },
+    "questions": [
+      {
+        "q": "Von welchem Tier kommt der Hund?",
+        "options": [
+          "Vom Wolf.",
+          "Vom Fuchs.",
+          "Von der Katze."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was ist ein Welpe?",
+        "options": [
+          "Ein alter Hund.",
+          "Ein junger Hund.",
+          "Ein großer Hund."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie hieß der Hund der Person?",
+        "options": [
+          "Wolf.",
+          "Max.",
+          "Bruno."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

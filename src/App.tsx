@@ -4,7 +4,9 @@ import { useProgress, dueKeys } from './lib/progress';
 import { Home } from './pages/Home';
 import { TopicPage } from './pages/TopicPage';
 import { Practice } from './pages/Practice';
-import { VerbsPage } from './pages/VerbsPage';
+import { WordsPage } from './pages/WordsPage';
+import { TextsPage } from './pages/TextsPage';
+import { ReaderPage } from './pages/ReaderPage';
 import { ReviewPage } from './pages/ReviewPage';
 import { ProfilePage } from './pages/ProfilePage';
 import s from './App.module.css';
@@ -12,12 +14,20 @@ import s from './App.module.css';
 export default function App() {
   const route = useRoute();
   const [section, id, sub] = route.path;
-  const practicing = (section === 't' && sub === 'practice') || (section === 'verbs' && id === 'train') || (section === 'review' && id === 'start');
+  const practicing =
+    (section === 't' && (sub === 'practice' || sub === 'ai')) ||
+    (section === 'verbs' && id === 'train') ||
+    (section === 'review' && id === 'start') ||
+    (section === 'read' && sub === 'practice') ||
+    (section === 'words' && id === 'train');
 
   let page: ReactNode;
   if (practicing) page = <Practice route={route} />;
   else if (section === 't' && id) page = <TopicPage id={id} />;
-  else if (section === 'verbs') page = <VerbsPage />;
+  else if (section === 'verbs') page = <WordsPage tab="verbs" />;
+  else if (section === 'words') page = <WordsPage tab="mine" />;
+  else if (section === 'texts') page = <TextsPage />;
+  else if (section === 'read' && id) page = <ReaderPage id={id} />;
   else if (section === 'review') page = <ReviewPage />;
   else if (section === 'me') page = <ProfilePage />;
   else page = <Home />;
@@ -35,10 +45,19 @@ export default function App() {
 
 const TABS = [
   { key: '', to: '/', icon: '📖', label: 'Темы' },
-  { key: 'verbs', to: '/verbs', icon: '🔤', label: 'Глаголы' },
+  { key: 'texts', to: '/texts', icon: '📰', label: 'Тексты' },
+  { key: 'words', to: '/words', icon: '🗂️', label: 'Слова' },
   { key: 'review', to: '/review', icon: '🔁', label: 'Повторение' },
   { key: 'me', to: '/me', icon: '👤', label: 'Профиль' },
 ];
+
+/** Which tab a route belongs to. */
+function tabOf(section: string) {
+  if (section === 't') return '';
+  if (section === 'verbs') return 'words';
+  if (section === 'read') return 'texts';
+  return section;
+}
 
 function useDueCount() {
   useProgress();
@@ -47,7 +66,7 @@ function useDueCount() {
 
 function TopBar({ active }: { active: string }) {
   const due = useDueCount();
-  const current = active === 't' ? '' : active;
+  const current = tabOf(active);
   return (
     <header className={s.top}>
       <a className={s.brand} href={href('/')}>
@@ -70,7 +89,7 @@ function TopBar({ active }: { active: string }) {
 
 function TabBar({ active }: { active: string }) {
   const due = useDueCount();
-  const current = active === 't' ? '' : active;
+  const current = tabOf(active);
   return (
     <nav className={s.tabbar}>
       {TABS.map((t) => (

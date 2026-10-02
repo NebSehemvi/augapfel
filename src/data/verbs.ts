@@ -197,6 +197,47 @@ ab~biegen|поворачивать|to turn (left/right)|A2|s||bog|abgebogen|s|
 sich verlaufen|заблудиться|to get lost|A2|s|verläufst,verläuft|verlief|verlaufen|h|
 an~probieren|примерять|to try on|A1|w||||h|
 um~tauschen|обменять (товар)|to exchange|A2|w||||h|
+bauen|строить|to build|A1|w||||h|
+schauen|смотреть|to look|A1|w||||h|
+bedeuten|значить|to mean|A1|w||||h|
+meinen|иметь в виду, считать|to mean, think|A1|w||||h|
+passieren|случаться|to happen|A1|w||||s|
+bewegen|двигать|to move|A2|w||||h|
+schützen|защищать|to protect|A2|w||||h|
+tauschen|менять, обменивать|to swap|A2|w||||h|
+untersuchen|обследовать, исследовать|to examine|A2|w||||h|
+erkennen|узнавать, распознавать|to recognise|A2|m||erkannte|erkannt|h|
+entstehen|возникать|to arise, form|A2|s||entstand|entstanden|s|
+fehlen|не хватать; болеть («что с вами?»)|to be missing|A1|w||||h|
+sortieren|сортировать|to sort|A2|w||||h|
+speichern|сохранять|to save, store|A2|w||||h|
+atmen|дышать|to breathe|A2|w||||h|
+starten|стартовать, взлетать|to start, take off|A2|w||||s|
+sorgen|заботиться; обеспечивать|to take care, ensure|A2|w||||h|
+regeln|регулировать|to regulate|B1|w||||h|
+scannen|сканировать|to scan|A2|w||||h|
+tippen|печатать (на клавиатуре)|to type|A2|w||||h|
+löschen|тушить; удалять|to extinguish; to delete|A2|w||||h|
+transportieren|перевозить|to transport|A2|w||||h|
+unterrichten|преподавать|to teach|A2|w||||h|
+entfernen|удалять|to remove|B1|w||||h|
+erfinden|изобретать|to invent|A2|s||erfand|erfunden|h|
+drehen|вращать, поворачивать|to turn|A2|w||||h|
+stimmen|быть верным|to be right|A2|w||||h|
+wärmen|греть|to warm|A2|w||||h|
+kauen|жевать|to chew|A2|w||||h|
+bewachen|охранять|to guard|B1|w||||h|
+verletzen|ранить|to injure|A2|w||||h|
+an~bauen|выращивать|to grow (crops)|A2|w||||h|
+auf~nehmen|записывать (звук); принимать|to record; to take in|A2|s|nimmst,nimmt|nahm|aufgenommen|h|
+aus~leihen|брать на время (книгу)|to borrow|A2|s||lieh|ausgeliehen|h|
+weiter~lernen|учиться дальше|to keep learning|A2|w||||h|
+ab~geben|сдавать, отдавать|to hand in|A2|s|gibst,gibt|gab|abgegeben|h|
+an~sagen|объявлять|to announce|A2|w||||h|
+ab~fliegen|вылетать|to depart (by plane)|A2|s||flog|abgeflogen|s|
+los~fahren|отправляться, уезжать|to set off|A2|s|fährst,fährt|fuhr|losgefahren|s|
+dabei~haben|иметь при себе|to have on you|A2|m|f:habe,hast,hat,haben,habt,haben|hatte|dabeigehabt|h|
+aus~fallen|выпадать; отменяться|to fall out; to be cancelled|A2|s|fällst,fällt|fiel|ausgefallen|s|
 machen|делать|to do, make|A1|w||||h|
 kochen|готовить, варить|to cook|A1|w||||h|
 kaufen|покупать|to buy|A1|w||||h|

@@ -3,6 +3,7 @@ import { ConjView, FillView, FormsView, WriteView } from './TextViews';
 import { BankView, ChoiceView, MatchView } from './ChoiceViews';
 import { OrderView, SortView, TableView } from './DragViews';
 import { SnakeView } from './SnakeView';
+import { CardsView } from './CardsView';
 import { UmlautProvider } from './inputs';
 
 export function ExerciseView({ ex, lenient, onDone }: { ex: Exercise; lenient: boolean; onDone: (r: ExerciseResult) => void }) {
@@ -41,6 +42,9 @@ export function ExerciseView({ ex, lenient, onDone }: { ex: Exercise; lenient: b
       break;
     case 'bank':
       view = <BankView ex={ex} {...props} />;
+      break;
+    case 'cards':
+      view = <CardsView ex={ex} {...props} />;
       break;
   }
   return <UmlautProvider>{view}</UmlautProvider>;

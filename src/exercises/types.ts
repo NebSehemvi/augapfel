@@ -9,6 +9,10 @@ export interface FillItem {
   /** SRS key per gap */
   srs?: (string | undefined)[];
   note?: string;
+  /** plausible wrong answers (for word-bank distractors) */
+  distractors?: string[];
+  /** show the first letter of the answer as an extra hint (typed verb gaps with a Russian hint) */
+  firstLetter?: boolean;
 }
 
 export interface ChoiceItem {
@@ -62,6 +66,15 @@ export interface BankItem {
   srs?: string;
 }
 
+/** One word, four meanings — pick the right card. */
+export interface CardItem {
+  prompt: string;
+  sub?: string;
+  options: string[];
+  answer: number;
+  srs?: string;
+}
+
 export interface ConjRow {
   label: string;
   answers: string[];
@@ -79,7 +92,8 @@ export type Exercise =
   | { type: 'write'; title: string; instruction: string; item: WriteItem }
   | { type: 'snake'; title: string; instruction: string; sentences: string[] }
   | { type: 'forms'; title: string; instruction: string; items: FormsItem[] }
-  | { type: 'bank'; title: string; instruction: string; items: BankItem[]; bank: string[] };
+  | { type: 'bank'; title: string; instruction: string; items: BankItem[]; bank: string[] }
+  | { type: 'cards'; title: string; instruction: string; items: CardItem[] };
 
 export interface SrsResult {
   key: string;

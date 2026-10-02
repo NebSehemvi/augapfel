@@ -1,0 +1,248 @@
+[
+  {
+    "id": "daily-schlaf",
+    "theme": "daily",
+    "level": "A1",
+    "title": "Der Schlaf",
+    "source": "Schlaf",
+    "paragraphs": [
+      "Im Schlaf ruht der Körper. Schlafen ist wichtig für den Körper und für den Kopf. Ohne Schlaf wird man krank.",
+      "Am Tag sieht und hört unser Gehirn sehr viel. In der Nacht sortiert es alles. Wichtige Dinge speichert es im Gedächtnis. Der Körper arbeitet aber auch in der Nacht: Wir atmen, und das Herz schlägt.",
+      "Es gibt zwei Arten von Schlaf: den Tiefschlaf und den REM-Schlaf. Im REM-Schlaf bewegen sich die Augen schnell. In dieser Zeit träumen wir oft.",
+      "Erwachsene brauchen ungefähr sieben bis neun Stunden Schlaf. Kinder brauchen mehr. Viele Menschen gehen um elf Uhr ins Bett und stehen um sieben Uhr auf."
+    ],
+    "glossary": {
+      "Schlaf": {
+        "lemma": "der Schlaf",
+        "pos": "noun",
+        "ru": "сон",
+        "en": "sleep"
+      },
+      "Gehirn": {
+        "lemma": "das Gehirn",
+        "pos": "noun",
+        "ru": "мозг",
+        "en": "brain"
+      },
+      "Gedächtnis": {
+        "lemma": "das Gedächtnis",
+        "pos": "noun",
+        "ru": "память",
+        "en": "memory"
+      },
+      "Tiefschlaf": {
+        "lemma": "der Tiefschlaf",
+        "pos": "noun",
+        "ru": "глубокий сон",
+        "en": "deep sleep"
+      },
+      "REM-Schlaf": {
+        "lemma": "der REM-Schlaf",
+        "pos": "noun",
+        "ru": "быстрый сон (фаза REM)",
+        "en": "REM sleep"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was passiert ohne Schlaf?",
+        "options": [
+          "Man wird krank.",
+          "Man wird stark.",
+          "Man wird reich."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was passiert im REM-Schlaf?",
+        "options": [
+          "Wir essen.",
+          "Die Augen bewegen sich schnell.",
+          "Wir laufen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie viele Stunden Schlaf brauchen Erwachsene?",
+        "options": [
+          "Drei bis vier.",
+          "Zwölf bis vierzehn.",
+          "Sieben bis neun."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "daily-uhr",
+    "theme": "daily",
+    "level": "A1",
+    "title": "Die Uhr",
+    "source": "Uhr",
+    "paragraphs": [
+      "Eine Uhr zeigt die Zeit. So weiß man, wie spät es ist. Es gibt Armbanduhren, Wanduhren und Wecker. Heute schauen aber viele Menschen einfach auf das Handy.",
+      "Das Wort „Uhr“ kommt aus dem Lateinischen: „hora“ bedeutet „Stunde“.",
+      "Früher hatten die Menschen keine Uhren. Sie haben auf die Sonne geschaut. Eine Sonnenuhr ist ein Stab. Er wirft einen Schatten, und am Schatten sieht man die Zeit. Später gab es auch Sanduhren und Wasseruhren.",
+      "Auf Deutsch fragt man: „Wie spät ist es?“ oder „Wie viel Uhr ist es?“ Man antwortet zum Beispiel: „Es ist halb acht.“ Das bedeutet 7:30 Uhr."
+    ],
+    "glossary": {
+      "Armbanduhren": {
+        "lemma": "die Armbanduhr",
+        "pos": "noun",
+        "ru": "наручные часы",
+        "en": "wristwatch"
+      },
+      "Wanduhren": {
+        "lemma": "die Wanduhr",
+        "pos": "noun",
+        "ru": "настенные часы",
+        "en": "wall clock"
+      },
+      "hora": {
+        "lemma": "hora (лат.)",
+        "pos": "other",
+        "ru": "час (по-латыни)",
+        "en": "hour (Latin)"
+      },
+      "Sonnenuhr": {
+        "lemma": "die Sonnenuhr",
+        "pos": "noun",
+        "ru": "солнечные часы",
+        "en": "sundial"
+      },
+      "Stab": {
+        "lemma": "der Stab",
+        "pos": "noun",
+        "ru": "палка, стержень",
+        "en": "rod"
+      },
+      "Schatten": {
+        "lemma": "der Schatten",
+        "pos": "noun",
+        "ru": "тень",
+        "en": "shadow"
+      },
+      "Sanduhren": {
+        "lemma": "die Sanduhr",
+        "pos": "noun",
+        "ru": "песочные часы",
+        "en": "hourglass"
+      },
+      "Wasseruhren": {
+        "lemma": "die Wasseruhr",
+        "pos": "noun",
+        "ru": "водяные часы",
+        "en": "water clock"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was bedeutet „hora“?",
+        "options": [
+          "Stunde.",
+          "Sonne.",
+          "Schatten."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wie haben die Menschen früher die Zeit gesehen?",
+        "options": [
+          "Auf dem Handy.",
+          "Am Schatten der Sonne.",
+          "Im Fernsehen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was bedeutet „halb acht“?",
+        "options": [
+          "8:30 Uhr.",
+          "8:00 Uhr.",
+          "7:30 Uhr."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "daily-zahnbuerste",
+    "theme": "daily",
+    "level": "A2",
+    "title": "Die Zahnbürste",
+    "source": "Zahnbürste",
+    "paragraphs": [
+      "Mit einer Zahnbürste putzt man die Zähne. Sie hat einen Griff und einen Kopf mit Borsten. Beim Zähneputzen entfernt man Essensreste. So bleiben die Zähne gesund.",
+      "In vielen Ländern ist es normal, jeden Tag die Zähne zu putzen. Es gibt normale Zahnbürsten und elektrische Zahnbürsten.",
+      "Die Idee ist sehr alt. Schon vor der Zahnbürste haben die Menschen ihre Zähne sauber gemacht. Sie haben dafür kleine Holzstücke oder Pflanzen benutzt. Die moderne Zahnbürste hat man vor einigen hundert Jahren erfunden.",
+      "Jeden Morgen stehe ich um halb sieben auf. Zuerst dusche ich, dann putze ich mir die Zähne. Meine Zahnärztin sagt, dass ich alle drei Monate eine neue Zahnbürste kaufen soll."
+    ],
+    "glossary": {
+      "Borsten": {
+        "lemma": "die Borste",
+        "pos": "noun",
+        "ru": "щетинка",
+        "en": "bristle"
+      },
+      "Zähneputzen": {
+        "lemma": "das Zähneputzen",
+        "pos": "noun",
+        "ru": "чистка зубов",
+        "en": "brushing teeth"
+      },
+      "Essensreste": {
+        "lemma": "der Essensrest",
+        "pos": "noun",
+        "ru": "остатки еды",
+        "en": "food remains"
+      },
+      "Holzstücke": {
+        "lemma": "das Holzstück",
+        "pos": "noun",
+        "ru": "кусочек дерева",
+        "en": "piece of wood"
+      },
+      "Zahnärztin": {
+        "lemma": "die Zahnärztin",
+        "pos": "noun",
+        "ru": "зубной врач (ж)",
+        "en": "dentist (f)"
+      },
+      "Griff": {
+        "lemma": "der Griff",
+        "pos": "noun",
+        "ru": "ручка (рукоятка)",
+        "en": "handle"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was entfernt man beim Zähneputzen?",
+        "options": [
+          "Essensreste.",
+          "Borsten.",
+          "Holz."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was haben die Menschen vor der Zahnbürste benutzt?",
+        "options": [
+          "Elektrische Zahnbürsten.",
+          "Holzstücke oder Pflanzen.",
+          "Nichts."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie oft soll die Person eine neue Zahnbürste kaufen?",
+        "options": [
+          "Jeden Tag.",
+          "Einmal im Jahr.",
+          "Alle drei Monate."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

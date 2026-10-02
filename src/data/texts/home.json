@@ -1,0 +1,242 @@
+[
+  {
+    "id": "home-haus",
+    "theme": "home",
+    "level": "A1",
+    "title": "Das Haus",
+    "source": "Haus",
+    "paragraphs": [
+      "Menschen wohnen und arbeiten in Häusern. Früher haben sie in Höhlen oder in kleinen Hütten aus Holz gewohnt. Später haben sie größere Häuser aus Holz und Stein gebaut. Heute baut man Häuser auch aus Beton, Glas und Metall.",
+      "Ein Haus schützt uns vor dem Wetter: vor Regen, Wind und Kälte.",
+      "In einem großen Haus gibt es oft viele Wohnungen. Dann braucht man Treppen und oft einen Aufzug. Eine Wohnung hat meistens ein Wohnzimmer, ein Schlafzimmer, eine Küche und ein Bad.",
+      "In der Stadt wohnen viele Menschen in hohen Häusern. Auf dem Land haben viele Familien ein eigenes Haus mit Garten."
+    ],
+    "glossary": {
+      "Höhlen": {
+        "lemma": "die Höhle",
+        "pos": "noun",
+        "ru": "пещера",
+        "en": "cave"
+      },
+      "Hütten": {
+        "lemma": "die Hütte",
+        "pos": "noun",
+        "ru": "хижина",
+        "en": "hut"
+      },
+      "Beton": {
+        "lemma": "der Beton",
+        "pos": "noun",
+        "ru": "бетон",
+        "en": "concrete"
+      },
+      "Kälte": {
+        "lemma": "die Kälte",
+        "pos": "noun",
+        "ru": "холод",
+        "en": "cold"
+      },
+      "Treppen": {
+        "lemma": "die Treppe",
+        "pos": "noun",
+        "ru": "лестница",
+        "en": "stairs"
+      },
+      "Aufzug": {
+        "lemma": "der Aufzug",
+        "pos": "noun",
+        "ru": "лифт",
+        "en": "lift, elevator"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wo haben die Menschen früher gewohnt?",
+        "options": [
+          "In Höhlen und Hütten.",
+          "In hohen Häusern.",
+          "In Hotels."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was braucht ein großes Haus oft?",
+        "options": [
+          "Einen Garten.",
+          "Treppen und einen Aufzug.",
+          "Eine Höhle."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo haben viele Familien ein Haus mit Garten?",
+        "options": [
+          "In der Stadt.",
+          "Im Büro.",
+          "Auf dem Land."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "home-kueche",
+    "theme": "home",
+    "level": "A1",
+    "title": "Die Küche",
+    "source": "Küche",
+    "paragraphs": [
+      "Die Küche ist ein Raum in der Wohnung. Hier kocht man das Essen. Oft spült man hier auch das Geschirr.",
+      "In einer Küche gibt es viele Geräte: einen Herd, einen Kühlschrank, oft eine Mikrowelle und eine Spülmaschine. Im Kühlschrank bleiben Milch, Käse und Gemüse frisch. Es gibt auch ein Spülbecken mit Wasser.",
+      "In kleinen Wohnungen sind die Küche und das Wohnzimmer manchmal ein Raum. Das nennt man „Wohnküche“.",
+      "Das Wort „Küche“ hat noch eine Bedeutung: Es meint auch das typische Essen von einem Land. Zur deutschen Küche gehören zum Beispiel Sauerkraut, Brezeln und Schweinebraten. Kennst du die italienische Küche?"
+    ],
+    "glossary": {
+      "Geschirr": {
+        "lemma": "das Geschirr",
+        "pos": "noun",
+        "ru": "посуда",
+        "en": "dishes"
+      },
+      "Geräte": {
+        "lemma": "das Gerät",
+        "pos": "noun",
+        "ru": "прибор",
+        "en": "appliance, device"
+      },
+      "Herd": {
+        "lemma": "der Herd",
+        "pos": "noun",
+        "ru": "плита",
+        "en": "stove"
+      },
+      "Mikrowelle": {
+        "lemma": "die Mikrowelle",
+        "pos": "noun",
+        "ru": "микроволновка",
+        "en": "microwave"
+      },
+      "Spülmaschine": {
+        "lemma": "die Spülmaschine",
+        "pos": "noun",
+        "ru": "посудомоечная машина",
+        "en": "dishwasher"
+      },
+      "Spülbecken": {
+        "lemma": "das Spülbecken",
+        "pos": "noun",
+        "ru": "раковина",
+        "en": "sink"
+      },
+      "Wohnküche": {
+        "lemma": "die Wohnküche",
+        "pos": "noun",
+        "ru": "кухня-гостиная",
+        "en": "kitchen-living room"
+      },
+      "Bedeutung": {
+        "lemma": "die Bedeutung",
+        "pos": "noun",
+        "ru": "значение",
+        "en": "meaning"
+      },
+      "Sauerkraut": {
+        "lemma": "das Sauerkraut",
+        "pos": "noun",
+        "ru": "квашеная капуста",
+        "en": "sauerkraut"
+      },
+      "Brezeln": {
+        "lemma": "die Brezel",
+        "pos": "noun",
+        "ru": "крендель",
+        "en": "pretzel"
+      },
+      "Schweinebraten": {
+        "lemma": "der Schweinebraten",
+        "pos": "noun",
+        "ru": "жаркое из свинины",
+        "en": "roast pork"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was macht man in der Küche?",
+        "options": [
+          "Man schläft.",
+          "Man kocht das Essen.",
+          "Man parkt das Auto."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo bleibt die Milch frisch?",
+        "options": [
+          "Im Kühlschrank.",
+          "Im Herd.",
+          "Im Spülbecken."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was ist eine „Wohnküche“?",
+        "options": [
+          "Eine Küche im Restaurant.",
+          "Eine sehr große Küche.",
+          "Küche und Wohnzimmer in einem Raum."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "home-moebel",
+    "theme": "home",
+    "level": "A2",
+    "title": "Möbel",
+    "source": "Möbel",
+    "paragraphs": [
+      "Möbel sind Dinge in einer Wohnung: Tische, Stühle, Betten, Schränke und Regale. Das Wort kommt aus dem Französischen und dem Lateinischen. Es bedeutet „bewegliche Dinge“, denn man kann Möbel von einem Zimmer ins andere tragen. Ein Haus kann man dagegen nicht bewegen.",
+      "Wir brauchen Möbel, damit wir gut wohnen können. Auf einem Stuhl oder Sofa sitzen wir, im Bett schlafen wir. In Schränken und Regalen haben wir Platz für Kleidung, Bücher und andere Sachen.",
+      "Möbel machen ein Zimmer aber auch gemütlich. Dazu kommen noch Teppiche, Vorhänge, Bilder und Lampen.",
+      "Als ich letztes Jahr in eine neue Wohnung umgezogen bin, habe ich zuerst ein großes Bett und ein Sofa gekauft. Die Lampen habe ich erst später gefunden."
+    ],
+    "glossary": {
+      "Vorhänge": {
+        "lemma": "der Vorhang",
+        "pos": "noun",
+        "ru": "занавеска",
+        "en": "curtain"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was bedeutet das Wort „Möbel“?",
+        "options": [
+          "Bewegliche Dinge.",
+          "Schöne Bilder.",
+          "Große Häuser."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Wofür braucht man Schränke und Regale?",
+        "options": [
+          "Zum Schlafen.",
+          "Für Kleidung, Bücher und andere Sachen.",
+          "Zum Kochen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was hat die Person zuerst gekauft?",
+        "options": [
+          "Lampen und Teppiche.",
+          "Einen Schrank.",
+          "Ein Bett und ein Sofa."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

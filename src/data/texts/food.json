@@ -1,0 +1,362 @@
+[
+  {
+    "id": "food-brot",
+    "theme": "food",
+    "level": "A1",
+    "title": "Brot",
+    "source": "Brot",
+    "paragraphs": [
+      "Brot ist ein Lebensmittel. Man macht Brot aus Mehl, Wasser und Salz. Zuerst macht man einen Teig. Dann backt man den Teig im Ofen.",
+      "In Deutschland gibt es sehr viele Sorten Brot: helles Brot, dunkles Brot, Brot mit Körnern und kleine Brötchen. Viele Deutsche essen Brot zum Frühstück, oft mit Butter, Käse oder Marmelade. Am Abend essen viele Familien wieder Brot. Das nennt man „Abendbrot“.",
+      "In Bayern gibt es die „Brotzeit“. Das ist eine kleine Mahlzeit mit Brot, Wurst und Käse.",
+      "Früher haben die Menschen ihr Brot auf heißen Steinen gebacken. Heute kauft man Brot meistens beim Bäcker oder im Supermarkt."
+    ],
+    "glossary": {
+      "Mehl": {
+        "lemma": "das Mehl",
+        "pos": "noun",
+        "ru": "мука",
+        "en": "flour"
+      },
+      "Salz": {
+        "lemma": "das Salz",
+        "pos": "noun",
+        "ru": "соль",
+        "en": "salt"
+      },
+      "Teig": {
+        "lemma": "der Teig",
+        "pos": "noun",
+        "ru": "тесто",
+        "en": "dough"
+      },
+      "Ofen": {
+        "lemma": "der Ofen",
+        "pos": "noun",
+        "ru": "печь, духовка",
+        "en": "oven"
+      },
+      "Sorten": {
+        "lemma": "die Sorte",
+        "pos": "noun",
+        "ru": "сорт, вид",
+        "en": "kind, sort"
+      },
+      "Körnern": {
+        "lemma": "das Korn",
+        "pos": "noun",
+        "ru": "зерно",
+        "en": "grain"
+      },
+      "Butter": {
+        "lemma": "die Butter",
+        "pos": "noun",
+        "ru": "сливочное масло",
+        "en": "butter"
+      },
+      "Marmelade": {
+        "lemma": "die Marmelade",
+        "pos": "noun",
+        "ru": "варенье, джем",
+        "en": "jam"
+      },
+      "Abendbrot": {
+        "lemma": "das Abendbrot",
+        "pos": "noun",
+        "ru": "ужин (с хлебом)",
+        "en": "supper"
+      },
+      "Bayern": {
+        "lemma": "Bayern",
+        "pos": "noun",
+        "ru": "Бавария",
+        "en": "Bavaria"
+      },
+      "Brotzeit": {
+        "lemma": "die Brotzeit",
+        "pos": "noun",
+        "ru": "перекус с хлебом (Бавария)",
+        "en": "snack (Bavarian)"
+      },
+      "Mahlzeit": {
+        "lemma": "die Mahlzeit",
+        "pos": "noun",
+        "ru": "приём пищи",
+        "en": "meal"
+      },
+      "Bäcker": {
+        "lemma": "der Bäcker",
+        "pos": "noun",
+        "ru": "пекарь; булочная («beim Bäcker»)",
+        "en": "baker"
+      },
+      "heißen": {
+        "lemma": "heiß",
+        "pos": "adj",
+        "ru": "горячий",
+        "en": "hot"
+      }
+    },
+    "questions": [
+      {
+        "q": "Woraus macht man Brot?",
+        "options": [
+          "Aus Mehl, Wasser und Salz.",
+          "Aus Milch und Zucker.",
+          "Aus Kartoffeln."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was ist das „Abendbrot“?",
+        "options": [
+          "Ein Brot nur für Kinder.",
+          "Das Essen am Abend.",
+          "Ein Brot aus Bayern."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo kauft man heute meistens Brot?",
+        "options": [
+          "Auf heißen Steinen.",
+          "In der Apotheke.",
+          "Beim Bäcker oder im Supermarkt."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "food-kaffee",
+    "theme": "food",
+    "level": "A1",
+    "title": "Kaffee",
+    "source": "Kaffee",
+    "paragraphs": [
+      "Kaffee ist ein Getränk. Man trinkt Kaffee meistens heiß. Kaffee ist schwarzbraun und macht wach.",
+      "Kaffee kommt aus Kaffeebohnen. Die Kaffeepflanze wächst nicht in Deutschland. Sie braucht das ganze Jahr warmes Wetter. Der meiste Kaffee kommt aus Brasilien, Vietnam und Kolumbien.",
+      "Mit einer Kaffeemaschine macht man verschiedene Getränke: Espresso, Cappuccino oder Kaffee mit Milch. Für einen Cappuccino braucht man heiße Milch mit Schaum.",
+      "In Europa trinken die Menschen in Finnland den meisten Kaffee: vier oder fünf Tassen am Tag! Und du? Trinkst du morgens Kaffee oder lieber Tee?"
+    ],
+    "glossary": {
+      "Kaffeebohnen": {
+        "lemma": "die Kaffeebohne",
+        "pos": "noun",
+        "ru": "кофейное зерно",
+        "en": "coffee bean"
+      },
+      "Kaffeepflanze": {
+        "lemma": "die Kaffeepflanze",
+        "pos": "noun",
+        "ru": "кофейное растение",
+        "en": "coffee plant"
+      },
+      "Brasilien": {
+        "lemma": "Brasilien",
+        "pos": "noun",
+        "ru": "Бразилия",
+        "en": "Brazil"
+      },
+      "Vietnam": {
+        "lemma": "Vietnam",
+        "pos": "noun",
+        "ru": "Вьетнам",
+        "en": "Vietnam"
+      },
+      "Kolumbien": {
+        "lemma": "Kolumbien",
+        "pos": "noun",
+        "ru": "Колумбия",
+        "en": "Colombia"
+      },
+      "Kaffeemaschine": {
+        "lemma": "die Kaffeemaschine",
+        "pos": "noun",
+        "ru": "кофеварка",
+        "en": "coffee machine"
+      },
+      "Espresso": {
+        "lemma": "der Espresso",
+        "pos": "noun",
+        "ru": "эспрессо",
+        "en": "espresso"
+      },
+      "Cappuccino": {
+        "lemma": "der Cappuccino",
+        "pos": "noun",
+        "ru": "капучино",
+        "en": "cappuccino"
+      },
+      "Schaum": {
+        "lemma": "der Schaum",
+        "pos": "noun",
+        "ru": "пена",
+        "en": "foam"
+      },
+      "Finnland": {
+        "lemma": "Finnland",
+        "pos": "noun",
+        "ru": "Финляндия",
+        "en": "Finland"
+      },
+      "heiße": {
+        "lemma": "heiß",
+        "pos": "adj",
+        "ru": "горячий",
+        "en": "hot"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was macht Kaffee?",
+        "options": [
+          "Er macht wach.",
+          "Er macht müde.",
+          "Er macht satt."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Woher kommt der meiste Kaffee?",
+        "options": [
+          "Aus Deutschland.",
+          "Aus Brasilien.",
+          "Aus Finnland."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was braucht man für einen Cappuccino?",
+        "options": [
+          "Kalte Milch.",
+          "Tee und Zucker.",
+          "Heiße Milch mit Schaum."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "food-kartoffel",
+    "theme": "food",
+    "level": "A2",
+    "title": "Die Kartoffel",
+    "source": "Kartoffel",
+    "paragraphs": [
+      "Die Kartoffel ist eine Pflanze aus Südamerika. Sie kommt aus den Anden, einem großen Gebirge. Schon die Inka haben dort Kartoffeln angebaut. Spanische Seefahrer haben die Pflanze kennengelernt und um das Jahr 1570 nach Europa gebracht.",
+      "Die grüne Pflanze ist leicht giftig. Man isst nur die Knollen, die unter der Erde wachsen. Sie bestehen vor allem aus Wasser und Stärke.",
+      "Zuerst wollten viele Menschen in Europa keine Kartoffeln essen. Später waren sie aber sehr wichtig, weil man mit ihnen viele Menschen satt machen konnte.",
+      "Heute kocht man in Deutschland Kartoffeln auf viele Arten: als Salzkartoffeln, Bratkartoffeln, Kartoffelsalat oder Pommes. In manchen Gegenden sagt man auch „Erdapfel“."
+    ],
+    "glossary": {
+      "Südamerika": {
+        "lemma": "Südamerika",
+        "pos": "noun",
+        "ru": "Южная Америка",
+        "en": "South America"
+      },
+      "Anden": {
+        "lemma": "die Anden (мн.)",
+        "pos": "noun",
+        "ru": "Анды",
+        "en": "the Andes"
+      },
+      "Gebirge": {
+        "lemma": "das Gebirge",
+        "pos": "noun",
+        "ru": "горы, горный хребет",
+        "en": "mountain range"
+      },
+      "Inka": {
+        "lemma": "die Inka (мн.)",
+        "pos": "noun",
+        "ru": "инки",
+        "en": "the Inca"
+      },
+      "Seefahrer": {
+        "lemma": "der Seefahrer",
+        "pos": "noun",
+        "ru": "мореплаватель",
+        "en": "seafarer"
+      },
+      "Knollen": {
+        "lemma": "die Knolle",
+        "pos": "noun",
+        "ru": "клубень",
+        "en": "tuber"
+      },
+      "Stärke": {
+        "lemma": "die Stärke",
+        "pos": "noun",
+        "ru": "крахмал; сила",
+        "en": "starch; strength"
+      },
+      "Salzkartoffeln": {
+        "lemma": "die Salzkartoffeln (мн.)",
+        "pos": "noun",
+        "ru": "отварной картофель",
+        "en": "boiled potatoes"
+      },
+      "Bratkartoffeln": {
+        "lemma": "die Bratkartoffeln (мн.)",
+        "pos": "noun",
+        "ru": "жареный картофель",
+        "en": "fried potatoes"
+      },
+      "Kartoffelsalat": {
+        "lemma": "der Kartoffelsalat",
+        "pos": "noun",
+        "ru": "картофельный салат",
+        "en": "potato salad"
+      },
+      "Pommes": {
+        "lemma": "die Pommes (мн.)",
+        "pos": "noun",
+        "ru": "картофель фри",
+        "en": "French fries"
+      },
+      "Gegenden": {
+        "lemma": "die Gegend",
+        "pos": "noun",
+        "ru": "местность, регион",
+        "en": "area, region"
+      },
+      "Erdapfel": {
+        "lemma": "der Erdapfel",
+        "pos": "noun",
+        "ru": "картофель (диал.)",
+        "en": "potato (regional)"
+      }
+    },
+    "questions": [
+      {
+        "q": "Woher kommt die Kartoffel?",
+        "options": [
+          "Aus Südamerika.",
+          "Aus Spanien.",
+          "Aus Asien."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Welchen Teil der Kartoffel isst man?",
+        "options": [
+          "Die grünen Blätter.",
+          "Die Knollen unter der Erde.",
+          "Die Früchte."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Warum waren Kartoffeln später so wichtig?",
+        "options": [
+          "Weil sie giftig waren.",
+          "Weil sie teuer waren.",
+          "Weil sie viele Menschen satt machen konnten."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

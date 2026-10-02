@@ -4,20 +4,33 @@ import { clauseTexts, joinChunks, punctFor, render, renderAll, sentence, subFirs
 import { REFL_AKK, praeteritum, present } from '../grammar/conjugate';
 import { getVerb, verbKey } from '../data/verbs';
 import type { Person, Subject, Verb } from '../grammar/types';
-import { cap, NAMED, PRONOUNS, subjectLabel } from '../grammar/subjects';
+import { cap, NAMED, PRONOUNS, subjectFor, subjectLabel } from '../grammar/subjects';
 import type { ArticleType } from '../grammar/articles';
 import { article, contract, GENDER_ART, nounForm, prepCase } from '../grammar/articles';
 import { getNoun, getTheme } from '../data/themes';
 import type { Frame, Pair } from '../data/themes/types';
 import type { Ctx, Act } from './context';
 import { clauseAct, MODALS, pickActs, pickSubject, pickSubjects, pickTime, pickTimes, spec, TENSE_LABEL } from './context';
-import type { ChoiceItem, Exercise, FillItem, FormsItem, OrderItem, Seg } from './types';
+import type { BankItem, ChoiceItem, Exercise, FillItem, FormsItem, OrderItem, Seg } from './types';
 import { ALL_PREPS, daForm, findPrepVerb, woForm } from '../data/prepVerbs';
 
 // ---------------------------------------------------------------------------
 // helpers
 
 export const verbLabel = (v: Verb) => (v.refl ? 'sich ' : '') + v.inf;
+
+/** Russian meaning used as a hint instead of the German infinitive: "печатать", "знать (факт)" */
+export function verbRu(v: Verb): string {
+  // first meaning only: up to the first ";" or "," that is not inside parentheses
+  let depth = 0;
+  for (let i = 0; i < v.ru.length; i++) {
+    const ch = v.ru[i];
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    else if ((ch === ';' || ch === ',') && depth === 0) return v.ru.slice(0, i).trim();
+  }
+  return v.ru.trim();
+}
 
 export const srsKey = {
   pres: (v: Verb) => `v|${verbKey(v)}|pres`,
@@ -143,12 +156,19 @@ export function fillVerb(ctx: Ctx, o: FillVerbOpts): Exercise {
       answers.push(o.tense === 'perf' ? act.verb.pp : [parts.end!]);
       srs.push(o.tense === 'perf' && irregularPraet(act.verb) ? srsKey.pp(act.verb) : undefined);
     }
-    const hintVerb = modal ? `${modal.inf} + ${verbLabel(act.verb)}` : verbLabel(act.verb);
+    const hintVerb = modal ? `${verbRu(modal)} + ${verbRu(act.verb)}` : verbRu(act.verb);
+    const p = subj.person;
+    const otherForms = ([0, 1, 2, 3, 4, 5] as Person[])
+      .filter((q) => q !== p)
+      .map((q) => verbParts({ ...s, subj: subjectFor(q) }).finite[0])
+      .filter((f) => !parts.finite.includes(f));
     return {
       parts: partsFrom(chunks, (c) => (c.role === 'fin' ? 0 : gapEnd && c.role === 'end' ? 1 : -1), '.'),
       answers,
       hint: subj.hint ? `${hintVerb}; ${subjectLabel(subj)}` : hintVerb,
       srs,
+      distractors: [...new Set(otherForms)],
+      firstLetter: !modal,
     };
   });
   return {
@@ -176,7 +196,7 @@ export function choiceVerbForm(ctx: Ctx, o: { tense: Tense; n?: number; pred?: (
       parts: partsFrom(chunks, (c) => (c.role === 'fin' ? 0 : -1), '.'),
       options,
       answer: options.indexOf(right),
-      hint: subj.hint ? `${verbLabel(act.verb)}; ${subjectLabel(subj)}` : verbLabel(act.verb),
+      hint: subj.hint ? `${verbRu(act.verb)}; ${subjectLabel(subj)}` : verbRu(act.verb),
       srs: irregularPres(act.verb) && o.tense === 'pres' ? srsKey.pres(act.verb) : undefined,
     };
   });
@@ -478,31 +498,48 @@ export function themeVerbs(ctx: Ctx, n: number, pred: (v: Verb) => boolean): Ver
   return out;
 }
 
-/** Turn a single-gap fill/choice exercise into a drag-from-bank exercise. */
-export function asBank(ctx: Ctx, ex: Exercise, distractors = 2): Exercise {
+/**
+ * Turn a single-gap fill/choice exercise into a drag-from-bank exercise.
+ * The bank holds twice as many tiles as gaps: every gap gets at least one confusable distractor
+ * (another form of the same verb, another article …) where available.
+ */
+export function asBank(ctx: Ctx, ex: Exercise): Exercise {
+  let items: BankItem[];
+  let pools: string[][];
   if (ex.type === 'fill') {
-    const items = ex.items.filter((i) => i.answers.length === 1);
-    return {
-      type: 'bank',
-      title: ex.title,
-      instruction: 'Перетащите слова из банка в пропуски (или нажмите на слово, а потом на пропуск).',
-      items: items.map((i) => ({ parts: i.parts, answers: i.answers[0], hint: i.hint, srs: i.srs?.[0] })),
-      bank: shuffle(ctx.rng, items.map((i) => i.answers[0][0])),
-    };
+    const single = ex.items.filter((i) => i.answers.length === 1);
+    items = single.map((i) => ({ parts: i.parts, answers: i.answers[0], hint: i.hint, srs: i.srs?.[0] }));
+    pools = single.map((i) => i.distractors ?? []);
+  } else if (ex.type === 'choice') {
+    const withGap = ex.items.filter((i) => i.parts);
+    items = withGap.map((i) => ({ parts: i.parts!, answers: [i.options[i.answer]], hint: i.hint, srs: i.srs }));
+    pools = withGap.map((i) => i.options.filter((_, k) => k !== i.answer));
+  } else return ex;
+
+  // Each gap contributes its own wrong options first (round-robin). A distractor may coincide with another
+  // gap's answer — an extra copy is still a trap. Repeats fill any remaining shortfall.
+  const lists = pools.map((p, i) => shuffle(ctx.rng, [...new Set(p)].filter((x) => !items[i].answers.includes(x))));
+  const all = [...new Set(lists.flat())];
+  const extra: string[] = [];
+  const used = new Set<string>();
+  while (extra.length < items.length && lists.some((l) => l.length)) {
+    for (const l of lists) {
+      while (l.length && used.has(l[0])) l.shift();
+      const next = l.shift();
+      if (next !== undefined && extra.length < items.length) {
+        extra.push(next);
+        used.add(next);
+      }
+    }
   }
-  if (ex.type === 'choice') {
-    const items = ex.items.filter((i) => i.parts);
-    const answers = items.map((i) => i.options[i.answer]);
-    const extra = shuffle(ctx.rng, [...new Set(items.flatMap((i) => i.options))].filter((o) => !answers.includes(o))).slice(0, distractors);
-    return {
-      type: 'bank',
-      title: ex.title,
-      instruction: 'Перетащите слова из банка в пропуски (или нажмите на слово, а потом на пропуск).',
-      items: items.map((i) => ({ parts: i.parts!, answers: [i.options[i.answer]], hint: i.hint, srs: i.srs })),
-      bank: shuffle(ctx.rng, [...answers, ...extra]),
-    };
-  }
-  return ex;
+  for (let k = 0; extra.length < items.length && all.length; k++) extra.push(all[k % all.length]);
+  return {
+    type: 'bank',
+    title: ex.title,
+    instruction: 'Перетащите слова из банка в пропуски (или нажмите на слово, а потом на пропуск). Лишние слова останутся.',
+    items,
+    bank: shuffle(ctx.rng, [...items.map((i) => i.answers[0]), ...extra]),
+  };
 }
 
 export function sortEx(title: string, instruction: string, categories: string[], items: { text: string; cat: number; srs?: string }[]): Exercise {
@@ -740,7 +777,7 @@ export function prepChoiceEx(ctx: Ctx, n = 6): Exercise {
       parts: [before, 0, after],
       options,
       answer: options.indexOf(prep),
-      hint: verbLabel(act.verb),
+      hint: pv.ru,
       srs: srsKey.prep(act.v, prep),
       explain: `${verbLabel(act.verb)} ${prep} + ${pv.case === 'akk' ? 'Akk' : 'Dat'} — ${pv.ru}`,
     };

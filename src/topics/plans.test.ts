@@ -76,6 +76,7 @@ function validate(ex: Exercise, where: string) {
     case 'bank':
       expect(ex.items.length, where).toBeGreaterThan(0);
       for (const it of ex.items) expect(ex.bank, where).toContain(it.answers[0]);
+      expect(ex.bank.length, `${where} ${JSON.stringify(ex.bank)}`).toBe(ex.items.length * 2);
       break;
   }
 }

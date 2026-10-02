@@ -3,11 +3,13 @@ import { EXPLAIN } from '../topics/explanations';
 import { href } from '../lib/router';
 import { useProgress } from '../lib/progress';
 import { LevelBadge, ScoreBadge } from './common';
+import { aiReady, providerLabel, useAISettings } from '../ai/llm';
 import s from './pages.module.css';
 
 export function TopicPage({ id }: { id: string }) {
   const topic = getTopic(id);
   const progress = useProgress();
+  const ai = useAISettings();
   if (!topic) return <p>Тема не найдена. <a href={href('/')}>Назад</a></p>;
   const Explain = EXPLAIN[id];
   const idx = TOPICS.findIndex((t) => t.id === id);
@@ -40,6 +42,11 @@ export function TopicPage({ id }: { id: string }) {
         <a className={s.startBtn} href={href(`/t/${id}/practice`)}>
           {stat ? 'Тренироваться снова' : 'Начать упражнения'} →
         </a>
+        {aiReady(ai) && (
+          <a className={s.aiBtn} href={href(`/t/${id}/ai`)}>
+            ✨ Новые упражнения от {providerLabel(ai)}
+          </a>
+        )}
       </div>
 
       {next && (

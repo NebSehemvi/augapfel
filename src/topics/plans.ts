@@ -195,7 +195,7 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
         ...sample(ctx.rng, COMMON_SEIN, 5).map((v) => ({ text: v, cat: 1, srs: B.srsKey.aux(getVerb(v)) })),
       ]),
     ),
-    B.asBank(ctx, B.choiceAux(ctx), 0),
+    B.asBank(ctx, B.choiceAux(ctx)),
     B.formsEx(B.themeVerbs(ctx, 4, (v) => v.kind !== 'weak' && v.kind !== 'modal'), ['pp', 'aux'], 'Partizip II сильных глаголов'),
     B.fillVerb(ctx, { tense: 'perf', pred: (a) => a.verb.kind !== 'weak', n: 5, title: 'Perfekt: сильные глаголы' }),
     B.orderEx(ctx, { tense: 'perf', order: 'T', pred: (a) => a.verb.aux[0] === 'sein', fixFirst: true }),

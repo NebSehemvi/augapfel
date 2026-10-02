@@ -1,0 +1,254 @@
+[
+  {
+    "id": "school-schule",
+    "theme": "school",
+    "level": "A1",
+    "title": "Die Schule",
+    "source": "Schule",
+    "paragraphs": [
+      "In der Schule unterrichten Lehrer, und die Schüler lernen. Zu einer Schule gehört auch ein Direktor oder eine Direktorin. Mit „Schule“ meint man manchmal auch das Gebäude.",
+      "In der Schule lernen die Kinder viele Fächer: Mathematik, Deutsch, Englisch, Musik, Sport und vieles mehr. Eine Stunde dauert meistens 45 Minuten. Zwischen den Stunden gibt es eine Pause.",
+      "In Deutschland gehen Kinder ab sechs Jahren in die Grundschule. Danach gibt es verschiedene Schulen. Jedes Bundesland hat ein bisschen andere Regeln. In Österreich sind die Regeln im ganzen Land gleich.",
+      "Für jedes Fach bekommen die Schüler Noten. In Deutschland ist die Eins die beste Note und die Sechs die schlechteste."
+    ],
+    "glossary": {
+      "Schüler": {
+        "lemma": "der Schüler",
+        "pos": "noun",
+        "ru": "ученик",
+        "en": "pupil"
+      },
+      "Direktor": {
+        "lemma": "der Direktor",
+        "pos": "noun",
+        "ru": "директор",
+        "en": "headmaster"
+      },
+      "Direktorin": {
+        "lemma": "die Direktorin",
+        "pos": "noun",
+        "ru": "директор (ж)",
+        "en": "headmistress"
+      },
+      "Fächer": {
+        "lemma": "das Fach",
+        "pos": "noun",
+        "ru": "предмет (школьный)",
+        "en": "subject"
+      },
+      "Fach": {
+        "lemma": "das Fach",
+        "pos": "noun",
+        "ru": "предмет (школьный)",
+        "en": "subject"
+      },
+      "Mathematik": {
+        "lemma": "die Mathematik",
+        "pos": "noun",
+        "ru": "математика",
+        "en": "maths"
+      },
+      "Grundschule": {
+        "lemma": "die Grundschule",
+        "pos": "noun",
+        "ru": "начальная школа",
+        "en": "primary school"
+      }
+    },
+    "questions": [
+      {
+        "q": "Wie lange dauert eine Stunde meistens?",
+        "options": [
+          "45 Minuten.",
+          "60 Minuten.",
+          "90 Minuten."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Ab wann gehen Kinder in Deutschland in die Grundschule?",
+        "options": [
+          "Ab drei Jahren.",
+          "Ab sechs Jahren.",
+          "Ab zehn Jahren."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Welche Note ist in Deutschland die beste?",
+        "options": [
+          "Die Sechs.",
+          "Die Drei.",
+          "Die Eins."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "school-bibliothek",
+    "theme": "school",
+    "level": "A1",
+    "title": "Die Bibliothek",
+    "source": "Bibliothek",
+    "paragraphs": [
+      "Eine Bibliothek ist ein Ort mit sehr vielen Büchern. Man sagt auch „Bücherei“. Heute gibt es dort auch Filme, Zeitschriften und Spiele.",
+      "Es gibt kleine und große Bibliotheken. Eine kleine Stadtbücherei hat vielleicht 10.000 Bücher. Sehr große Bibliotheken haben mehrere Millionen Bücher. Auch Universitäten haben Bibliotheken für die Studenten.",
+      "Für eine Bibliothek braucht man meistens einen Ausweis. Oft kostet er ein bisschen Geld im Jahr. Mit dem Ausweis kann man Bücher ausleihen und mit nach Hause nehmen. Nach drei oder vier Wochen bringt man die Bücher zurück.",
+      "In einer Bibliothek muss man leise sein. Viele Menschen lernen oder lesen dort in Ruhe."
+    ],
+    "glossary": {
+      "Bücherei": {
+        "lemma": "die Bücherei",
+        "pos": "noun",
+        "ru": "библиотека",
+        "en": "library"
+      },
+      "Zeitschriften": {
+        "lemma": "die Zeitschrift",
+        "pos": "noun",
+        "ru": "журнал",
+        "en": "magazine"
+      },
+      "Stadtbücherei": {
+        "lemma": "die Stadtbücherei",
+        "pos": "noun",
+        "ru": "городская библиотека",
+        "en": "public library"
+      },
+      "Ausweis": {
+        "lemma": "der Ausweis",
+        "pos": "noun",
+        "ru": "удостоверение, читательский билет",
+        "en": "ID card, library card"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was findet man in einer Bibliothek?",
+        "options": [
+          "Viele Bücher.",
+          "Viele Autos.",
+          "Viele Tiere."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was braucht man meistens für eine Bibliothek?",
+        "options": [
+          "Ein Ticket.",
+          "Einen Ausweis.",
+          "Einen Pass."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie muss man in einer Bibliothek sein?",
+        "options": [
+          "Laut.",
+          "Schnell.",
+          "Leise."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "school-universitaet",
+    "theme": "school",
+    "level": "A2",
+    "title": "Die Universität",
+    "source": "Universität",
+    "paragraphs": [
+      "Eine Universität ist eine besondere Schule für Erwachsene. Man nennt sie auch Hochschule oder kurz „Uni“. Nach der Schule kann man dort weiterlernen. Das nennt man „studieren“.",
+      "Nicht jeder darf an einer Universität studieren. Man braucht einen bestimmten Schulabschluss. In Deutschland heißt er „Abitur“, in Österreich und in der Schweiz „Matura“.",
+      "Man muss sich für einen Studienplatz bewerben. Manche Fächer, zum Beispiel Medizin, sind sehr beliebt. Dann gibt es mehr Bewerber als Plätze, und oft entscheiden die Noten.",
+      "Meine Schwester hat in Wien Biologie studiert. Sie hat oft bis spät in der Bibliothek gelernt, weil die Prüfungen sehr schwer waren. Am Ende hat sie alle Prüfungen bestanden."
+    ],
+    "glossary": {
+      "Hochschule": {
+        "lemma": "die Hochschule",
+        "pos": "noun",
+        "ru": "высшее учебное заведение",
+        "en": "university, college"
+      },
+      "Uni": {
+        "lemma": "die Uni",
+        "pos": "noun",
+        "ru": "универ",
+        "en": "uni"
+      },
+      "Schulabschluss": {
+        "lemma": "der Schulabschluss",
+        "pos": "noun",
+        "ru": "аттестат об окончании школы",
+        "en": "school-leaving qualification"
+      },
+      "Abitur": {
+        "lemma": "das Abitur",
+        "pos": "noun",
+        "ru": "аттестат зрелости (Германия)",
+        "en": "A-levels (Germany)"
+      },
+      "Matura": {
+        "lemma": "die Matura",
+        "pos": "noun",
+        "ru": "аттестат зрелости (Австрия, Швейцария)",
+        "en": "school-leaving exam (AT/CH)"
+      },
+      "Studienplatz": {
+        "lemma": "der Studienplatz",
+        "pos": "noun",
+        "ru": "место в вузе",
+        "en": "university place"
+      },
+      "Fächer": {
+        "lemma": "das Fach",
+        "pos": "noun",
+        "ru": "предмет, специальность",
+        "en": "subject"
+      },
+      "Bewerber": {
+        "lemma": "der Bewerber",
+        "pos": "noun",
+        "ru": "кандидат, абитуриент",
+        "en": "applicant"
+      },
+      "Biologie": {
+        "lemma": "die Biologie",
+        "pos": "noun",
+        "ru": "биология",
+        "en": "biology"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was braucht man in Deutschland für die Universität?",
+        "options": [
+          "Das Abitur.",
+          "Einen Führerschein.",
+          "Ein Auto."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was passiert, wenn ein Fach sehr beliebt ist?",
+        "options": [
+          "Das Fach ist kostenlos.",
+          "Oft entscheiden die Noten.",
+          "Jeder bekommt einen Platz."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was hat die Schwester studiert?",
+        "options": [
+          "Medizin.",
+          "Mathematik.",
+          "Biologie."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

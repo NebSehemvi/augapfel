@@ -1,0 +1,313 @@
+[
+  {
+    "id": "travel-eisenbahn",
+    "theme": "travel",
+    "level": "A1",
+    "title": "Die Eisenbahn",
+    "source": "Eisenbahn",
+    "paragraphs": [
+      "Mit der Eisenbahn fährt man schnell von Ort zu Ort, von einem Bahnhof zum anderen. Der Name kommt von den Schienen. Sie sind aus Eisen.",
+      "Ein Zug hat eine Lokomotive und viele Wagen. Die Lokomotive zieht die Wagen. Früher fuhren Lokomotiven mit Dampf, heute fahren die meisten Züge mit Strom.",
+      "Schon die alten Römer hatten Spuren für ihre Wagen. Später gab es Schienen aus Holz und dann aus Eisen. Aber Pferde oder Menschen mussten die Wagen ziehen. Ab dem Jahr 1800 hat man Dampfmaschinen gebaut.",
+      "Heute fahren viele Menschen jeden Tag mit dem Zug zur Arbeit. In Deutschland gibt es auch sehr schnelle Züge: den ICE. Er fährt bis zu 300 Kilometer pro Stunde."
+    ],
+    "glossary": {
+      "Eisenbahn": {
+        "lemma": "die Eisenbahn",
+        "pos": "noun",
+        "ru": "железная дорога",
+        "en": "railway"
+      },
+      "Eisen": {
+        "lemma": "das Eisen",
+        "pos": "noun",
+        "ru": "железо",
+        "en": "iron"
+      },
+      "Lokomotive": {
+        "lemma": "die Lokomotive",
+        "pos": "noun",
+        "ru": "локомотив",
+        "en": "locomotive"
+      },
+      "Lokomotiven": {
+        "lemma": "die Lokomotive",
+        "pos": "noun",
+        "ru": "локомотив",
+        "en": "locomotive"
+      },
+      "Wagen": {
+        "lemma": "der Wagen",
+        "pos": "noun",
+        "ru": "вагон; повозка",
+        "en": "carriage, wagon"
+      },
+      "Dampf": {
+        "lemma": "der Dampf",
+        "pos": "noun",
+        "ru": "пар",
+        "en": "steam"
+      },
+      "Römer": {
+        "lemma": "der Römer",
+        "pos": "noun",
+        "ru": "римлянин",
+        "en": "Roman"
+      },
+      "Spuren": {
+        "lemma": "die Spur",
+        "pos": "noun",
+        "ru": "колея, след",
+        "en": "track"
+      },
+      "Dampfmaschinen": {
+        "lemma": "die Dampfmaschine",
+        "pos": "noun",
+        "ru": "паровая машина",
+        "en": "steam engine"
+      },
+      "ICE": {
+        "lemma": "der ICE",
+        "pos": "noun",
+        "ru": "скоростной поезд ICE",
+        "en": "high-speed train"
+      },
+      "Kilometer": {
+        "lemma": "der Kilometer",
+        "pos": "noun",
+        "ru": "километр",
+        "en": "kilometre"
+      }
+    },
+    "questions": [
+      {
+        "q": "Woher kommt der Name „Eisenbahn“?",
+        "options": [
+          "Von den Schienen aus Eisen.",
+          "Von den Pferden.",
+          "Von einer Stadt."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was macht die Lokomotive?",
+        "options": [
+          "Sie verkauft Fahrkarten.",
+          "Sie zieht die Wagen.",
+          "Sie baut Schienen."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wie schnell fährt der ICE?",
+        "options": [
+          "30 Kilometer pro Stunde.",
+          "100 Kilometer pro Stunde.",
+          "Bis zu 300 Kilometer pro Stunde."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "travel-flughafen",
+    "theme": "travel",
+    "level": "A1",
+    "title": "Am Flughafen",
+    "source": "Flughafen",
+    "paragraphs": [
+      "Am Flughafen starten und landen Flugzeuge. Menschen steigen ein und aus. Flughäfen brauchen viel Platz, viel mehr als Bahnhöfe. Die Flugzeuge brauchen lange Bahnen für den Start und die Landung.",
+      "Wer fliegen will, kommt zuerst ins Terminal. Das ist eine große Halle. Dort gibt man den Koffer ab und zeigt das Ticket und den Pass. Dann wartet man am Gate auf das Flugzeug.",
+      "In Deutschland gibt es ungefähr 40 Flughäfen. Die größten sind in Frankfurt, München, Berlin, Düsseldorf und Hamburg. Der größte Flughafen der Welt ist in Atlanta in den USA. Dort fliegen jedes Jahr mehr als 95 Millionen Menschen ab oder kommen an."
+    ],
+    "glossary": {
+      "Bahnen": {
+        "lemma": "die Bahn",
+        "pos": "noun",
+        "ru": "полоса; дорога",
+        "en": "runway; track"
+      },
+      "Start": {
+        "lemma": "der Start",
+        "pos": "noun",
+        "ru": "взлёт, старт",
+        "en": "take-off"
+      },
+      "Landung": {
+        "lemma": "die Landung",
+        "pos": "noun",
+        "ru": "посадка",
+        "en": "landing"
+      },
+      "Terminal": {
+        "lemma": "das Terminal",
+        "pos": "noun",
+        "ru": "терминал",
+        "en": "terminal"
+      },
+      "Halle": {
+        "lemma": "die Halle",
+        "pos": "noun",
+        "ru": "зал, холл",
+        "en": "hall"
+      },
+      "Gate": {
+        "lemma": "das Gate",
+        "pos": "noun",
+        "ru": "выход на посадку",
+        "en": "gate"
+      },
+      "Frankfurt": {
+        "lemma": "Frankfurt",
+        "pos": "noun",
+        "ru": "Франкфурт",
+        "en": "Frankfurt"
+      },
+      "München": {
+        "lemma": "München",
+        "pos": "noun",
+        "ru": "Мюнхен",
+        "en": "Munich"
+      },
+      "Düsseldorf": {
+        "lemma": "Düsseldorf",
+        "pos": "noun",
+        "ru": "Дюссельдорф",
+        "en": "Düsseldorf"
+      },
+      "Hamburg": {
+        "lemma": "Hamburg",
+        "pos": "noun",
+        "ru": "Гамбург",
+        "en": "Hamburg"
+      },
+      "Atlanta": {
+        "lemma": "Atlanta",
+        "pos": "noun",
+        "ru": "Атланта",
+        "en": "Atlanta"
+      },
+      "USA": {
+        "lemma": "die USA (мн.)",
+        "pos": "noun",
+        "ru": "США",
+        "en": "USA"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was passiert am Flughafen?",
+        "options": [
+          "Flugzeuge starten und landen.",
+          "Züge fahren ab.",
+          "Schiffe kommen an."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was ist das Terminal?",
+        "options": [
+          "Ein kleines Flugzeug.",
+          "Eine große Halle.",
+          "Ein Ticket."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Wo ist der größte Flughafen der Welt?",
+        "options": [
+          "In Frankfurt.",
+          "In London.",
+          "In Atlanta."
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "travel-hotel",
+    "theme": "travel",
+    "level": "A2",
+    "title": "Im Hotel",
+    "source": "Hotel",
+    "paragraphs": [
+      "Ein Hotel ist ein Gebäude mit vielen Zimmern. Dort kann man eine oder mehrere Nächte schlafen, aber man muss dafür bezahlen. Man übernachtet im Hotel zum Beispiel im Urlaub oder auf einer Geschäftsreise.",
+      "Das Wort „Hotel“ kommt aus dem Französischen. „Hôte“ bedeutet „Gastgeber“.",
+      "Viele Hotels haben auch ein Restaurant. Oft ist das Frühstück im Preis inklusive, aber das Abendessen muss man extra bezahlen. Nicht alle Hotels sind gleich gut und gleich teuer. Die Sterne zeigen, wie gut ein Hotel ist: Ein Stern ist einfach, fünf Sterne sind Luxus.",
+      "Letzten Sommer habe ich in einem kleinen Hotel am Meer übernachtet. Das Zimmer war nicht groß, aber das Frühstück war fantastisch. Ich habe jeden Morgen frische Brötchen und Obst gegessen."
+    ],
+    "glossary": {
+      "Zimmern": {
+        "lemma": "das Zimmer",
+        "pos": "noun",
+        "ru": "комната, номер",
+        "en": "room"
+      },
+      "Geschäftsreise": {
+        "lemma": "die Geschäftsreise",
+        "pos": "noun",
+        "ru": "командировка",
+        "en": "business trip"
+      },
+      "Hôte": {
+        "lemma": "hôte (франц.)",
+        "pos": "other",
+        "ru": "хозяин (по-французски)",
+        "en": "host (French)"
+      },
+      "Gastgeber": {
+        "lemma": "der Gastgeber",
+        "pos": "noun",
+        "ru": "хозяин (принимающий гостей)",
+        "en": "host"
+      },
+      "Sterne": {
+        "lemma": "der Stern",
+        "pos": "noun",
+        "ru": "звезда",
+        "en": "star"
+      },
+      "Stern": {
+        "lemma": "der Stern",
+        "pos": "noun",
+        "ru": "звезда",
+        "en": "star"
+      },
+      "Luxus": {
+        "lemma": "der Luxus",
+        "pos": "noun",
+        "ru": "роскошь",
+        "en": "luxury"
+      }
+    },
+    "questions": [
+      {
+        "q": "Was bedeutet „hôte“?",
+        "options": [
+          "Gastgeber.",
+          "Zimmer.",
+          "Frühstück."
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Was muss man im Hotel oft extra bezahlen?",
+        "options": [
+          "Das Zimmer.",
+          "Das Abendessen.",
+          "Das Bett."
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Was zeigen die Sterne?",
+        "options": [
+          "Wie groß das Hotel ist.",
+          "Wie alt das Hotel ist.",
+          "Wie gut das Hotel ist."
+        ],
+        "answer": 2
+      }
+    ]
+  }
+]

@@ -12,10 +12,12 @@ interface Props {
   /** e.g. "4 из 5" */
   score?: { correct: number; total: number };
   umlauts?: boolean;
+  /** hide the check button until the exercise reports itself as checked (self-paced views) */
+  hideCheck?: boolean;
   children: ReactNode;
 }
 
-export function Frame({ title, instruction, checked, canCheck, onCheck, onNext, score, umlauts, children }: Props) {
+export function Frame({ title, instruction, checked, canCheck, onCheck, onNext, score, umlauts, hideCheck, children }: Props) {
   const perfect = score && score.correct === score.total;
   return (
     <form
@@ -45,7 +47,7 @@ export function Frame({ title, instruction, checked, canCheck, onCheck, onNext, 
             <button type="submit" className={s.primary} autoFocus>
               Дальше →
             </button>
-          ) : (
+          ) : hideCheck ? null : (
             <button type="submit" className={s.primary} disabled={!canCheck}>
               Проверить
             </button>
