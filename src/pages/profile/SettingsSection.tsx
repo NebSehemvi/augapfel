@@ -13,6 +13,12 @@ export function SettingsSection() {
         hint="Удобно, если нет немецкой клавиатуры. Ответ засчитывается, но правильное написание покажется."
       />
       <Toggle
+        checked={settings.genderColors}
+        onChange={(v) => updateSettings({ genderColors: v })}
+        label="Цвета родов: der · die · das"
+        hint="Существительные в лексике, карточках и переводах окрашены по роду: der — синий, die — красный, das — зелёный."
+      />
+      <Toggle
         checked={settings.includeRare}
         onChange={(v) => updateSettings({ includeRare: v })}
         label="Использовать редкие глаголы (B1) в упражнениях"

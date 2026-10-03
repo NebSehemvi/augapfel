@@ -1,0 +1,19 @@
+.der {
+  color: var(--der);
+}
+
+.die {
+  color: var(--die);
+}
+
+.das {
+  color: var(--das);
+}
+
+.pl {
+  color: var(--pl);
+}
+
+.plural {
+  opacity: 0.75;
+}

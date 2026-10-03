@@ -257,3 +257,30 @@
   font-size: 0.9rem;
   color: var(--muted);
 }
+
+/* three answers (der / die / das, cases, prepositions) side by side */
+.grid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ---------- listening ---------- */
+
+.listen {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  margin: 0.6rem auto 1.2rem;
+  width: 120px;
+  padding: 1rem 0 0.7rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--chip-line);
+  background: var(--chip);
+  font-size: 2.4rem;
+  line-height: 1;
+  box-shadow: var(--shadow);
+}
+
+.listenHint {
+  font-size: 0.75rem;
+  color: var(--muted);
+}

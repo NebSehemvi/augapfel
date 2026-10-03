@@ -11,6 +11,7 @@ import { TextInput } from '../common/TextInput';
 import { WordList } from '../common/WordList';
 import { WordRow } from '../common/WordRow';
 import s from './lexicon.module.css';
+import { Gendered } from '../../components/Gendered';
 
 /** The filtered lexicon grouped by theme / kind, with search; nouns and verbs can be starred into "⭐ Мои слова". */
 export function LexiconList({ entries }: { entries: LexEntry[] }) {
@@ -38,7 +39,7 @@ export function LexiconList({ entries }: { entries: LexEntry[] }) {
                   return (
                     <WordRow
                       key={e.id}
-                      word={germanForm(e)}
+                      word={<Gendered text={germanForm(e)} />}
                       meta={e.ru}
                       details={e.forms}
                       detailsLang="de"

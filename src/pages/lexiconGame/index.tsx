@@ -4,7 +4,7 @@ import type { Level } from '../../grammar/types';
 import type { LexMode, LexScope } from '../../exercises/lexiconGame';
 import { Game } from './Game';
 
-/** /lexicon/<learn|review|speed>?kind&group&levels */
+/** /lexicon/<learn|review|speed|articles>?kind&group&levels */
 export function LexiconGamePage({ route }: { route: Route }) {
   const mode = route.path[1] as LexMode;
   const q = route.query;

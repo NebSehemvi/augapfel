@@ -34,6 +34,8 @@ export interface Settings {
   level: 'A1' | 'A2';
   includeRare: boolean;
   lenientUmlauts: boolean;
+  /** colour nouns by gender (der blue, die red, das green) */
+  genderColors: boolean;
 }
 
 export interface Progress {
@@ -60,7 +62,7 @@ function empty(): Progress {
     words: {},
     recentThemes: [],
     days: [],
-    settings: { level: 'A1', includeRare: false, lenientUmlauts: true },
+    settings: { level: 'A1', includeRare: false, lenientUmlauts: true, genderColors: true },
   };
 }
 

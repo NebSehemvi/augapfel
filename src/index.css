@@ -17,6 +17,11 @@
   --info-soft: #eaf1fb;
   --chip: #ffffff;
   --chip-line: #d6d3ca;
+  /* noun genders: der / die / das, plural-only */
+  --der: #2459d6;
+  --die: #c72f4a;
+  --das: #1d8a46;
+  --pl: #8a4fd0;
   --shadow: 0 1px 2px rgb(0 0 0 / 6%), 0 4px 16px rgb(0 0 0 / 5%);
   --radius: 16px;
   --radius-sm: 10px;
@@ -51,6 +56,10 @@
     --info-soft: #1d2a3d;
     --chip: #2a2a2f;
     --chip-line: #44444b;
+    --der: #7fa8ff;
+    --die: #ff8098;
+    --das: #5fd98c;
+    --pl: #c39bff;
     --shadow: 0 1px 2px rgb(0 0 0 / 40%);
 
     color-scheme: dark;

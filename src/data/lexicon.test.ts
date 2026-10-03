@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { LEX_NOUNS, LEX_PRONOUNS, LEX_VERBS } from './lexicon';
 import { VERBS, verbKey } from './verbs';
 import { VERB_GOV } from './verbGov';
-import { aspectQuestion, cardQuestion, hasCase, isLearned, verbAspects, learnSteps, learnWords, LEARN_MINE, LEARN_SIZE, reviewQuestions, reviewUpdate, scopeEntries, sessionEntries, speedQuestions, SPEED_SIZE, typeQuestion } from '../exercises/lexiconGame';
+import { articleQuestions, aspectQuestion, cardQuestion, dictationQuestion, hasCase, isLearned, listenQuestion, verbAspects, learnSteps, learnWords, LEARN_MINE, LEARN_SIZE, reviewQuestions, reviewUpdate, scopeEntries, sessionEntries, speedQuestions, SPEED_SIZE, typeQuestion } from '../exercises/lexiconGame';
 import type { SavedWord } from '../lib/progress';
+import { genderOf } from '../grammar/articles';
 import { germanForm } from '../exercises/vocab';
 import { validGap } from '../exercises/gaps';
 import { BUILTIN_TEXTS } from './texts';
@@ -214,3 +215,45 @@ describe('lexicon modes', () => {
     expect(ids).toContain('schnell');
   });
 });
+
+describe('genders and listening', () => {
+  it('reads the gender of a noun as shown in the app', () => {
+    expect(genderOf('der Sohn / die Söhne')).toBe('der');
+    expect(genderOf('die Milch')).toBe('die');
+    expect(genderOf('das Kind / die Kinder')).toBe('das');
+    expect(genderOf('die Eltern (мн.)')).toBe('pl');
+    expect(genderOf('die')).toBeNull(); // a pronoun, not a noun
+    expect(genderOf('helfen + Dat.')).toBeNull();
+  });
+
+  it('articles round: der/die/das in a fixed order, the noun without its article, no plural-only nouns', () => {
+    const qs = articleQuestions(LEX_NOUNS, seeded(3));
+    expect(qs.length).toBe(30);
+    for (const q of qs) {
+      expect(q.options).toEqual(['der', 'die', 'das']);
+      expect(q.entry.lemma).toBe(`${q.options[q.answer]} ${q.prompt}`);
+    }
+    expect(articleQuestions(LEX_NOUNS.filter((e) => e.lemma.endsWith('(мн.)')), seeded(1))).toEqual([]);
+  });
+
+  it('listening reads the singular with its article and hides nothing it then accepts', () => {
+    const sohn = LEX_NOUNS.find((e) => e.id === 'der Sohn')!;
+    const l = listenQuestion(sohn, seeded(1));
+    expect(l.spoken).toBe('der Sohn');
+    expect(l.options[l.answer]).toBe('сын');
+    const d = dictationQuestion(LEX_NOUNS.find((e) => e.lemma.startsWith('die Eltern'))!);
+    expect(d.spoken).toBe('die Eltern');
+    expect(d.accepted).toContain('die Eltern');
+    expect(dictationQuestion(LEX_VERBS.find((e) => e.id === 'helfen')!).spoken).toBe('helfen');
+  });
+
+  it('classic review uses listening only when a voice is available', () => {
+    const p = { ...getProgress(), words: {}, srs: {} as Record<string, { box: number; due: number; seen: number; wrong: number }> };
+    LEX_NOUNS.slice(0, 10).forEach((e) => (p.srs[`l|${e.id}|de-ru`] = { box: 1, due: 0, seen: 1, wrong: 0 }));
+    const kinds = (audio: boolean) =>
+      Array.from({ length: 20 }, (_, s) => reviewQuestions(LEX_NOUNS, p, seeded(s + 1), Date.now(), audio)).flat().filter((q) => q.listen).length;
+    expect(kinds(false)).toBe(0);
+    expect(kinds(true)).toBeGreaterThan(0);
+  });
+});
+

@@ -4,8 +4,10 @@ import { checkText, type CheckResult } from '../../lib/check';
 import { germanForm } from '../../exercises/vocab';
 import { UInput, UmlautBar, UmlautProvider } from '../../components/exercises/inputs';
 import { Button } from '../common/Button';
+import { ListenButton } from './ListenButton';
 import ex from '../../components/exercises/ex.module.css';
 import s from './game.module.css';
+import { Gendered } from '../../components/Gendered';
 
 /** Russian word → type the German one (nouns with article). A typo or a missing umlaut still counts. */
 export function TypeAnswer({ q, lenient, onAnswer, onNext }: { q: TypeQuestion; lenient: boolean; onAnswer: (ok: boolean) => void; onNext: () => void }) {
@@ -36,11 +38,15 @@ export function TypeAnswer({ q, lenient, onAnswer, onNext }: { q: TypeQuestion; 
           submit();
         }}
       >
-        <div className={s.modeLabel}>Напишите по-немецки</div>
-        <div className={ex.cardPrompt} lang="ru">
-          {q.prompt}
-          {q.sub && <span className={ex.cardSub}>{q.sub}</span>}
-        </div>
+        <div className={s.modeLabel}>{q.listen ? 'Напишите, что слышите' : 'Напишите по-немецки'}</div>
+        {q.listen && <ListenButton text={q.spoken!} />}
+        {/* dictation shows the meaning only once it's answered */}
+        {(!q.listen || res) && (
+          <div className={ex.cardPrompt} lang="ru">
+            {q.prompt}
+            {q.sub && <span className={ex.cardSub}>{q.sub}</span>}
+          </div>
+        )}
         <div className={s.typeRow}>
           <UInput
             className={s.typeInput}
@@ -58,7 +64,9 @@ export function TypeAnswer({ q, lenient, onAnswer, onNext }: { q: TypeQuestion; 
         {res && (
           <div className={s.solution} lang="de">
             {ok ? '✓ ' : '✗ '}
-            <b>{germanForm(q.entry)}</b>
+            <b>
+              <Gendered text={germanForm(q.entry)} />
+            </b>
             {res.note && <div className={s.hint}>{res.note}</div>}
           </div>
         )}
