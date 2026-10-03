@@ -550,54 +550,6 @@ export const EXPLAIN: Record<string, () => ReactNode> = {
     </>
   ),
 
-  'praeteritum-verben': () => (
-    <>
-      <H>Слабые глаголы: основа + -te</H>
-      <Tbl
-        head={['', 'machen', 'arbeiten']}
-        rows={[
-          ['ich', 'mach**te**', 'arbeit**ete**'],
-          ['du', 'mach**test**', 'arbeit**etest**'],
-          ['er/sie/es', 'mach**te**', 'arbeit**ete**'],
-          ['wir', 'mach**ten**', 'arbeit**eten**'],
-          ['ihr', 'mach**tet**', 'arbeit**etet**'],
-          ['sie/Sie', 'mach**ten**', 'arbeit**eten**'],
-        ]}
-      />
-      <H>Сильные глаголы: новая основа</H>
-      <P>
-        Основу Präteritum нужно знать (2-я форма в таблице). У <b>ich</b> и <b>er</b> нет окончания!
-      </P>
-      <Tbl
-        head={['', 'gehen', 'fahren', 'finden']}
-        rows={[
-          ['ich', '**ging**', '**fuhr**', '**fand**'],
-          ['du', 'ging**st**', 'fuhr**st**', 'fand**est**'],
-          ['er/sie/es', '**ging**', '**fuhr**', '**fand**'],
-          ['wir', 'ging**en**', 'fuhr**en**', 'fand**en**'],
-          ['ihr', 'ging**t**', 'fuhr**t**', 'fand**et**'],
-          ['sie/Sie', 'ging**en**', 'fuhr**en**', 'fand**en**'],
-        ]}
-      />
-      <P>
-        Сильные глаголы группируются по рядам чередования гласных — так их легче запомнить:
-      </P>
-      <List
-        items={[
-          '**ei – ie – ie**: bleiben – blieb – geblieben, schreiben',
-          '**ie – o – o**: fliegen – flog – geflogen, verlieren',
-          '**i – a – u**: finden – fand – gefunden, trinken, singen',
-          '**e – a – o**: helfen – half – geholfen, sprechen, nehmen',
-          '**a – u – a**: fahren – fuhr – gefahren, tragen, waschen',
-        ]}
-      />
-      <Tip>Смешанные глаголы: bringen – brachte – gebracht, denken – dachte, kennen – kannte, wissen – wusste.</Tip>
-      <Tip kind="en">
-        Как английские <i>drink – drank – drunk</i>, <i>sing – sang – sung</i>: trinken – trank – getrunken!
-      </Tip>
-    </>
-  ),
-
   'verben-praep': () => (
     <>
       <P>

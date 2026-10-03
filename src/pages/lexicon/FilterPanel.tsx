@@ -1,5 +1,5 @@
 import { THEMES } from '../../data/themes';
-import { GENERAL_GROUP } from '../../data/lexicon';
+import { GENERAL_GROUP, VERB_GROUP_LABEL } from '../../data/lexicon';
 import { PRONOUN_GROUP_LABEL } from '../../data/pronouns';
 import type { Level } from '../../grammar/types';
 import { Chips } from '../common/Chips';
@@ -10,16 +10,17 @@ import type { LexFilter } from './filter';
 const LEVELS: Level[] = ['A1', 'A2'];
 const KINDS: { value: LexFilter['kind']; label: string }[] = [
   { value: 'noun', label: 'Существительные' },
+  { value: 'verb', label: 'Глаголы' },
   { value: 'pron', label: 'Местоимения' },
   { value: 'mine', label: '⭐ Мои слова' },
 ];
 
-/** Nouns, pronouns or saved words; theme / group and level for the first two. */
+/** Nouns, verbs, pronouns or saved words; theme / group and level for all but the saved words. */
 export function FilterPanel({ filter, onChange }: { filter: LexFilter; onChange: (f: LexFilter) => void }) {
   const groups =
     filter.kind === 'noun'
       ? [{ id: 'all', label: 'Все темы' }, ...THEMES.map((t) => ({ id: t.id, label: `${t.emoji} ${t.name.ru}` })), GENERAL_GROUP]
-      : [{ id: 'all', label: 'Все' }, ...Object.entries(PRONOUN_GROUP_LABEL).map(([id, label]) => ({ id, label }))];
+      : [{ id: 'all', label: 'Все' }, ...Object.entries(filter.kind === 'verb' ? VERB_GROUP_LABEL : PRONOUN_GROUP_LABEL).map(([id, label]) => ({ id, label }))];
   const toggleLevel = (l: Level) =>
     onChange({ ...filter, levels: filter.levels.includes(l) ? (filter.levels.length > 1 ? filter.levels.filter((x) => x !== l) : filter.levels) : [...filter.levels, l] });
 

@@ -1,4 +1,5 @@
 import { VERBS } from '../data/verbs';
+import { GOV_LABEL, VERB_GOV } from '../data/verbGov';
 import { ALL_NOUNS } from '../data/themes';
 import { COMMON } from '../data/common';
 import { nounForm, nounLemma } from '../grammar/articles';
@@ -16,6 +17,8 @@ export interface WordInfo {
   en?: string;
   /** plural for nouns */
   pl?: string | null;
+  /** case a verb takes ("Dat.") */
+  gov?: string;
   /** e.g. "Präteritum от gehen" */
   note?: string;
   source: 'text' | 'app' | 'common' | 'wiktionary';
@@ -41,6 +44,12 @@ function verbDisplay(v: Verb) {
   return (v.refl ? 'sich ' : '') + v.inf;
 }
 
+/** The case a verb takes, for "helfen + Dat." in the popup. */
+const govOf = (lemma: string) => {
+  const code = VERB_GOV.get(lemma);
+  return code ? GOV_LABEL[code] || undefined : undefined;
+};
+
 function buildIndex(): Map<string, WordInfo> {
   const idx = new Map<string, WordInfo>();
   const put = (key: string, info: WordInfo) => {
@@ -62,7 +71,7 @@ function buildIndex(): Map<string, WordInfo> {
   const ordered = [...VERBS.filter((v) => !v.sep && !v.refl), ...VERBS.filter((v) => !v.sep && v.refl), ...VERBS.filter((v) => v.sep)];
   for (const v of ordered) {
     const lemma = verbDisplay(v);
-    const base: WordInfo = { lemma, pos: 'verb', ru: v.ru, en: v.en, source: 'app' };
+    const base: WordInfo = { lemma, pos: 'verb', ru: v.ru, en: v.en, gov: govOf(lemma), source: 'app' };
     put(v.inf.toLowerCase(), base);
     if (v.sep && !v.sep.endsWith(' ')) put(v.base, { ...base, note: `часть глагола ${v.inf}` });
     for (let p = 0; p < 6; p++) {
@@ -123,7 +132,7 @@ export function pluralOf(lemma: string): string | null | undefined {
 function fromGloss(g: GlossEntry): WordInfo {
   const pos = (g.pos as Pos) ?? 'other';
   const pl = g.pl !== undefined ? g.pl || null : pos === 'noun' ? pluralOf(g.lemma) : undefined;
-  return { lemma: g.lemma, pos, ru: g.ru, en: g.en, pl, note: g.note, source: 'text' };
+  return { lemma: g.lemma, pos, ru: g.ru, en: g.en, pl, gov: pos === 'verb' ? govOf(g.lemma) : undefined, note: g.note, source: 'text' };
 }
 
 /** Offline lookup: text glossary → app vocabulary → common words. */

@@ -4,7 +4,6 @@ import { useProgress, dueKeys } from './lib/progress';
 import { Home } from './pages/home';
 import { TopicPage } from './pages/topic';
 import { Practice } from './pages/practice';
-import { VerbsPage } from './pages/verbs';
 import { LexiconPage } from './pages/lexicon';
 import { LexiconGamePage } from './pages/lexiconGame';
 import { TextsPage } from './pages/texts';
@@ -18,7 +17,6 @@ export default function App() {
   const [section, id, sub] = route.path;
   const practicing =
     (section === 't' && (sub === 'practice' || sub === 'ai')) ||
-    (section === 'verbs' && id === 'train') ||
     (section === 'review' && id === 'start') ||
     (section === 'read' && sub === 'practice');
   const lexGame = section === 'lexicon' && ['learn', 'review', 'speed'].includes(id);
@@ -28,8 +26,7 @@ export default function App() {
   if (lexGame) page = <LexiconGamePage route={route} />;
   else if (practicing) page = <Practice route={route} />;
   else if (section === 't' && id) page = <TopicPage id={id} />;
-  else if (section === 'verbs') page = <VerbsPage />;
-  else if (section === 'lexicon' || section === 'words') page = <LexiconPage />;
+  else if (section === 'lexicon' || section === 'words' || section === 'verbs') page = <LexiconPage kind={section === 'verbs' ? 'verb' : undefined} />;
   else if (section === 'texts') page = <TextsPage />;
   else if (section === 'read' && id) page = <ReaderPage id={id} />;
   else if (section === 'review') page = <ReviewPage />;

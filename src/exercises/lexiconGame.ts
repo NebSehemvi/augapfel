@@ -1,7 +1,8 @@
-import { shuffle, type Rng } from '../lib/rng';
+import { pick, sample, shuffle, type Rng } from '../lib/rng';
 import type { Progress } from '../lib/progress';
 import type { Level } from '../grammar/types';
-import { lexKey, LEX_NOUNS, LEX_PRONOUNS, savedEntry, type LexEntry } from '../data/lexicon';
+import { lexKey, LEX_NOUNS, LEX_PRONOUNS, LEX_VERBS, savedEntry, type LexEntry } from '../data/lexicon';
+import { CASE_CODES, GOV_LABEL } from '../data/verbGov';
 import { cardsEx, germanForm, promptMeaning, type CardDirection } from './vocab';
 
 /*
@@ -42,6 +43,10 @@ export interface CardQuestion {
   answer: number;
   promptLang: 'de' | 'ru';
   optionsLang: 'de' | 'ru';
+  /** heading instead of "Что это значит?" / "Как это по-немецки?" */
+  label?: string;
+  /** a grammar question about the verb instead of its meaning */
+  asks?: VerbAspect;
 }
 
 export interface TypeQuestion {
@@ -66,7 +71,7 @@ export function myEntries(p: Progress): LexEntry[] {
 /** Entries of the chosen scope; A1 words come before A2 words (the order in which new words are taught). */
 export function scopeEntries(o: LexScope, p: Progress): LexEntry[] {
   if (o.kind === 'mine') return myEntries(p);
-  const list = (o.kind === 'noun' ? LEX_NOUNS : LEX_PRONOUNS).filter((e) => e.level && o.levels.includes(e.level) && (o.group === 'all' || e.group === o.group));
+  const list = (o.kind === 'noun' ? LEX_NOUNS : o.kind === 'verb' ? LEX_VERBS : LEX_PRONOUNS).filter((e) => e.level && o.levels.includes(e.level) && (o.group === 'all' || e.group === o.group));
   return [...list.filter((e) => e.level === 'A1'), ...list.filter((e) => e.level !== 'A1')];
 }
 
@@ -93,15 +98,78 @@ export function scopeStats(entries: LexEntry[], p: Progress, now = Date.now()) {
   return { total: entries.length, fresh: entries.length - learned.length, learned: learned.length, due: learned.filter((e) => isDue(e, p, now)).length };
 }
 
+/**
+ * Distractors of the same kind: pronouns for pronouns, lexicon verbs (with their case) for lexicon verbs —
+ * so the right card never stands out by having "+ Dat." — nouns otherwise. Saved verbs and adjectives
+ * that aren't in the lexicon draw from the app's general word pool.
+ */
+export function distractorPool(entry: LexEntry | undefined): { extraPool: LexEntry[]; onlyExtraPool?: boolean } {
+  if (entry?.pos === 'pron') return { extraPool: LEX_PRONOUNS };
+  if (entry?.kind === 'verb') return { extraPool: LEX_VERBS, onlyExtraPool: true };
+  return { extraPool: entry?.pos === 'noun' ? LEX_NOUNS : [] };
+}
+
 export function cardQuestion(entry: LexEntry, dir: CardDirection, rng: Rng): CardQuestion {
-  // saved verbs and adjectives get their distractors from the app's own word pool
-  const ex = cardsEx([entry], rng, { direction: dir, extraPool: entry.pos === 'pron' ? LEX_PRONOUNS : entry.pos === 'noun' ? LEX_NOUNS : [] });
+  const ex = cardsEx([entry], rng, { direction: dir, ...distractorPool(entry) });
   if (ex.type !== 'cards') throw new Error('expected cards');
   const it = ex.items[0];
   return { kind: 'cards', entry, dir, prompt: it.prompt, sub: it.sub, options: it.options, answer: it.answer, promptLang: dir === 'de-ru' ? 'de' : 'ru', optionsLang: dir === 'de-ru' ? 'ru' : 'de' };
 }
 
-/** Russian → type the German word; nouns need their article, the plural may be added; "sich" is optional. */
+/** What can be asked about a verb besides its meaning: its case, its Perfekt, its preposition. */
+export type VerbAspect = 'case' | 'perfekt' | 'prep';
+
+const ASPECT_LABEL: Record<VerbAspect, string> = { case: 'Какой падеж?', perfekt: 'Perfekt?', prep: 'Какой предлог?' };
+
+/** The grammar questions a word has (none for nouns, pronouns and verbs without an object). */
+export function verbAspects(e: LexEntry): VerbAspect[] {
+  if (e.kind !== 'verb') return [];
+  const out: VerbAspect[] = [];
+  if (e.govCode && CASE_CODES.includes(e.govCode)) out.push('case');
+  if (e.perfekt) out.push('perfekt');
+  if (e.prep) out.push('prep');
+  return out;
+}
+
+export const hasCase = (e: LexEntry) => verbAspects(e).includes('case');
+
+/**
+ * "helfen — which case?", "fahren — Perfekt?", "warten — which preposition?"
+ * (trains the same direction as de→ru cards: knowing the German word).
+ */
+export function aspectQuestion(entry: LexEntry, aspect: VerbAspect, rng: Rng): CardQuestion {
+  let prompt = entry.lemma;
+  let right: string;
+  let options: string[];
+  if (aspect === 'case') {
+    const codes = entry.prep ? (['A', 'D'] as const) : CASE_CODES;
+    const labels = codes.map((c) => `+ ${GOV_LABEL[c]}`);
+    options = rng() < 0.5 ? labels : [...labels].reverse();
+    right = `+ ${GOV_LABEL[entry.govCode!]}`;
+  } else if (aspect === 'perfekt') {
+    right = entry.perfekt![0];
+    options = shuffle(rng, entry.perfekt!);
+  } else {
+    prompt = `${entry.prep!.verb} ___`;
+    right = entry.prep!.prep;
+    options = shuffle(rng, [right, ...sample(rng, entry.prep!.wrong, 2)]);
+  }
+  return {
+    kind: 'cards',
+    entry,
+    dir: 'de-ru',
+    label: ASPECT_LABEL[aspect],
+    asks: aspect,
+    prompt,
+    sub: promptMeaning(entry.ru || entry.en),
+    options,
+    answer: options.indexOf(right),
+    promptLang: 'de',
+    optionsLang: 'de',
+  };
+}
+
+/** Russian → type the German word; nouns need their article, the plural may be added; "sich" is optional; a verb's case isn't typed. */
 export function typeQuestion(entry: LexEntry): TypeQuestion {
   const base = entry.lemma.replace(/ \(мн\.\)$/, '');
   const accepted = [base, entry.lemma, germanForm(entry), ...(base.startsWith('sich ') ? [base.slice(5)] : [])];
@@ -112,7 +180,8 @@ export function typeQuestion(entry: LexEntry): TypeQuestion {
 export const questionKey = (q: Question) => lexKey(q.entry, q.kind === 'type' ? 'ru-de' : q.dir);
 
 /** The same question again, with the cards shuffled anew. */
-export const repeatQuestion = (q: Question, rng: Rng): Question => (q.kind === 'cards' ? cardQuestion(q.entry, q.dir, rng) : q);
+export const repeatQuestion = (q: Question, rng: Rng): Question =>
+  q.kind === 'type' ? q : q.asks ? aspectQuestion(q.entry, q.asks, rng) : cardQuestion(q.entry, q.dir, rng);
 
 const randomDir = (rng: Rng): CardDirection => (rng() < 0.5 ? 'de-ru' : 'ru-de');
 const otherDir = (d: CardDirection): CardDirection => (d === 'de-ru' ? 'ru-de' : 'de-ru');
@@ -128,7 +197,7 @@ export function learnWords(entries: LexEntry[], p: Progress, rng: Rng): LexEntry
 
 /**
  * Learning new words: show word 1, test it; show word 2, test it, test word 1 the other way round; …
- * then a final mixed round. Every word is tested three times, in both directions.
+ * then a final mixed round (for verbs: their case, Perfekt or preposition). Every word is tested three times.
  */
 export function learnSteps(entries: LexEntry[], p: Progress, rng: Rng): Step[] {
   const words = learnWords(entries, p, rng);
@@ -141,7 +210,11 @@ export function learnSteps(entries: LexEntry[], p: Progress, rng: Rng): Step[] {
     if (i > 0) steps.push(cardQuestion(words[i - 1], otherDir(firstDir.get(words[i - 1])!), rng));
   });
   if (words.length) steps.push(cardQuestion(words[words.length - 1], otherDir(firstDir.get(words[words.length - 1])!), rng));
-  const final = shuffle(rng, words).map((w) => cardQuestion(w, randomDir(rng), rng));
+  // the last round asks about a verb's grammar — it was shown on the word's card
+  const final = shuffle(rng, words).map((w) => {
+    const aspects = verbAspects(w);
+    return aspects.length ? aspectQuestion(w, pick(rng, aspects), rng) : cardQuestion(w, randomDir(rng), rng);
+  });
   // never ask the same word twice in a row
   if (final.length > 1 && steps.length && final[0].entry === (steps[steps.length - 1] as Question).entry) final.push(final.shift()!);
   return [...steps, ...final];
@@ -157,13 +230,15 @@ function reviewOrder(entries: LexEntry[], p: Progress, rng: Rng, now: number): L
   return learned.sort((a, b) => score(a) - score(b));
 }
 
-/** Classic review: cards in both directions and typing, one question per word. */
+/** Classic review: cards in both directions, typing and (verbs) case / Perfekt / preposition, one question per word. */
 export function reviewQuestions(entries: LexEntry[], p: Progress, rng: Rng, now = Date.now()): Question[] {
   return reviewOrder(entries, p, rng, now)
     .slice(0, REVIEW_SIZE)
     .map((e) => {
-      const r = rng();
-      return r < 0.34 ? typeQuestion(e) : cardQuestion(e, r < 0.67 ? 'de-ru' : 'ru-de', rng);
+      // typing, cards both ways and — for verbs — one of their grammar questions, equally often
+      const aspects = verbAspects(e);
+      const k = Math.floor(rng() * (aspects.length ? 4 : 3));
+      return k === 0 ? typeQuestion(e) : k === 3 ? aspectQuestion(e, pick(rng, aspects), rng) : cardQuestion(e, k === 1 ? 'de-ru' : 'ru-de', rng);
     });
 }
 

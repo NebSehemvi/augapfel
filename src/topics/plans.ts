@@ -2,7 +2,7 @@ import { pick, sample, shuffle } from '../lib/rng';
 import type { Ctx } from '../exercises/context';
 import type { Exercise, ChoiceItem } from '../exercises/types';
 import * as B from '../exercises/builders';
-import { CLASS_LABELS, TABLE_VERBS, VERBS, getVerb } from '../data/verbs';
+import { VERBS, getVerb } from '../data/verbs';
 import type { Verb } from '../grammar/types';
 import { PLURAL_TYPES, pluralType, AKK_PREPS, DAT_PREPS, GENDER_ART } from '../grammar/articles';
 import { PREP_VERBS } from '../data/prepVerbs';
@@ -300,35 +300,6 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
     ];
   },
 
-  'praeteritum-verben': (ctx) => {
-    const classVerbs = TABLE_VERBS.filter((v) => v.level !== 'B1' && v.cls && /^\d/.test(v.cls));
-    const classes = shuffle(ctx.rng, [...new Set(classVerbs.map((v) => v.cls!))]).slice(0, 3);
-    return [
-      B.formsEx(B.themeVerbs(ctx, 4, (v) => v.kind === 'strong' || v.kind === 'mixed'), ['praet'], 'Präteritum сильных глаголов'),
-      B.sortEx(
-        'Ряды чередования гласных',
-        'Распределите глаголы по рядам (как в таблице сильных глаголов).',
-        classes.map((c) => CLASS_LABELS[c]),
-        shuffle(
-          ctx.rng,
-          classes.flatMap((c, i) =>
-            sample(ctx.rng, classVerbs.filter((v) => v.cls === c), 3).map((v) => ({ text: `${v.inf} – ${v.praet[0]} – ${v.pp[0]}`, cat: i })),
-          ),
-        ),
-      ),
-      B.fillVerb(ctx, { tense: 'praet', pred: (a) => a.verb.kind !== 'weak', n: 5, title: 'Präteritum: вставьте глагол' }),
-      B.conjEx(ctx, pick(ctx.rng, B.themeVerbs(ctx, 4, (v) => v.kind === 'strong' && !v.refl)), 'praet'),
-      B.matchEx(
-        'Инфинитив — Präteritum',
-        'Соедините инфинитив и форму Präteritum.',
-        uniqueBy(B.themeVerbs(ctx, 8, (v) => v.kind !== 'weak' && !v.sep && !v.refl), (v) => v.praet[0])
-          .slice(0, 5)
-          .map((v) => [v.inf, v.praet[0]] as [string, string]),
-      ),
-      B.fillVerb(ctx, { tense: 'praet', pred: (a) => a.verb.kind === 'weak', n: 4, title: 'Präteritum слабых глаголов (-te)' }),
-    ];
-  },
-
   'verben-praep': (ctx) => [
     B.asBank(ctx, B.prepChoiceEx(ctx, 6)),
     B.matchEx(
@@ -377,11 +348,6 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
     B.wechselEx(ctx, 6),
   ],
 };
-
-function uniqueBy<T>(xs: T[], key: (x: T) => string): T[] {
-  const seen = new Set<string>();
-  return xs.filter((x) => (seen.has(key(x)) ? false : (seen.add(key(x)), true)));
-}
 
 function isDatOrAkk(f: { p?: string; case?: string }) {
   return !f.p || (AKK_PREPS as readonly string[]).includes(f.p) || (DAT_PREPS as readonly string[]).includes(f.p);

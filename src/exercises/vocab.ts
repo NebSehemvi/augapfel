@@ -13,6 +13,8 @@ export interface VocabWord {
   en?: string;
   /** plural of a noun (without article); null = none, undefined = unknown */
   pl?: string | null;
+  /** case a verb takes, e.g. "Dat." — shown as "helfen + Dat." */
+  gov?: string;
 }
 
 export const meaning = (w: VocabWord) => [w.ru, w.en].filter(Boolean).join(' · ');
@@ -22,8 +24,9 @@ export const promptMeaning = (x?: string) => (x && x.length > 40 && x.includes('
 /** Meaning in a given language ("ru" falls back to nothing, so distractors stay in one language). */
 const meaningIn = (w: VocabWord, lang: 'ru' | 'en') => first(lang === 'ru' ? w.ru : w.en);
 
-/** German form as shown on cards: nouns with article and plural ("der Sohn / die Söhne"). */
+/** German form as shown on cards: nouns with article and plural ("der Sohn / die Söhne"), verbs with their case ("helfen + Dat."). */
 export function germanForm(w: VocabWord): string {
+  if (w.gov) return `${w.lemma} + ${w.gov}`;
   if (w.pos !== 'noun') return w.lemma;
   return withPlural(w.lemma, w.pl !== undefined ? w.pl : pluralOf(w.lemma));
 }
@@ -47,10 +50,10 @@ export type CardDirection = 'de-ru' | 'ru-de';
 export function cardsEx(
   words: VocabWord[],
   rng: Rng,
-  opts: { srsKey?: (w: VocabWord) => string; extraPool?: VocabWord[]; direction?: CardDirection } = {},
+  opts: { srsKey?: (w: VocabWord) => string; extraPool?: VocabWord[]; onlyExtraPool?: boolean; direction?: CardDirection } = {},
 ): Exercise {
   const direction = opts.direction ?? 'de-ru';
-  const all = [...(opts.extraPool ?? []), ...pool()];
+  const all = opts.onlyExtraPool ? (opts.extraPool ?? []) : [...(opts.extraPool ?? []), ...pool()];
   const items: CardItem[] = words.map((w) => {
     // meanings in one language — Russian when known, otherwise English
     const lang = w.ru ? 'ru' : 'en';
