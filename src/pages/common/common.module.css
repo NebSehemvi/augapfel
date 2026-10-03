@@ -54,6 +54,7 @@
 
 .segment {
   display: inline-flex;
+  max-width: 100%;
   padding: 3px;
   border-radius: 12px;
   background: var(--surface-2);
@@ -68,6 +69,9 @@
   padding: 0.45rem 1.1rem;
   font-weight: 650;
   color: var(--muted);
+  /* never push the switch past its container on narrow screens */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .segOn {

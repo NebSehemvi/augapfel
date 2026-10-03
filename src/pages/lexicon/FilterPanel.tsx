@@ -5,10 +5,14 @@ import type { Level } from '../../grammar/types';
 import { Chips } from '../common/Chips';
 import { Field } from '../common/Field';
 import { Panel } from '../common/Panel';
-import { Segmented } from '../common/Segmented';
 import type { LexFilter } from './filter';
 
 const LEVELS: Level[] = ['A1', 'A2'];
+const KINDS: { value: LexFilter['kind']; label: string }[] = [
+  { value: 'noun', label: 'Существительные' },
+  { value: 'pron', label: 'Местоимения' },
+  { value: 'mine', label: '⭐ Мои слова' },
+];
 
 /** Nouns, pronouns or saved words; theme / group and level for the first two. */
 export function FilterPanel({ filter, onChange }: { filter: LexFilter; onChange: (f: LexFilter) => void }) {
@@ -22,16 +26,7 @@ export function FilterPanel({ filter, onChange }: { filter: LexFilter; onChange:
   return (
     <Panel>
       <Field label="Что учим">
-        <Segmented
-          value={filter.kind}
-          onChange={(kind) => onChange({ ...filter, kind, group: 'all' })}
-          ariaLabel="Часть речи"
-          options={[
-            { value: 'noun', label: 'Существительные' },
-            { value: 'pron', label: 'Местоимения' },
-            { value: 'mine', label: '⭐ Мои слова' },
-          ]}
-        />
+        <Chips options={KINDS.map((k) => k.value)} value={filter.kind} label={(k) => KINDS.find((x) => x.value === k)!.label} onChange={(kind) => onChange({ ...filter, kind, group: 'all' })} />
       </Field>
       {filter.kind !== 'mine' && (
         <>
