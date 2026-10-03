@@ -3,7 +3,8 @@ import { getVerb } from '../data/verbs';
 import { REFL_AKK, joinSep, praeteritum, present } from './conjugate';
 import { cap } from './subjects';
 
-export type Tense = 'pres' | 'perf' | 'praet';
+/** fut = Futur I (werden + infinitive) */
+export type Tense = 'pres' | 'perf' | 'praet' | 'fut';
 
 /**
  * Word orders:
@@ -48,6 +49,7 @@ interface VerbParts {
 }
 
 const SEIN = () => getVerb('sein');
+const WERDEN = () => getVerb('werden');
 const HABEN = () => getVerb('haben');
 
 export function verbParts(spec: ClauseSpec): VerbParts {
@@ -56,6 +58,11 @@ export function verbParts(spec: ClauseSpec): VerbParts {
   if (modal) {
     const fin = tense === 'praet' ? praeteritum(modal, p) : [present(modal, p)];
     return { finite: fin, end: verb.inf, sub: fin.map((f) => [verb.inf, f]) };
+  }
+  if (tense === 'fut') {
+    // Futur I: werden + infinitive (no modal verbs — "werde arbeiten müssen" is B1)
+    const fin = present(WERDEN(), p);
+    return { finite: [fin], end: verb.inf, sub: [[verb.inf, fin]] };
   }
   if (tense === 'perf') {
     const auxes = verb.aux.map((a) => present(a === 'sein' ? SEIN() : HABEN(), p));

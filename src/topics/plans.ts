@@ -286,6 +286,20 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
     B.writeEx(ctx, { tense: 'praet', start: 'time', modal: true }),
   ],
 
+  futur: (ctx) => {
+    const fut = (a: { verb: Verb }) => a.verb.inf !== 'werden' && a.verb.kind !== 'modal';
+    return [
+      B.conjEx(ctx, getVerb('werden')),
+      B.asBank(ctx, B.fillVerb(ctx, { tense: 'fut', pred: fut, n: 5, title: 'Futur I: werden + инфинитив', instruction: 'Вставьте нужную форму werden.' })),
+      B.orderEx(ctx, { tense: 'fut', order: 'T', pred: fut, fixFirst: true, title: 'Инфинитив — в конец', instruction: 'werden — на 2-й позиции, инфинитив — в самом конце.' }),
+      B.tableEx(ctx, { tense: 'fut', order: 'S', pred: fut }),
+      B.fillVerb(ctx, { tense: 'fut', pred: fut, n: 4, title: 'Futur I', instruction: 'Напишите форму werden.' }),
+      B.choiceCorrectOrder(ctx, { tense: 'fut', order: 'T' }),
+      B.tableEx(ctx, { tense: 'fut', order: 'SUB', pred: fut, lead: pick(ctx.rng, ['dass', 'weil']), title: 'Futur в придаточном' }),
+      B.writeEx(ctx, { tense: 'fut', start: 'time', pred: fut, title: 'Что будет?' }),
+    ];
+  },
+
   'praeteritum-verben': (ctx) => {
     const classVerbs = TABLE_VERBS.filter((v) => v.level !== 'B1' && v.cls && /^\d/.test(v.cls));
     const classes = shuffle(ctx.rng, [...new Set(classVerbs.map((v) => v.cls!))]).slice(0, 3);

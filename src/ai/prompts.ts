@@ -36,6 +36,7 @@ export const TOPIC_FOCUS: Record<string, string> = {
   'konnektoren-a1': 'Connectors in position 0 (und, aber, oder, denn — normal word order) versus dann at position 1 (inversion).',
   'praeteritum-basis': 'Präteritum of sein, haben and modal verbs (war, hatte, konnte, musste, wollte).',
   'praeteritum-verben': 'Präteritum of regular (-te) and strong verbs (ging, fuhr, fand, las) and mixed verbs (brachte, dachte).',
+  futur: 'Futur I: werden (werde, wirst, wird, werden, werdet, werden) + infinitive at the end; with a separable verb the infinitive stays joined (Ich werde dich anrufen); in a subordinate clause werden goes last (…, dass es morgen regnen wird). Use it for plans, promises and predictions with a future time expression; no modal verbs in Futur.',
   'verben-praep': 'Verbs with fixed prepositions (warten auf, denken an, sich freuen auf/über, sich interessieren für, träumen von …) and the case they govern; wo(r)-/da(r)- forms.',
   reflexiv: 'Reflexive verbs with the correct pronoun (ich freue mich, du ziehst dich an) and dative reflexive pronouns with an accusative object (ich wasche mir die Hände).',
   nebensaetze: 'Subordinate clauses with weil, dass, wenn: the finite verb goes to the end; a fronted subordinate clause causes inversion in the main clause.',

@@ -117,6 +117,7 @@ export function tableForm(v: Verb, p: Person, tense: Tense): string[] {
   if (tense === 'perf') {
     return v.aux.map((a) => `${present(getVerb(a), p)}${refl} ${v.pp[0]}`);
   }
+  if (tense === 'fut') return [`${present(getVerb('werden'), p)}${refl} ${v.inf}`];
   const fins = tense === 'praet' ? praeteritum(v, p) : [present(v, p)];
   return fins.map((f) => `${f}${refl}${v.sep ? ' ' + v.sep.trim() : ''}`);
 }
@@ -154,12 +155,13 @@ export function fillVerb(ctx: Ctx, o: FillVerbOpts): Exercise {
     if (modal) srs.push(undefined);
     else if (o.tense === 'perf') srs.push(srsKey.aux(act.verb));
     else if (o.tense === 'praet') srs.push(irregularPraet(act.verb) ? srsKey.praet(act.verb) : undefined);
+    else if (o.tense === 'fut') srs.push(undefined);
     else srs.push(irregularPres(act.verb) ? srsKey.pres(act.verb) : undefined);
     if (gapEnd) {
       answers.push(o.tense === 'perf' ? act.verb.pp : [parts.end!]);
       srs.push(o.tense === 'perf' && irregularPraet(act.verb) ? srsKey.pp(act.verb) : undefined);
     }
-    const hintVerb = modal ? `${verbRu(modal)} + ${verbRu(act.verb)}` : verbRu(act.verb);
+    const hintVerb = modal ? `${verbRu(modal)} + ${verbRu(act.verb)}` : o.tense === 'fut' ? `werden + ${verbRu(act.verb)}` : verbRu(act.verb);
     const p = subj.person;
     const otherForms = ([0, 1, 2, 3, 4, 5] as Person[])
       .filter((q) => q !== p)

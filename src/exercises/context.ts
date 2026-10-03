@@ -5,7 +5,7 @@ import { GENERAL } from '../data/themes';
 import { getVerb } from '../data/verbs';
 import type { Level, Subject, Verb } from '../grammar/types';
 import type { ClauseSpec, Tense } from '../grammar/clause';
-import { ALL_SUBJECTS, NAMED, PRONOUNS, TIMES_PAST, TIMES_PRESENT, subjectLabel } from '../grammar/subjects';
+import { ALL_SUBJECTS, NAMED, PRONOUNS, TIMES_FUTURE, TIMES_PAST, TIMES_PRESENT, subjectLabel } from '../grammar/subjects';
 
 export interface Ctx {
   theme: Theme;
@@ -59,6 +59,8 @@ export function pickSubjects(ctx: Ctx, n: number): Subject[] {
 }
 
 export function pickTime(ctx: Ctx, tense: Tense): string {
+  // theme times are habits ("jeden Tag") and don't fit the future
+  if (tense === 'fut') return pick(ctx.rng, TIMES_FUTURE);
   const past = tense !== 'pres';
   const own = past ? ctx.theme.pastTimes ?? [] : ctx.theme.times ?? [];
   const pool = past ? [...TIMES_PAST, ...own, ...own] : [...TIMES_PRESENT, ...own, ...own];
@@ -66,6 +68,7 @@ export function pickTime(ctx: Ctx, tense: Tense): string {
 }
 
 export function pickTimes(ctx: Ctx, tense: Tense, n: number): string[] {
+  if (tense === 'fut') return sample(ctx.rng, TIMES_FUTURE, n);
   const past = tense !== 'pres';
   const own = past ? ctx.theme.pastTimes ?? [] : ctx.theme.times ?? [];
   const pool = [...new Set(past ? [...own, ...TIMES_PAST] : [...own, ...TIMES_PRESENT])];
@@ -86,4 +89,4 @@ export function hintFor(subj: Subject, verbText: string): string {
 
 export const MODALS = ['können', 'müssen', 'wollen', 'dürfen', 'sollen', 'möchten'];
 
-export const TENSE_LABEL: Record<Tense, string> = { pres: 'Präsens', perf: 'Perfekt', praet: 'Präteritum' };
+export const TENSE_LABEL: Record<Tense, string> = { pres: 'Präsens', perf: 'Perfekt', praet: 'Präteritum', fut: 'Futur I' };

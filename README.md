@@ -6,7 +6,7 @@ Each topic has an **explanation** (in Russian, with English comparisons where th
 
 ## What's inside
 
-- **20 topics**: Präsens, inversion and the verb bracket, questions, separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn, deshalb/trotzdem, and Wechselpräpositionen.
+- **21 topics**: Präsens, inversion and the verb bracket, questions, separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum, Futur I, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn, deshalb/trotzdem, and Wechselpräpositionen.
 - **11 exercise types**, modelled on the textbook (Menschen A1/A2):
   - multiple choice
   - fill in the blanks

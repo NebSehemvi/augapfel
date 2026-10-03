@@ -25,6 +25,7 @@ export const TOPICS: TopicMeta[] = [
   { id: 'konnektoren-a1', level: 'A1', group: 'Порядок слов', de: 'und, aber, oder, denn; dann', ru: 'Союзы: позиция 0', summary: 'Ich bin müde, aber ich koche.' },
   { id: 'praeteritum-basis', level: 'A2', group: 'Прошедшее время', de: 'Präteritum: sein, haben, Modalverben', ru: 'Präteritum: sein, haben, модальные', summary: 'Ich war müde, ich musste arbeiten.' },
   { id: 'praeteritum-verben', level: 'A2', group: 'Прошедшее время', de: 'Präteritum: alle Verben', ru: 'Präteritum: все глаголы', summary: 'ging, fuhr, fand, machte' },
+  { id: 'futur', level: 'A2', group: 'Глаголы', de: 'Futur I: werden + Infinitiv', ru: 'Будущее время: Futur I', summary: 'Ich werde morgen anrufen.' },
   { id: 'verben-praep', level: 'A2', group: 'Глаголы', de: 'Verben mit Präpositionen', ru: 'Глаголы с предлогами', summary: 'warten auf, denken an; worauf? darauf' },
   { id: 'reflexiv', level: 'A2', group: 'Глаголы', de: 'Reflexive Verben', ru: 'Возвратные глаголы', summary: 'Ich freue mich. Ich wasche mir die Hände.' },
   { id: 'nebensaetze', level: 'A2', group: 'Порядок слов', de: 'Nebensätze: weil, dass, wenn', ru: 'Придаточные: weil, dass, wenn', summary: '…, weil ich Hunger habe.' },

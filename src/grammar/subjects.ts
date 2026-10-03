@@ -64,6 +64,21 @@ export const TIMES_PRESENT = [
   'im Sommer',
 ];
 
+/** time expressions that point to the future (Futur I) */
+export const TIMES_FUTURE = [
+  'morgen',
+  'übermorgen',
+  'nächste Woche',
+  'nächstes Jahr',
+  'nächsten Sommer',
+  'bald',
+  'später',
+  'in zwei Wochen',
+  'am Wochenende',
+  'heute Abend',
+  'im Sommer',
+];
+
 export const TIMES_PAST = [
   'gestern',
   'gestern Abend',
