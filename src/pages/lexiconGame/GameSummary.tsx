@@ -9,6 +9,7 @@ import { Panel } from '../common/Panel';
 import { WordList } from '../common/WordList';
 import { WordRow } from '../common/WordRow';
 import s from './game.module.css';
+import { Gendered } from '../../components/Gendered';
 
 interface Props {
   mode: LexMode;
@@ -28,7 +29,7 @@ function Words({ title, list }: { title: string; list: LexEntry[] }) {
       <Panel title={title}>
         <WordList>
           {list.map((e) => (
-            <WordRow key={e.id} word={germanForm(e)} meta={e.ru} />
+            <WordRow key={e.id} word={<Gendered text={germanForm(e)} />} meta={e.ru} />
           ))}
         </WordList>
       </Panel>
@@ -42,7 +43,7 @@ export function GameSummary({ mode, words, log, score, back, restart }: Props) {
   const head =
     mode === 'learn'
       ? { emoji: '🌱', title: 'Neue Wörter!', line: `Выучено новых слов: ${words.length}` }
-      : mode === 'speed'
+      : mode === 'speed' || mode === 'articles'
         ? { emoji: '⚡', title: `${score} Punkte`, line: `Правильных ответов: ${correct} из ${log.length}` }
         : { emoji: correct === log.length ? '🏆' : '💪', title: correct === log.length ? 'Ausgezeichnet!' : 'Gut gemacht!', line: `${correct} из ${log.length}` };
   return (

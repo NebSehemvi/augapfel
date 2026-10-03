@@ -12,6 +12,7 @@ import { TextInput } from '../common/TextInput';
 import { WordList } from '../common/WordList';
 import { WordRow } from '../common/WordRow';
 import s from './lexicon.module.css';
+import { Gendered } from '../../components/Gendered';
 
 /** Searchable list of saved words (newest first) with their learning progress and a delete button. */
 export function MyWordsList() {
@@ -39,7 +40,7 @@ export function MyWordsList() {
           return (
             <WordRow
               key={w.id}
-              word={germanForm(w)}
+              word={<Gendered text={germanForm(w)} />}
               meta={POS_LABEL[w.pos as Pos]}
               badges={
                 <>

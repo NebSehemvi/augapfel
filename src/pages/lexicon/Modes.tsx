@@ -1,10 +1,10 @@
 import { href } from '../../lib/router';
 import { useProgress } from '../../lib/progress';
-import { LEARN_SIZE, LIVES, REVIEW_SIZE, scopeStats, sessionEntries, SPEED_SECONDS, type LexMode } from '../../exercises/lexiconGame';
+import { hasGender, LEARN_SIZE, LIVES, REVIEW_SIZE, scopeEntries, scopeStats, sessionEntries, SPEED_SECONDS, type LexMode } from '../../exercises/lexiconGame';
 import { scopeQuery, type LexFilter } from './filter';
 import s from './lexicon.module.css';
 
-/** Three ways to train, as in Memrise: learn new words, classic review, speed review. */
+/** Ways to train, as in Memrise: learn new words, classic review, speed review — and for nouns a der/die/das round. */
 export function Modes({ filter }: { filter: LexFilter }) {
   const progress = useProgress();
   const st = scopeStats(sessionEntries(filter, progress), progress);
@@ -33,6 +33,16 @@ export function Modes({ filter }: { filter: LexFilter }) {
       disabled: !st.learned,
     },
   ];
+  const nouns = filter.kind === 'noun' ? scopeEntries(filter, progress).filter(hasGender).length : 0;
+  if (nouns)
+    modes.push({
+      mode: 'articles',
+      icon: '🎨',
+      title: 'der · die · das',
+      text: `Артикли на скорость: все существительные подборки, ${SPEED_SECONDS} секунд, ${LIVES} жизни`,
+      disabled: false,
+      badge: `${nouns} слов`,
+    });
   return (
     <div className={s.modes}>
       {modes.map((m) => (

@@ -4,12 +4,15 @@ import { href } from '../../lib/router';
 import { getProgress, recordSession, recordSrs, useProgress } from '../../lib/progress';
 import { lexKey, type LexEntry } from '../../data/lexicon';
 import {
+  articleQuestions,
+  isTimed,
   learnSteps,
   LIVES,
   questionKey,
   repeatQuestion,
   reviewQuestions,
   reviewUpdate,
+  scopeEntries,
   sessionEntries,
   SPEED_SECONDS,
   speedPoints,
@@ -24,6 +27,7 @@ import { CardChoice } from './CardChoice';
 import { GameHud } from './GameHud';
 import { GameSummary } from './GameSummary';
 import { PresentCard } from './PresentCard';
+import { canSpeak } from './speak';
 import { TypeAnswer } from './TypeAnswer';
 import s from './game.module.css';
 
@@ -32,12 +36,13 @@ const rng = defaultRng;
 function buildSteps(mode: LexMode, scope: LexScope): Step[] {
   const p = getProgress();
   const entries = sessionEntries(scope, p);
-  if (mode === 'learn') return learnSteps(entries, p, rng);
-  if (mode === 'review') return reviewQuestions(entries, p, rng);
+  if (mode === 'learn') return learnSteps(entries, p, rng, canSpeak);
+  if (mode === 'review') return reviewQuestions(entries, p, rng, Date.now(), canSpeak);
+  if (mode === 'articles') return articleQuestions(scopeEntries(scope, p), rng);
   return speedQuestions(entries, p, rng);
 }
 
-/** One lexicon session: learning new words, classic review or speed review (timer, three lives). */
+/** One lexicon session: learning new words, classic review, speed review or the articles round (timer, three lives). */
 export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: LexScope; back: string; restart: () => void }) {
   const progress = useProgress();
   const [steps, setSteps] = useState<Step[]>(() => buildSteps(mode, scope));
@@ -63,6 +68,7 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
   useEffect(() => () => window.clearTimeout(nextTimer.current), []);
 
   const step = steps[i] as Step | undefined;
+  const timed = isTimed(mode);
 
   const finish = () => {
     setDone(true);
@@ -81,7 +87,7 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
     const { i: cur, steps: all, lives: left } = ref.current;
     setAnswered(false);
     setTimeUp(false);
-    if ((mode === 'speed' && left <= 0) || cur + 1 >= all.length) return finish();
+    if ((timed && left <= 0) || cur + 1 >= all.length) return finish();
     setI(cur + 1);
   };
 
@@ -102,13 +108,14 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
     }
     if (retries.current.has(q)) return;
     setLog((l) => [...l, { q, ok }]);
-    recordSrs(reviewUpdate(questionKey(q), ok, getProgress()), true);
+    // the articles round also shows nouns that weren't learned yet — it stays out of the reviews
+    if (mode !== 'articles') recordSrs(reviewUpdate(questionKey(q), ok, getProgress()), true);
     if (mode === 'review' && !ok) {
       const again = repeatQuestion(q, rng);
       retries.current.add(again);
       setSteps((all) => [...all, again]);
     }
-    if (mode === 'speed') {
+    if (timed) {
       if (ok) setScore((x) => x + speedPoints(SPEED_SECONDS * 1000 - (Date.now() - shownAt.current)));
       else loseLife();
     }
@@ -127,7 +134,7 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
   });
 
   // speed review: a countdown for every question; running out costs a life (but doesn't reset the word)
-  const counting = mode === 'speed' && !done && !answered && i < steps.length;
+  const counting = timed && !done && !answered && i < steps.length;
   useEffect(() => {
     if (!counting) return;
     shownAt.current = Date.now();
@@ -150,7 +157,7 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
 
   return (
     <div className={s.game}>
-      <GameHud back={back} progress={i / steps.length} speed={mode === 'speed' ? { lives, score, timerKey: i, paused: answered } : undefined} />
+      <GameHud back={back} progress={i / steps.length} speed={timed ? { lives, score, timerKey: i, paused: answered } : undefined} />
       <div className={s.stage} key={i}>
         {step!.kind === 'present' ? (
           <PresentCard entry={step!.entry} mine={!!progress.words[step!.entry.lemma]} onNext={onNext} />
@@ -162,8 +169,8 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
             onAnswer={onAnswer}
             onNext={onNext}
             timeUp={timeUp}
-            delayOk={mode === 'speed' ? 350 : 700}
-            delayWrong={mode === 'speed' ? 1400 : undefined}
+            delayOk={timed ? 350 : 700}
+            delayWrong={timed ? 1400 : undefined}
           />
         )}
       </div>

@@ -19,7 +19,7 @@ export default function App() {
     (section === 't' && (sub === 'practice' || sub === 'ai')) ||
     (section === 'review' && id === 'start') ||
     (section === 'read' && sub === 'practice');
-  const lexGame = section === 'lexicon' && ['learn', 'review', 'speed'].includes(id);
+  const lexGame = section === 'lexicon' && ['learn', 'review', 'speed', 'articles'].includes(id);
   const fullscreen = practicing || lexGame;
 
   let page: ReactNode;

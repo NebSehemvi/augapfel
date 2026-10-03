@@ -8,6 +8,7 @@ import { Muted } from '../common/Muted';
 import { Panel } from '../common/Panel';
 import { TextInput } from '../common/TextInput';
 import s from './lexicon.module.css';
+import { Gendered } from '../../components/Gendered';
 
 /** Look up a German word (offline dictionary, then Wiktionary) and add it to "⭐ Мои слова". */
 export function AddWord() {
@@ -36,7 +37,7 @@ export function AddWord() {
       {result && (
         <div className={s.result}>
           <div>
-            <b lang="de">{germanForm(result)}</b> <Muted>{POS_LABEL[result.pos]}</Muted>
+            <b lang="de"><Gendered text={germanForm(result)} /></b> <Muted>{POS_LABEL[result.pos]}</Muted>
             <div>{meaning(result)}</div>
           </div>
           {progress.words[result.lemma] ? (

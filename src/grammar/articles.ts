@@ -124,3 +124,13 @@ export function pluralType(n: Noun): PluralType | null {
   if (p === s + 'er' || p === u + 'er') return '-er/¨-er';
   return null;
 }
+
+/** "article + noun" as shown in the app, with an optional " / plural" part */
+export const NOUN_FORM = /^(der|die|das) ([A-ZÄÖÜ].*?)( \/ .*)?$/;
+
+/** Gender of a noun phrase as shown in the app: "der Sohn / die Söhne" → der; "die Eltern (мн.)" → pl. */
+export function genderOf(text: string): 'der' | 'die' | 'das' | 'pl' | null {
+  const m = NOUN_FORM.exec(text);
+  if (!m) return null;
+  return m[2].endsWith('(мн.)') ? 'pl' : (m[1] as 'der' | 'die' | 'das');
+}

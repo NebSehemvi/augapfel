@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CardQuestion } from '../../exercises/lexiconGame';
 import { Button } from '../common/Button';
+import { Gendered } from '../../components/Gendered';
+import { ListenButton } from './ListenButton';
 import ex from '../../components/exercises/ex.module.css';
 import s from './game.module.css';
 
@@ -45,16 +47,21 @@ export function CardChoice({ q, onAnswer, onNext, timeUp, delayOk, delayWrong }:
   return (
     <>
       <div className={s.modeLabel}>{q.label ?? (q.dir === 'de-ru' ? 'Что это значит?' : 'Как это по-немецки?')}</div>
-      <div className={ex.cardPrompt} lang={q.promptLang}>
-        {q.prompt}
-        {q.sub && <span className={ex.cardSub}>{q.sub}</span>}
-      </div>
-      <div className={ex.cardGrid}>
+      {q.listen && <ListenButton text={q.spoken!} />}
+      {/* a listening card shows the written word only once it's answered */}
+      {(!q.listen || answered) && (
+        <div className={ex.cardPrompt} lang={q.promptLang}>
+          <Gendered text={q.prompt} />
+          {q.sub && <span className={ex.cardSub}>{q.sub}</span>}
+        </div>
+      )}
+      <div className={`${ex.cardGrid} ${q.options.length === 3 ? s.grid3 : ''}`}>
         {q.options.map((o, k) => {
           const st = !answered ? '' : k === q.answer ? ex.optOk : k === picked ? ex.optBad : ex.optDim;
           return (
             <button key={k} type="button" lang={q.optionsLang} className={`${ex.cardOpt} ${st}`} onClick={() => pick(k)}>
-              {o}
+              {/* a marked card shows its verdict colour, not the gender colour */}
+              <Gendered text={o} plain={answered && (k === q.answer || k === picked)} article={q.asks === 'gender'} />
             </button>
           );
         })}

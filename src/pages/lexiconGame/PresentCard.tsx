@@ -6,6 +6,7 @@ import { Button } from '../common/Button';
 import { LevelBadge } from '../common/LevelBadge';
 import { canSpeak, speak } from './speak';
 import s from './game.module.css';
+import { Gendered } from '../../components/Gendered';
 
 /** A new word is shown before it is tested: German (nouns with article and plural, verbs with their case), translation, level. */
 export function PresentCard({ entry, mine, onNext }: { entry: LexEntry; mine: boolean; onNext: () => void }) {
@@ -15,7 +16,7 @@ export function PresentCard({ entry, mine, onNext }: { entry: LexEntry; mine: bo
       <div className={s.present}>
         <div className={s.newBadge}>{mine ? '⭐ Ваше слово' : '🌱 Новое слово'}</div>
         <div className={s.word} lang="de">
-          {de}
+          <Gendered text={de} />
         </div>
         {canSpeak && (
           <button type="button" className={s.speak} onClick={() => speak(entry.gov ? entry.lemma : de)}>

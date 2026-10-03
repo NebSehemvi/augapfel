@@ -3,6 +3,7 @@ import { lookupLocal, lookupWiktionary, POS_LABEL, type GlossEntry, type WordInf
 import { addWord, removeWord, useProgress } from '../lib/progress';
 import { germanForm } from '../exercises/vocab';
 import s from './WordPopup.module.css';
+import { Gendered } from './Gendered';
 
 const SOURCE_LABEL: Record<WordInfo['source'], string> = {
   text: 'словарь текста',
@@ -48,7 +49,7 @@ export function WordPopup({ word, glossary, textId, onClose }: { word: string; g
         {info && (
           <>
             <div className={s.lemma} lang="de">
-              {germanForm(info)}
+              <Gendered text={germanForm(info)} />
             </div>
             <div className={s.meta}>
               {POS_LABEL[info.pos]}
