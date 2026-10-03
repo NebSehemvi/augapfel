@@ -79,6 +79,20 @@ export function contract(prep: string, art: string): string | null {
 
 export const GENDER_ART: Record<Exclude<Gender, 'pl'>, string> = { m: 'der', f: 'die', n: 'das' };
 
+/** Dictionary form with article: "der Sohn"; plural-only nouns: "die Eltern (мн.)". */
+export function nounLemma(n: Noun): string {
+  return n.g === 'pl' ? `die ${n.de} (мн.)` : `${GENDER_ART[n.g]} ${n.de}`;
+}
+
+/**
+ * How a German noun is shown in cards and popups: "der Sohn / die Söhne".
+ * `pl` null = no plural; undefined = unknown; plural-only and article-less words stay as they are.
+ */
+export function withPlural(lemma: string, pl: string | null | undefined): string {
+  if (!pl || !/^(der|die|das) /.test(lemma) || lemma.endsWith('(мн.)')) return lemma;
+  return `${lemma} / die ${pl}`;
+}
+
 // ---- plural classification (for sorting exercises) ----
 
 export function umlaut(word: string): string {

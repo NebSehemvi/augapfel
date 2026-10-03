@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { lookupLocal, lookupWiktionary, POS_LABEL, type GlossEntry, type WordInfo } from '../lib/dictionary';
 import { addWord, removeWord, useProgress } from '../lib/progress';
+import { germanForm } from '../exercises/vocab';
 import s from './WordPopup.module.css';
 
 const SOURCE_LABEL: Record<WordInfo['source'], string> = {
@@ -47,12 +48,12 @@ export function WordPopup({ word, glossary, textId, onClose }: { word: string; g
         {info && (
           <>
             <div className={s.lemma} lang="de">
-              {info.lemma}
+              {germanForm(info)}
             </div>
             <div className={s.meta}>
               {POS_LABEL[info.pos]}
-              {info.pos === 'noun' && info.pl ? ` · мн. ч.: ${info.pl}` : ''}
-              {info.lemma.toLowerCase() !== word.toLowerCase() && (
+              {info.pos === 'noun' && info.pl === null ? ' · без мн. ч.' : ''}
+              {info.lemma.replace(/^(der|die|das) /, '').replace(/ \(мн\.\)$/, '').toLowerCase() !== word.toLowerCase() && (
                 <>
                   {' '}
                   · в тексте: <i lang="de">{word}</i>

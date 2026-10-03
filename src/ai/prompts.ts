@@ -16,7 +16,8 @@ Rules that apply to everything you write:
 - Use everyday vocabulary from the requested theme. Vary subjects (ich, du, er/sie, wir, ihr, Sie, names) and situations.
 - Every task must have exactly one correct answer. If a sentence could reasonably be completed in two ways, rewrite it.
 - Hints and explanations for the learner are in Russian. Never put the German answer itself into a hint.
-- Gaps are written as three underscores: ___ (exactly one gap per sentence).`;
+- Gaps are written as three underscores: ___ (exactly one gap per sentence).
+- Before answering, re-read every task with its correct answer inserted and fix anything unnatural, repetitive or ambiguous.`;
 
 /** What each grammar topic drills — keeps generated exercises on target. */
 export const TOPIC_FOCUS: Record<string, string> = {
@@ -45,12 +46,14 @@ export const TOPIC_FOCUS: Record<string, string> = {
 /** One instruction block per exercise type. */
 export const TYPE_PROMPTS = {
   fill: `"fill" — gap sentences (used both as a word bank and as typing tasks).
-- One natural sentence with exactly one ___ where the drilled form goes.
+- One natural, meaningful sentence with exactly one ___ where the drilled form goes. Read it with the answer filled in: it must be something a native speaker would actually say.
+- The answer word must not appear anywhere else in the sentence, and the sentence must not repeat a noun (never "Der ___ im Ofen ist heiß" → "Der Ofen im Ofen").
+- The gap must have exactly one correct filling; the surrounding words must make it clear (subject, article, time expression).
 - "answer": the single correct word or short form (e.g. "fährt", "den", "aufgestanden").
 - "hint_ru": a short Russian hint — the Russian meaning of the missing verb or noun, or the grammatical cue (e.g. "ехать", "Akkusativ, m"). Never the German answer or the German infinitive.
 - "wrong": 2 plausible but wrong forms that a learner might confuse with the answer (other person forms, the other article, haben vs. sein …). They must be clearly wrong in this sentence.`,
   choice: `"choice" — multiple choice.
-- "sentence": one sentence with exactly one ___.
+- "sentence": one natural sentence with exactly one ___; the correct option must not already appear in the sentence.
 - "options": 3 or 4 different options; exactly one of them fits.
 - "answer": the correct option, copied exactly.
 - "explanation_ru": one short sentence in Russian explaining the rule.`,
@@ -114,7 +117,7 @@ const POS = z.enum(['noun', 'verb', 'adj', 'adv', 'prep', 'pron', 'art', 'conj',
 export const GenTextSchema = z.object({
   title: z.string(),
   paragraphs: z.array(z.string()),
-  glossary: z.array(z.object({ form: z.string(), lemma: z.string(), pos: POS, ru: z.string(), en: z.string() })),
+  glossary: z.array(z.object({ form: z.string(), lemma: z.string(), pos: POS, plural: z.string(), ru: z.string(), en: z.string() })),
   questions: z.array(z.object({ q: z.string(), options: z.array(z.string()), answer: z.number().int() })),
   fill: z.array(Gap),
 });
@@ -136,6 +139,7 @@ Explain the topic in simple words for an adult; keep facts correct. ${o.source ?
 "glossary": an entry for EVERY noun, verb, adjective and adverb in the text (not for articles, pronouns, common prepositions, und/oder/aber, numbers):
 - "form": the word exactly as it appears in the text (same case and ending), one entry per distinct form.
 - "lemma": dictionary form — nouns with article ("der Apfel"; plural-only nouns "die Leute (мн.)"), verbs in the infinitive (for a separable verb split in the sentence, give the full infinitive for both parts, e.g. "steht" and "auf" → "aufstehen"), adjectives in the base form.
+- "plural": for nouns the nominative plural without article ("Äpfel", "Kinder"); "" if the noun has no plural in normal use or is plural-only; "" for all other parts of speech.
 - "ru" and "en": short translations that fit the meaning in this text.
 
 "questions": 3–4 comprehension questions in simple German, each with 3 options (German), exactly one correct; "answer" is the 0-based index of the correct option.

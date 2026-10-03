@@ -4,8 +4,9 @@ import { useProgress, dueKeys } from './lib/progress';
 import { Home } from './pages/home';
 import { TopicPage } from './pages/topic';
 import { Practice } from './pages/practice';
-import { WordsPage } from './pages/words';
 import { VerbsPage } from './pages/verbs';
+import { LexiconPage } from './pages/lexicon';
+import { LexiconGamePage } from './pages/lexiconGame';
 import { TextsPage } from './pages/texts';
 import { ReaderPage } from './pages/reader';
 import { ReviewPage } from './pages/review';
@@ -19,14 +20,16 @@ export default function App() {
     (section === 't' && (sub === 'practice' || sub === 'ai')) ||
     (section === 'verbs' && id === 'train') ||
     (section === 'review' && id === 'start') ||
-    (section === 'read' && sub === 'practice') ||
-    (section === 'words' && id === 'train');
+    (section === 'read' && sub === 'practice');
+  const lexGame = section === 'lexicon' && ['learn', 'review', 'speed'].includes(id);
+  const fullscreen = practicing || lexGame;
 
   let page: ReactNode;
-  if (practicing) page = <Practice route={route} />;
+  if (lexGame) page = <LexiconGamePage route={route} />;
+  else if (practicing) page = <Practice route={route} />;
   else if (section === 't' && id) page = <TopicPage id={id} />;
   else if (section === 'verbs') page = <VerbsPage />;
-  else if (section === 'words') page = <WordsPage />;
+  else if (section === 'lexicon' || section === 'words') page = <LexiconPage />;
   else if (section === 'texts') page = <TextsPage />;
   else if (section === 'read' && id) page = <ReaderPage id={id} />;
   else if (section === 'review') page = <ReviewPage />;
@@ -35,11 +38,11 @@ export default function App() {
 
   return (
     <div className={s.app}>
-      {!practicing && <TopBar active={section ?? ''} />}
-      <main className={`${s.main} ${practicing ? s.mainPractice : ''}`}>
+      {!fullscreen && <TopBar active={section ?? ''} />}
+      <main className={`${s.main} ${fullscreen ? s.mainPractice : ''}`}>
         <ErrorBoundary key={route.path.join('/')}>{page}</ErrorBoundary>
       </main>
-      {!practicing && <TabBar active={section ?? ''} />}
+      {!fullscreen && <TabBar active={section ?? ''} />}
     </div>
   );
 }
@@ -47,7 +50,7 @@ export default function App() {
 const TABS = [
   { key: '', to: '/', icon: '📖', label: 'Темы' },
   { key: 'texts', to: '/texts', icon: '📰', label: 'Тексты' },
-  { key: 'words', to: '/words', icon: '🗂️', label: 'Слова' },
+  { key: 'words', to: '/lexicon', icon: '🗂️', label: 'Слова' },
   { key: 'review', to: '/review', icon: '🔁', label: 'Повторение' },
   { key: 'me', to: '/me', icon: '👤', label: 'Профиль' },
 ];
@@ -55,7 +58,7 @@ const TABS = [
 /** Which tab a route belongs to. */
 function tabOf(section: string) {
   if (section === 't') return '';
-  if (section === 'verbs') return 'words';
+  if (section === 'verbs' || section === 'lexicon') return 'words';
   if (section === 'read') return 'texts';
   return section;
 }

@@ -3,6 +3,7 @@ import type { ExerciseResult, Seg } from '../../exercises/types';
 import { shuffle } from '../../lib/rng';
 import { Frame, Note, Solution } from './Frame';
 import { DndProvider, DragTile, type DropInfo } from '../dnd';
+import { Context, HintSpoiler } from './HintSpoiler';
 import type { ViewProps } from './TextViews';
 import { fillParts } from '../../lib/format';
 import s from './ex.module.css';
@@ -39,7 +40,8 @@ export function ChoiceView({ ex, onDone }: ViewProps<'choice'>) {
               {it.parts ? (
                 <div className={s.sentence} lang="de">
                   <GapText parts={it.parts} fill={chosen !== null ? it.options[chosen] : null} state={checked ? (chosen === it.answer ? 'ok' : 'bad') : null} />
-                  {it.hint && <span className={s.hint}> ({it.hint})</span>}
+                  <Context text={it.context} />
+                  {it.hint && <HintSpoiler text={it.hint} revealed={checked} />}
                 </div>
               ) : (
                 <div className={s.question}>{it.question}</div>
@@ -207,7 +209,8 @@ export function BankView({ ex, onDone }: ViewProps<'bank'>) {
             <>
               <div className={s.sentence} lang="de">
                 {it.parts.map((p, k) => (typeof p === 'number' ? <span key={k}>{filled}</span> : <span key={k}>{p}</span>))}
-                {it.hint && <span className={s.hint}> ({it.hint})</span>}
+                <Context text={it.context} />
+                {it.hint && <HintSpoiler text={it.hint} revealed={checked} />}
               </div>
               {checked && !ok(i) && <Solution>{fillParts(it.parts, [it.answers[0]])}</Solution>}
             </>

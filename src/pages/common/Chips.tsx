@@ -1,4 +1,4 @@
-import s from './verbs.module.css';
+import s from './common.module.css';
 
 /** Pill buttons. `value` may be a single value (radio) or a list (multi-select). */
 export function Chips<T extends string | number>({ options, value, label, onChange }: { options: readonly T[]; value: T | readonly T[]; label: (x: T) => string; onChange: (x: T) => void }) {

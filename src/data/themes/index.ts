@@ -1,6 +1,7 @@
 import type { Noun } from '../../grammar/types';
 import type { Activity, Theme } from './types';
 import { acts } from './types';
+import { GENERAL_NOUNS } from '../nouns';
 import { food, home, leisure, shopping, travel, work } from './themesA';
 import { city, daily, family, health, nature, school } from './themesB';
 
@@ -14,6 +15,7 @@ export function getTheme(id: string): Theme {
 
 const NOUNS = new Map<string, Noun>();
 for (const t of THEMES) for (const n of t.nouns) if (!NOUNS.has(n.de)) NOUNS.set(n.de, n);
+for (const n of GENERAL_NOUNS) if (!NOUNS.has(n.de)) NOUNS.set(n.de, n);
 
 export function getNoun(de: string): Noun {
   const n = NOUNS.get(de);

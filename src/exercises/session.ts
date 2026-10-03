@@ -12,9 +12,11 @@ import { PRONOUNS } from '../grammar/subjects';
 import { render, sentence } from '../grammar/clause';
 import type { Level, Verb } from '../grammar/types';
 import type { Progress } from '../lib/progress';
-import { cardsEx, translateEx as translateWordsEx, vocabExercises, type VocabWord } from './vocab';
+import { cardsEx, vocabExercises } from './vocab';
 import type { ReadingText } from '../data/texts';
 import { isContentWord, lookupLocal, tokenize, type WordInfo } from '../lib/dictionary';
+import { gapParts, validGap } from './gaps';
+import { getLexEntry, lexKey, LEX_NOUNS, LEX_PRONOUNS, type LexEntry } from '../data/lexicon';
 
 export interface Session {
   title: string;
@@ -54,8 +56,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
   const plurals: string[] = [];
   const preps: [string, string][] = [];
   const infs: string[] = [];
-  const wordRec: VocabWord[] = [];
-  const wordProd: VocabWord[] = [];
+  const lex: Record<'de-ru' | 'ru-de', LexEntry[]> = { 'de-ru': [], 'ru-de': [] };
 
   for (const key of keys) {
     const [kind, a, b] = key.split('|');
@@ -70,7 +71,10 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
       if (b === 'g') genders.push(a);
       else if (b === 'pl') plurals.push(a);
     } else if (kind === 'p' && findPrepVerb(a, b)) preps.push([a, b]);
-    else if (kind === 'w' && words[a]) (b === 'rec' ? wordRec : wordProd).push(words[a]);
+    else if (kind === 'l' && (b === 'de-ru' || b === 'ru-de')) {
+      const e = getLexEntry(a, words);
+      if (e) lex[b].push(e);
+    }
   }
 
   const exercises: Exercise[] = [];
@@ -87,8 +91,12 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
   if (genders.length) exercises.push(genderEx(genders.slice(0, 10)));
   if (plurals.length) exercises.push(pluralEx(plurals.slice(0, 8)));
   if (preps.length) exercises.push(prepEx(preps.slice(0, 8), rng));
-  if (wordRec.length) exercises.push(cardsEx(wordRec.slice(0, 12), rng, { srs: true, extraPool: Object.values(words) }));
-  if (wordProd.length) exercises.push(translateWordsEx(wordProd.slice(0, 8), { srs: true }));
+  for (const dir of ['de-ru', 'ru-de'] as const) {
+    const pron = lex[dir].filter((e) => e.pos === 'pron');
+    const other = lex[dir].filter((e) => e.pos !== 'pron');
+    if (pron.length) exercises.push(lexCards(pron.slice(0, 12), dir, rng));
+    if (other.length) exercises.push(lexCards(other.slice(0, 12), dir, rng));
+  }
   return { title: 'Повторение', exercises: shuffle(rng, exercises), srsCreate: true };
 }
 
@@ -273,19 +281,6 @@ export function trainerSession(o: TrainerOptions, progress: Progress, rng: Rng =
 // ---------------------------------------------------------------------------
 // saved words ("Мои слова")
 
-export function wordsSession(progress: Progress, rng: Rng = defaultRng): Session {
-  const now = Date.now();
-  const list = Object.values(progress.words);
-  const score = (w: VocabWord) => {
-    const a = progress.srs[`w|${w.lemma}|rec`];
-    const b = progress.srs[`w|${w.lemma}|prod`];
-    const due = [a, b].filter((x) => !x || x.due <= now).length;
-    return due * 10 - Math.min(a?.box ?? 0, b?.box ?? 0) + rng();
-  };
-  const chosen = [...list].sort((x, y) => score(y) - score(x)).slice(0, 12);
-  return { title: 'Мои слова', exercises: vocabExercises(chosen, rng, { srs: true, maxCards: 12, maxTyping: 8 }), srsCreate: true };
-}
-
 // ---------------------------------------------------------------------------
 // reading texts
 
@@ -315,19 +310,26 @@ export function textSession(text: ReadingText, progress: Progress, rng: Rng = de
       }),
     });
   }
-  if (text.fill?.length) {
+  const fill = (text.fill ?? []).filter((f) => validGap(f.sentence, f.answer));
+  if (fill.length) {
     exercises.push({
       type: 'bank',
       title: 'Слова из текста',
       instruction: 'Перетащите слова в пропуски. Лишние слова останутся.',
-      items: text.fill.map((f) => {
-        const [before, after = ''] = f.sentence.split('___');
-        return { parts: [before, 0, after], answers: [f.answer], hint: f.hint_ru };
-      }),
-      bank: shuffle(rng, text.fill.flatMap((f) => [f.answer, f.wrong[0] ?? f.answer])),
+      items: fill.map((f) => ({ parts: gapParts(f.sentence)!, answers: [f.answer.trim()], hint: f.hint_ru })),
+      bank: shuffle(rng, fill.flatMap((f) => [f.answer.trim(), f.wrong.find((w) => w.trim() && w.trim() !== f.answer.trim())?.trim() ?? f.answer.trim()])),
     });
   }
   const words = textWords(text).map((w) => ({ ...w, saved: !!progress.words[w.lemma] }));
   exercises.push(...vocabExercises(words, rng, { maxCards: 8, maxTyping: 5 }));
   return { title: text.title, exercises, srsCreate: false };
+}
+
+// ---------------------------------------------------------------------------
+// lexicon (nouns, pronouns, saved words)
+
+/** Cards for lexicon entries and saved words (pronouns and the rest are asked separately, each with fitting distractors). */
+function lexCards(entries: LexEntry[], dir: 'de-ru' | 'ru-de', rng: Rng): Exercise {
+  const pool = entries[0]?.pos === 'pron' ? LEX_PRONOUNS : LEX_NOUNS;
+  return cardsEx(entries, rng, { direction: dir, extraPool: pool, srsKey: (w) => lexKey(w as LexEntry, dir) });
 }

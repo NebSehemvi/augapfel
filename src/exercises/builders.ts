@@ -50,6 +50,9 @@ export function ppType(v: Verb): 0 | 1 | 2 | null {
   return pp.startsWith('ge') ? 0 : 2;
 }
 
+/** "sie = она" for ambiguous subjects (sie/Sie), otherwise nothing. */
+const subjectContext = (subj: Subject) => (subj.hint ? `${subj.de} = ${subj.hint}` : undefined);
+
 const irregularPres = (v: Verb) => !!(v.presDuEr || v.presFull);
 const irregularPraet = (v: Verb) => v.kind !== 'weak';
 
@@ -165,7 +168,8 @@ export function fillVerb(ctx: Ctx, o: FillVerbOpts): Exercise {
     return {
       parts: partsFrom(chunks, (c) => (c.role === 'fin' ? 0 : gapEnd && c.role === 'end' ? 1 : -1), '.'),
       answers,
-      hint: subj.hint ? `${hintVerb}; ${subjectLabel(subj)}` : hintVerb,
+      hint: hintVerb,
+      context: subjectContext(subj),
       srs,
       distractors: [...new Set(otherForms)],
       firstLetter: !modal,
@@ -196,7 +200,8 @@ export function choiceVerbForm(ctx: Ctx, o: { tense: Tense; n?: number; pred?: (
       parts: partsFrom(chunks, (c) => (c.role === 'fin' ? 0 : -1), '.'),
       options,
       answer: options.indexOf(right),
-      hint: subj.hint ? `${verbRu(act.verb)}; ${subjectLabel(subj)}` : verbRu(act.verb),
+      hint: verbRu(act.verb),
+      context: subjectContext(subj),
       srs: irregularPres(act.verb) && o.tense === 'pres' ? srsKey.pres(act.verb) : undefined,
     };
   });
@@ -444,7 +449,7 @@ export function choiceAux(ctx: Ctx, n = 6): Exercise {
       parts: partsFrom(chunks, (c) => (c.role === 'fin' ? 0 : -1), '.'),
       options,
       answer: options.indexOf(right),
-      hint: subj.hint ? subjectLabel(subj) : undefined,
+      context: subjectContext(subj),
       srs: srsKey.aux(act.verb),
     };
   });
@@ -508,11 +513,11 @@ export function asBank(ctx: Ctx, ex: Exercise): Exercise {
   let pools: string[][];
   if (ex.type === 'fill') {
     const single = ex.items.filter((i) => i.answers.length === 1);
-    items = single.map((i) => ({ parts: i.parts, answers: i.answers[0], hint: i.hint, srs: i.srs?.[0] }));
+    items = single.map((i) => ({ parts: i.parts, answers: i.answers[0], hint: i.hint, context: i.context, srs: i.srs?.[0] }));
     pools = single.map((i) => i.distractors ?? []);
   } else if (ex.type === 'choice') {
     const withGap = ex.items.filter((i) => i.parts);
-    items = withGap.map((i) => ({ parts: i.parts!, answers: [i.options[i.answer]], hint: i.hint, srs: i.srs }));
+    items = withGap.map((i) => ({ parts: i.parts!, answers: [i.options[i.answer]], hint: i.hint, context: i.context, srs: i.srs }));
     pools = withGap.map((i) => i.options.filter((_, k) => k !== i.answer));
   } else return ex;
 

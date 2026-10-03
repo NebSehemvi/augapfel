@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { getUserTexts, mergeUserTexts } from './userTexts';
+import { inLexicon } from '../data/lexicon';
 
 export interface TopicStat {
   sessions: number;
@@ -17,7 +18,7 @@ export interface SrsItem {
   wrong: number;
 }
 
-/** A word saved from a text ("Мои слова"). Keyed by lemma. */
+/** A word the learner saved ("⭐ Мои слова" in the lexicon). Keyed by lemma. */
 export interface SavedWord {
   lemma: string;
   pos: string;
@@ -80,12 +81,29 @@ function migrate(p: Partial<Progress>): Progress {
     ...p,
     settings: { ...base.settings, ...(p.settings ?? {}) },
     topics: p.topics ?? {},
-    srs: p.srs ?? {},
+    srs: migrateWordKeys(p.srs ?? {}),
     words: p.words ?? {},
     recentThemes: p.recentThemes ?? [],
     days: p.days ?? [],
     v: 1,
   };
+}
+
+/**
+ * Saved words used to have their own review keys (w|lemma|rec / prod); they are now lexicon entries
+ * (l|lemma|de-ru / ru-de). Words that were never practised become new words again.
+ */
+function migrateWordKeys(srs: Record<string, SrsItem>): Record<string, SrsItem> {
+  const out = { ...srs };
+  for (const [k, v] of Object.entries(srs)) {
+    const m = /^w\|(.+)\|(rec|prod)$/.exec(k);
+    if (!m) continue;
+    delete out[k];
+    if (!v.seen) continue;
+    const key = `l|${m[1]}|${m[2] === 'rec' ? 'de-ru' : 'ru-de'}`;
+    if (!out[key] || out[key].seen < v.seen) out[key] = v;
+  }
+  return out;
 }
 
 let state: Progress = load();
@@ -165,21 +183,18 @@ export function recordSrs(results: { key: string; ok: boolean }[], create: boole
   set({ ...state, srs });
 }
 
-export const wordKeys = (lemma: string) => [`w|${lemma}|rec`, `w|${lemma}|prod`];
-
+/** Save a word; it starts as a new word in the lexicon (learned first, then reviewed). */
 export function addWord(w: Omit<SavedWord, 'addedAt'>) {
   if (state.words[w.lemma]) return;
-  const now = Date.now();
-  const srs = { ...state.srs };
-  for (const k of wordKeys(w.lemma)) srs[k] ??= { box: 0, due: now, seen: 0, wrong: 0 };
-  set({ ...state, words: { ...state.words, [w.lemma]: { ...w, addedAt: now } }, srs });
+  set({ ...state, words: { ...state.words, [w.lemma]: { ...w, addedAt: Date.now() } } });
 }
 
+/** Unsave a word; progress is kept for lexicon words and dropped for the others. */
 export function removeWord(lemma: string) {
   const words = { ...state.words };
   delete words[lemma];
   const srs = { ...state.srs };
-  for (const k of wordKeys(lemma)) delete srs[k];
+  if (!inLexicon(lemma)) for (const d of ['de-ru', 'ru-de']) delete srs[`l|${lemma}|${d}`];
   set({ ...state, words, srs });
 }
 

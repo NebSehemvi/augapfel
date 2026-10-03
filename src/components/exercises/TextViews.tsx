@@ -4,6 +4,7 @@ import { fillParts } from '../../lib/format';
 import { checkText, diffWords, type CheckResult } from '../../lib/check';
 import { Frame, Note, Solution } from './Frame';
 import { UInput, UTextarea } from './inputs';
+import { Context, HintSpoiler } from './HintSpoiler';
 import s from './ex.module.css';
 
 export interface ViewProps<T extends Exercise['type']> {
@@ -83,12 +84,12 @@ export function FillView({ ex, lenient, onDone }: ViewProps<'fill'>) {
                     <span key={k}>{p}</span>
                   ),
                 )}
+                <Context text={it.context} />
                 {it.hint && (
-                  <span className={s.hint}>
-                    {' '}
-                    ({it.hint}
-                    {it.firstLetter && !results ? `; ${it.answers.map((a) => a[0][0] + '…').join(' … ')}` : ''})
-                  </span>
+                  <HintSpoiler
+                    revealed={!!results}
+                    text={it.hint + (it.firstLetter ? `; ${it.answers.map((a) => a[0][0] + '…').join(' … ')}` : '')}
+                  />
                 )}
               </div>
               {wrong && <Solution>{fillParts(it.parts, it.answers.map((a) => a[0]))}</Solution>}
@@ -260,7 +261,11 @@ export function WriteView({ ex, lenient, onDone }: ViewProps<'write'>) {
         ))}
       </div>
       <p className={s.task}>{item.task}</p>
-      {item.hint && <p className={s.hint}>{item.hint}</p>}
+      {item.hint && (
+        <p>
+          <HintSpoiler text={item.hint} revealed={!!res} />
+        </p>
+      )}
       <UTextarea value={value} onValue={setValue} state={verdictState(res ?? undefined)} disabled={!!res} />
       {res && res.verdict !== 'ok' && (
         <Solution>

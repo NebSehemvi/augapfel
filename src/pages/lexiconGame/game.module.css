@@ -1,0 +1,242 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 2rem);
+}
+
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  text-decoration: none;
+  background: var(--surface-2);
+  flex: none;
+}
+
+.track {
+  flex: 1;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.3s;
+}
+
+.timer {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transform-origin: left;
+  animation: countdown linear forwards;
+}
+
+.timerPaused {
+  animation-play-state: paused;
+}
+
+@keyframes countdown {
+  from {
+    transform: scaleX(1);
+  }
+  70% {
+    background: var(--accent);
+  }
+  to {
+    transform: scaleX(0);
+    background: var(--bad);
+  }
+}
+
+.lives {
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  flex: none;
+}
+
+.lost {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.score {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  min-width: 3ch;
+  text-align: right;
+}
+
+.modeLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 650;
+  margin-bottom: 0.3rem;
+}
+
+/* ---------- presentation ---------- */
+
+.present {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.6rem 1.2rem 1.3rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.newBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.word {
+  font-size: clamp(1.5rem, 7vw, 2.1rem);
+  font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.speak {
+  border: 1px solid var(--chip-line);
+  background: var(--chip);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+}
+
+.ru {
+  font-size: 1.2rem;
+  margin-top: 1.1rem;
+}
+
+.en {
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.meta {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- answers ---------- */
+
+.bottom {
+  width: 100%;
+  max-width: 420px;
+  margin: auto auto 0;
+  padding-top: 1rem;
+  padding-bottom: env(safe-area-inset-bottom);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.feedback {
+  text-align: center;
+  font-weight: 600;
+  min-height: 1.5em;
+}
+
+.feedbackOk {
+  color: var(--ok);
+}
+
+.feedbackBad {
+  color: var(--bad);
+}
+
+.solution {
+  text-align: center;
+  font-size: 1.05rem;
+  margin-top: 0.4rem;
+}
+
+.typeRow {
+  display: flex;
+  justify-content: center;
+}
+
+.typeInput {
+  width: 100%;
+  max-width: 420px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* ---------- summary ---------- */
+
+.summary {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+
+.emoji {
+  font-size: 3.5rem;
+}
+
+.big {
+  font-size: 1.15rem;
+  margin: 0.3rem 0 1.2rem;
+}
+
+.list {
+  text-align: left;
+  margin-bottom: 1.4rem;
+}
+
+.actions {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+}
+
+.typeForm {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

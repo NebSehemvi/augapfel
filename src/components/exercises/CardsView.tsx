@@ -53,7 +53,7 @@ export function CardsView({ ex, onDone }: ViewProps<'cards'>) {
           <span key={k} className={`${s.cardDot} ${k < results.length ? (results[k] ? s.dotOk : s.dotBad) : k === i ? s.dotNow : ''}`} />
         ))}
       </div>
-      <div className={s.cardPrompt} lang="de">
+      <div className={s.cardPrompt} lang={item.promptLang ?? 'de'}>
         {item.prompt}
         {item.sub && <span className={s.cardSub}>{item.sub}</span>}
       </div>
@@ -61,7 +61,7 @@ export function CardsView({ ex, onDone }: ViewProps<'cards'>) {
         {item.options.map((o, k) => {
           const st = picked === null ? '' : k === item.answer ? s.optOk : k === picked ? s.optBad : s.optDim;
           return (
-            <button key={k} type="button" className={`${s.cardOpt} ${st}`} onClick={() => pick(k)}>
+            <button key={k} type="button" lang={item.optionsLang ?? 'ru'} className={`${s.cardOpt} ${st}`} onClick={() => pick(k)}>
               {o}
             </button>
           );

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { addWord, useProgress } from '../../lib/progress';
 import { lookupLocal, lookupWiktionary, POS_LABEL, type WordInfo } from '../../lib/dictionary';
-import { meaning } from '../../exercises/vocab';
+import { germanForm, meaning } from '../../exercises/vocab';
 import { Button } from '../common/Button';
 import { FormRow } from '../common/FormRow';
 import { Muted } from '../common/Muted';
 import { Panel } from '../common/Panel';
 import { TextInput } from '../common/TextInput';
-import s from './words.module.css';
+import s from './lexicon.module.css';
 
-/** Look up a German word (offline dictionary, then Wiktionary) and add it to "Мои слова". */
+/** Look up a German word (offline dictionary, then Wiktionary) and add it to "⭐ Мои слова". */
 export function AddWord() {
   const progress = useProgress();
   const [input, setInput] = useState('');
@@ -36,7 +36,7 @@ export function AddWord() {
       {result && (
         <div className={s.result}>
           <div>
-            <b lang="de">{result.lemma}</b> <Muted>{POS_LABEL[result.pos]}</Muted>
+            <b lang="de">{germanForm(result)}</b> <Muted>{POS_LABEL[result.pos]}</Muted>
             <div>{meaning(result)}</div>
           </div>
           {progress.words[result.lemma] ? (

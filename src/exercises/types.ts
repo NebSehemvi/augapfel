@@ -9,6 +9,8 @@ export interface FillItem {
   /** SRS key per gap */
   srs?: (string | undefined)[];
   note?: string;
+  /** always-visible note that is not a hint about the answer, e.g. "sie = она" */
+  context?: string;
   /** plausible wrong answers (for word-bank distractors) */
   distractors?: string[];
   /** show the first letter of the answer as an extra hint (typed verb gaps with a Russian hint) */
@@ -22,6 +24,8 @@ export interface ChoiceItem {
   options: string[];
   answer: number;
   hint?: string;
+  /** always-visible note that is not a hint about the answer */
+  context?: string;
   srs?: string;
   /** shown after answering */
   explain?: string;
@@ -63,6 +67,7 @@ export interface BankItem {
   /** accepted tiles, first canonical */
   answers: string[];
   hint?: string;
+  context?: string;
   srs?: string;
 }
 
@@ -70,6 +75,9 @@ export interface BankItem {
 export interface CardItem {
   prompt: string;
   sub?: string;
+  /** language of the prompt / of the option cards (default: German prompt, Russian options) */
+  promptLang?: 'de' | 'ru';
+  optionsLang?: 'de' | 'ru';
   options: string[];
   answer: number;
   srs?: string;

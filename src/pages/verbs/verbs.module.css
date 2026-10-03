@@ -1,24 +1,3 @@
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.chip {
-  border: 1px solid var(--chip-line);
-  background: var(--chip);
-  border-radius: 999px;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.92rem;
-}
-
-.chipOn {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  font-weight: 600;
-}
-
 .cls {
   color: var(--muted);
   font-size: 0.78rem;

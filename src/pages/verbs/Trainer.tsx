@@ -8,7 +8,7 @@ import { Button } from '../common/Button';
 import { Field } from '../common/Field';
 import { Muted } from '../common/Muted';
 import { Panel } from '../common/Panel';
-import { Chips } from './Chips';
+import { Chips } from '../common/Chips';
 
 const POOLS = Object.keys(POOL_LABEL) as TrainerPool[];
 const MODES = Object.keys(MODE_LABEL) as TrainerMode[];

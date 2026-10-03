@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { topicSetToExercises } from './generate';
 import { seeded } from '../lib/rng';
 import { BUILTIN_TEXTS } from '../data/texts';
-import { textSession, textWords, wordsSession } from '../exercises/session';
+import { textSession, textWords } from '../exercises/session';
 import { getProgress } from '../lib/progress';
 import { cardsEx } from '../exercises/vocab';
 
@@ -67,13 +67,6 @@ describe('reading & vocabulary sessions', () => {
     }
   });
 
-  it('saved words session works', () => {
-    const words = { 'der Apfel': { lemma: 'der Apfel', pos: 'noun', ru: 'яблоко', en: 'apple', addedAt: 1 }, gehen: { lemma: 'gehen', pos: 'verb', ru: 'идти', en: 'to go', addedAt: 2 } };
-    const session = wordsSession({ ...getProgress(), words }, seeded(2));
-    expect(session.exercises.map((e) => e.type)).toEqual(['cards', 'fill']);
-    const fill = session.exercises[1] as Extract<(typeof session.exercises)[number], { type: 'fill' }>;
-    expect(fill.items.find((i) => i.answers[0].includes('der Apfel'))?.answers[0]).toEqual(['der Apfel']);
-  });
 
   it('card distractors never repeat the right meaning', () => {
     const ex = cardsEx([{ lemma: 'der Tisch', pos: 'noun', ru: 'стол', en: 'table' }], seeded(5));

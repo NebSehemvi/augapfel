@@ -1,21 +1,15 @@
 import { defaultRng, sample, shuffle, type Rng } from '../lib/rng';
-import type { Exercise, FillItem, Seg } from '../exercises/types';
+import type { Exercise, FillItem } from '../exercises/types';
+import { gapParts, validGap } from '../exercises/gaps';
 import type { Session } from '../exercises/session';
 import { pickTheme } from '../exercises/session';
 import type { Progress } from '../lib/progress';
 import { getTopic } from '../topics';
 import { generate, providerLabel } from './llm';
-import { GenTextSchema, SYSTEM, TOPIC_FOCUS, TopicSetSchema, textPrompt, topicPrompt, type GapT, type TopicSet } from './prompts';
+import { GenTextSchema, SYSTEM, TOPIC_FOCUS, TopicSetSchema, textPrompt, topicPrompt, type TopicSet } from './prompts';
 import type { ReadingText } from '../data/texts';
 import type { GlossEntry } from '../lib/dictionary';
 import { fetchSource } from './sources';
-
-/** "Am Abend ___ ich." → ["Am Abend ", 0, " ich."]; null if there isn't exactly one gap. */
-function gapParts(sentence: string): Seg[] | null {
-  const pieces = sentence.split(/_{3,}/);
-  if (pieces.length !== 2) return null;
-  return [pieces[0], 0, pieces[1]].filter((p) => p !== '') as Seg[];
-}
 
 const clean = (s: string) => s.trim();
 const uniq = (xs: string[]) => [...new Set(xs.map(clean).filter(Boolean))];
@@ -23,8 +17,8 @@ const uniq = (xs: string[]) => [...new Set(xs.map(clean).filter(Boolean))];
 /** Converts a Claude topic set into app exercises, silently dropping malformed items. */
 export function topicSetToExercises(set: TopicSet, rng: Rng): Exercise[] {
   const gaps = set.fill
-    .map((g) => ({ g, parts: gapParts(g.sentence) }))
-    .filter((x): x is { g: GapT; parts: Seg[] } => !!x.parts && !!clean(x.g.answer));
+    .filter((g) => validGap(g.sentence, g.answer))
+    .map((g) => ({ g, parts: gapParts(g.sentence)! }));
   const bankGaps = gaps.slice(0, 4);
   const typedGaps = gaps.slice(4);
   const out: Exercise[] = [];
@@ -48,7 +42,7 @@ export function topicSetToExercises(set: TopicSet, rng: Rng): Exercise[] {
       const options = uniq(c.options);
       const parts = gapParts(c.sentence);
       const answer = options.indexOf(clean(c.answer));
-      return parts && answer >= 0 && options.length >= 2 ? { parts, options, answer, explain: c.explanation_ru } : null;
+      return parts && answer >= 0 && options.length >= 2 && validGap(c.sentence, c.answer) ? { parts, options, answer, explain: c.explanation_ru } : null;
     })
     .filter((x) => !!x);
   if (choices.length) {
@@ -155,13 +149,13 @@ export async function aiText(topic: string, level: 'A1' | 'A2', onStatus?: (s: s
   const glossary: Record<string, GlossEntry> = {};
   for (const g of gen.glossary) {
     const form = g.form.trim();
-    if (form && !glossary[form]) glossary[form] = { lemma: g.lemma.trim(), pos: g.pos, ru: g.ru, en: g.en };
+    if (form && !glossary[form]) glossary[form] = { lemma: g.lemma.trim(), pos: g.pos, ru: g.ru, en: g.en, ...(g.pos === 'noun' ? { pl: g.plural.trim() } : {}) };
   }
   const questions = gen.questions
     .map((q) => ({ q: q.q, options: uniq(q.options), answer: q.answer, right: q.options[q.answer] }))
     .filter((q) => q.right && q.options.includes(clean(q.right)))
     .map((q) => ({ q: q.q, options: q.options, answer: q.options.indexOf(clean(q.right)) }));
-  const fill = gen.fill.filter((f) => gapParts(f.sentence) && clean(f.answer));
+  const fill = gen.fill.filter((f) => validGap(f.sentence, f.answer));
   return {
     id: `gen-${Date.now()}`,
     theme: 'custom',

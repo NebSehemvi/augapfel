@@ -1,7 +1,8 @@
 import { VERBS } from '../data/verbs';
 import { ALL_NOUNS } from '../data/themes';
 import { COMMON } from '../data/common';
-import { GENDER_ART, nounForm } from '../grammar/articles';
+import { nounForm, nounLemma } from '../grammar/articles';
+import { PLURALS } from '../data/nouns';
 import { praeteritum, present } from '../grammar/conjugate';
 import type { Person, Verb } from '../grammar/types';
 
@@ -26,6 +27,7 @@ export interface GlossEntry {
   pos?: string;
   ru?: string;
   en?: string;
+  /** plural without article; "" = no plural */
   pl?: string;
   note?: string;
 }
@@ -46,8 +48,8 @@ function buildIndex(): Map<string, WordInfo> {
   };
 
   for (const n of ALL_NOUNS) {
-    const lemma = `${GENDER_ART[n.g as 'm' | 'f' | 'n']} ${n.de}`;
-    const base: WordInfo = { lemma, pos: 'noun', ru: n.ru, en: n.en, pl: n.pl, source: 'app' };
+    const lemma = nounLemma(n);
+    const base: WordInfo = { lemma, pos: 'noun', ru: n.ru, en: n.en, pl: n.g === 'pl' ? undefined : n.pl, source: 'app' };
     put(n.de, base);
     if (n.weak) put(n.weak, { ...base, note: `${n.de} (Akk./Dat.)` });
     if (n.pl && n.pl !== n.de) {
@@ -109,8 +111,19 @@ export function tokenize(paragraph: string): Token[] {
   return out;
 }
 
+const NOUN_BY_LEMMA = new Map<string, { pl: string | null }>();
+
+/** Known plural of a noun lemma ("der Sohn" → "Söhne"); null = no plural; undefined = unknown. */
+export function pluralOf(lemma: string): string | null | undefined {
+  if (!NOUN_BY_LEMMA.size) for (const n of ALL_NOUNS) if (n.g !== 'pl') NOUN_BY_LEMMA.set(nounLemma(n), { pl: n.pl });
+  if (PLURALS.has(lemma)) return PLURALS.get(lemma);
+  return NOUN_BY_LEMMA.get(lemma)?.pl;
+}
+
 function fromGloss(g: GlossEntry): WordInfo {
-  return { lemma: g.lemma, pos: (g.pos as Pos) ?? 'other', ru: g.ru, en: g.en, pl: g.pl, note: g.note, source: 'text' };
+  const pos = (g.pos as Pos) ?? 'other';
+  const pl = g.pl !== undefined ? g.pl || null : pos === 'noun' ? pluralOf(g.lemma) : undefined;
+  return { lemma: g.lemma, pos, ru: g.ru, en: g.en, pl, note: g.note, source: 'text' };
 }
 
 /** Offline lookup: text glossary → app vocabulary → common words. */
@@ -122,7 +135,7 @@ export function lookupLocal(word: string, glossary?: Record<string, GlossEntry>)
   const idx = index();
   const common = (): WordInfo | null => {
     const c = COMMON.get(word.toLowerCase());
-    return c ? { lemma: c.lemma, pos: c.pos as Pos, ru: c.ru, en: c.en, source: 'common' } : null;
+    return c ? { lemma: c.lemma, pos: c.pos as Pos, ru: c.ru, en: c.en, pl: c.pos === 'noun' ? pluralOf(c.lemma) : undefined, source: 'common' } : null;
   };
   const exact = idx.get(word);
   if (exact) return exact;

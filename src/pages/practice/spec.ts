@@ -1,6 +1,6 @@
 import type { Route } from '../../lib/router';
 import { dueKeys, getProgress } from '../../lib/progress';
-import { reviewSession, textSession, topicSession, trainerSession, wordsSession, type Session, type TrainerMode, type TrainerPool } from '../../exercises/session';
+import { reviewSession, textSession, topicSession, trainerSession, type Session, type TrainerMode, type TrainerPool } from '../../exercises/session';
 import { findText } from '../../lib/userTexts';
 import { providerLabel } from '../../ai/llm';
 import type { Level } from '../../grammar/types';
@@ -45,9 +45,6 @@ export function specFor(route: Route): Spec {
         return textSession(text, getProgress());
       },
     };
-  }
-  if (section === 'words') {
-    return { key: 'words', back: '/words', title: 'Мои слова', topicId: 'words', make: () => wordsSession(getProgress()) };
   }
   if (section === 'verbs') {
     const q = route.query;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Panel } from '../common/Panel';
 import { TextInput } from '../common/TextInput';
-import { Chips } from './Chips';
+import { Chips } from '../common/Chips';
 import { PrepList } from './PrepList';
 import { VerbList } from './VerbList';
 
