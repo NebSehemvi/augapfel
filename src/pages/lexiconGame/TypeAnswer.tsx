@@ -49,11 +49,12 @@ export function TypeAnswer({ q, lenient, onAnswer, onNext }: { q: TypeQuestion; 
             state={res ? (res.verdict === 'ok' ? 'ok' : res.verdict === 'almost' ? 'almost' : 'bad') : null}
             readOnly={!!res}
             autoFocus
-            placeholder={q.entry.kind === 'noun' ? 'der / die / das …' : ''}
+            placeholder={q.entry.pos === 'noun' ? 'der / die / das …' : ''}
             aria-label="Ответ по-немецки"
           />
         </div>
-        {!res && q.entry.kind === 'noun' && <p className={s.hint}>С артиклем. Множественное число писать не нужно.</p>}
+        {!res && q.entry.pos === 'noun' && <p className={s.hint}>С артиклем. Множественное число писать не нужно.</p>}
+        {!res && q.entry.kind === 'verb' && <p className={s.hint}>{q.entry.group === 'prep' ? 'Глагол с предлогом.' : 'Инфинитив.'} Падеж писать не нужно.</p>}
         {res && (
           <div className={s.solution} lang="de">
             {ok ? '✓ ' : '✗ '}

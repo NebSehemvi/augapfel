@@ -53,7 +53,7 @@ export function Home() {
           sub={due > 0 ? `${due} ${plural(due, 'карточка ждёт', 'карточки ждут', 'карточек ждут')}` : 'Пока нечего повторять'}
           hot={due > 0}
         />
-        <QuickCard href={href('/verbs')} icon="🔤" title="Тренажёр глаголов" sub="Таблица сильных глаголов" />
+        <QuickCard href={href('/verbs')} icon="🔤" title="Глаголы" sub="Падеж, Perfekt и предлоги" />
         <QuickCard href={href('/texts')} icon="📰" title="Читать" sub="Тексты A1–A2 с переводом слов" />
       </div>
 

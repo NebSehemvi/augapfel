@@ -6,7 +6,7 @@ Each topic has an **explanation** (in Russian, with English comparisons where th
 
 ## What's inside
 
-- **21 topics**: Präsens, inversion and the verb bracket, questions, separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum, Futur I, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn, deshalb/trotzdem, and Wechselpräpositionen.
+- **20 topics**: Präsens, inversion and the verb bracket, questions, separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum of sein/haben/modal verbs, Futur I, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn, deshalb/trotzdem, and Wechselpräpositionen.
 - **11 exercise types**, modelled on the textbook (Menschen A1/A2):
   - multiple choice
   - fill in the blanks
@@ -19,7 +19,7 @@ Each topic has an **explanation** (in Russian, with English comparisons where th
   - verb forms
   - free writing from cues
   - a word snake
-- **Verb trainer**: the full strong/irregular verb table, with each verb tagged A1/A2/B1. It also covers regular, separable, modal and preposition verbs.
+- **Verbs** (in the lexicon): ~230 A1/A2 verbs and ~35 verbs with a preposition, each with the case it takes ("helfen + Dat.", "anrufen + Akk.", "warten auf + Akk.") and its forms. They're learned like nouns, plus grammar questions in the same rounds: "which case?", "Perfekt?" (ist gefahren / hat gefahren / ist gefahrt …, for verbs whose Perfekt has to be learned) and "which preposition?".
 - **Spaced repetition**: mistakes on verb forms, genders, plurals and prepositions go into a review queue (Leitner boxes).
 - **Reading**: 36 short A1/A2 texts (3 per theme), adapted from Klexikon (CC BY-SA). Tap any word for its translation: the text's own word list → the app's verb/noun database → common words → Wiktionary online. Each text has comprehension questions and word practice.
 - **Lexicon**: ~330 A1/A2 nouns (by theme and level) and ~45 pronouns, trained Memrise-style: *learn new words* (5 at a time: each word is presented, then tested with cards in both directions), *classic review* (cards both ways + typing, due words first) and *speed review* (cards, 10 s per answer, 3 lives). Nouns are always shown with article and plural ("der Sohn / die Söhne") — also in the tap-to-translate popup.
@@ -39,7 +39,7 @@ npm run build
 The code is organised like this:
 
 - `src/grammar/`: conjugation, articles, and word order (`clause.ts` renders V2, inversion, the verb bracket and subordinate clauses).
-- `src/data/`: the verb database (`verbs.ts`), verbs with prepositions, and vocabulary themes.
+- `src/data/`: the verb database (`verbs.ts`), the case each verb takes (`verbGov.ts`), verbs with prepositions, and vocabulary themes.
 - `src/exercises/`: exercise generators (`builders.ts`) and session assembly.
 - `src/topics/`: topic list, exercise plans per topic, and explanations.
 - `src/pages/<page>/`: one folder per page — `index.tsx` with the page component, one file per sub-component and the page's own CSS module. Components and styles shared by several pages live in `src/pages/common/`.

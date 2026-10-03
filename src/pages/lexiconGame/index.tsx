@@ -9,10 +9,10 @@ export function LexiconGamePage({ route }: { route: Route }) {
   const mode = route.path[1] as LexMode;
   const q = route.query;
   const scope: LexScope = {
-    kind: (['pron', 'mine'] as const).find((k) => k === q.get('kind')) ?? 'noun',
+    kind: (['verb', 'pron', 'mine'] as const).find((k) => k === q.get('kind')) ?? 'noun',
     group: q.get('group') ?? 'all',
     levels: (q.get('levels') ?? 'A1,A2').split(',') as Level[],
   };
   const [nonce, setNonce] = useState(0);
-  return <Game key={nonce} mode={mode} scope={scope} back="/lexicon" restart={() => setNonce((n) => n + 1)} />;
+  return <Game key={`${nonce}|${q.toString()}`} mode={mode} scope={scope} back="/lexicon" restart={() => setNonce((n) => n + 1)} />;
 }

@@ -44,7 +44,7 @@ export function CardChoice({ q, onAnswer, onNext, timeUp, delayOk, delayWrong }:
   const wrong = picked !== null && picked !== q.answer;
   return (
     <>
-      <div className={s.modeLabel}>{q.dir === 'de-ru' ? 'Что это значит?' : 'Как это по-немецки?'}</div>
+      <div className={s.modeLabel}>{q.label ?? (q.dir === 'de-ru' ? 'Что это значит?' : 'Как это по-немецки?')}</div>
       <div className={ex.cardPrompt} lang={q.promptLang}>
         {q.prompt}
         {q.sub && <span className={ex.cardSub}>{q.sub}</span>}

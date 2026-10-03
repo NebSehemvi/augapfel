@@ -5,18 +5,19 @@ import { PLANS } from '../topics/plans';
 import type { Ctx } from './context';
 import type { ChoiceItem, Exercise, FillItem } from './types';
 import { formsItem, srsKey, verbLabel, type FormField } from './builders';
-import { getVerb, hasVerb, VERBS, verbKey, TABLE_VERBS } from '../data/verbs';
-import { PREP_VERBS, ALL_PREPS, findPrepVerb } from '../data/prepVerbs';
+import { getVerb, hasVerb, verbKey } from '../data/verbs';
+import { ALL_PREPS, findPrepVerb } from '../data/prepVerbs';
 import { GENDER_ART } from '../grammar/articles';
 import { PRONOUNS } from '../grammar/subjects';
 import { render, sentence } from '../grammar/clause';
-import type { Level, Verb } from '../grammar/types';
+import type { Verb } from '../grammar/types';
 import type { Progress } from '../lib/progress';
 import { cardsEx, vocabExercises } from './vocab';
 import type { ReadingText } from '../data/texts';
 import { isContentWord, lookupLocal, tokenize, type WordInfo } from '../lib/dictionary';
 import { gapParts, validGap } from './gaps';
-import { getLexEntry, lexKey, LEX_NOUNS, LEX_PRONOUNS, type LexEntry } from '../data/lexicon';
+import { getLexEntry, lexKey, type LexEntry } from '../data/lexicon';
+import { distractorPool } from './lexiconGame';
 
 export interface Session {
   title: string;
@@ -92,10 +93,12 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
   if (plurals.length) exercises.push(pluralEx(plurals.slice(0, 8)));
   if (preps.length) exercises.push(prepEx(preps.slice(0, 8), rng));
   for (const dir of ['de-ru', 'ru-de'] as const) {
-    const pron = lex[dir].filter((e) => e.pos === 'pron');
-    const other = lex[dir].filter((e) => e.pos !== 'pron');
-    if (pron.length) exercises.push(lexCards(pron.slice(0, 12), dir, rng));
-    if (other.length) exercises.push(lexCards(other.slice(0, 12), dir, rng));
+    // pronouns, lexicon verbs and the rest are asked separately, each with fitting distractors
+    const kindOf = (e: LexEntry) => (e.pos === 'pron' ? 'pron' : e.kind === 'verb' ? 'verb' : 'other');
+    for (const k of ['pron', 'verb', 'other']) {
+      const list = lex[dir].filter((e) => kindOf(e) === k);
+      if (list.length) exercises.push(lexCards(list.slice(0, 12), dir, rng));
+    }
   }
   return { title: 'Повторение', exercises: shuffle(rng, exercises), srsCreate: true };
 }
@@ -169,119 +172,6 @@ function translateEx(verbs: Verb[]): Exercise {
 }
 
 // ---------------------------------------------------------------------------
-// verb trainer
-
-export type TrainerPool = 'table' | 'irregular' | 'regular' | 'separable' | 'modal' | 'prep';
-export type TrainerMode = 'forms' | 'praesens' | 'translate';
-
-export interface TrainerOptions {
-  pool: TrainerPool;
-  mode: TrainerMode;
-  levels: Level[];
-  count: number;
-}
-
-export const POOL_LABEL: Record<TrainerPool, string> = {
-  table: 'Таблица сильных глаголов',
-  irregular: 'Все сильные и неправильные',
-  regular: 'Слабые (правильные)',
-  separable: 'С отделяемой приставкой',
-  modal: 'Модальные и вспомогательные',
-  prep: 'Глаголы с предлогами',
-};
-
-export const MODE_LABEL: Record<TrainerMode, string> = {
-  forms: 'Präteritum + Partizip II + haben/sein',
-  praesens: 'Präsens (er/sie/es)',
-  translate: 'Перевод: русский → немецкий',
-};
-
-export function trainerVerbs(o: Pick<TrainerOptions, 'pool' | 'levels'>): Verb[] {
-  const lv = (v: Verb) => o.levels.includes(v.level);
-  switch (o.pool) {
-    case 'table':
-      return TABLE_VERBS.filter((v) => lv(v) && v.kind !== 'modal' && v.kind !== 'aux');
-    case 'irregular':
-      return VERBS.filter((v) => lv(v) && (v.kind === 'strong' || v.kind === 'mixed') && !v.refl);
-    case 'regular':
-      return VERBS.filter((v) => lv(v) && v.kind === 'weak' && !v.refl && v.inf !== 'regnen');
-    case 'separable':
-      return VERBS.filter((v) => lv(v) && !!v.sep);
-    case 'modal':
-      return VERBS.filter((v) => lv(v) && (v.kind === 'modal' || v.kind === 'aux'));
-    case 'prep':
-      return [];
-  }
-}
-
-function modeFields(mode: TrainerMode, v: Verb): FormField[] {
-  if (mode === 'praesens') return ['pres3'];
-  if (v.kind === 'modal' && v.inf === 'möchten') return ['praet'];
-  return ['praet', 'pp', 'aux'];
-}
-
-function modeKey(mode: TrainerMode, v: Verb): string {
-  if (mode === 'translate') return `v|${verbKey(v)}|inf`;
-  if (mode === 'praesens') return srsKey.pres(v);
-  return srsKey.pp(v);
-}
-
-/** Order: due items first, then never-seen, then the rest (randomised within groups). */
-function prioritise<T>(items: T[], key: (x: T) => string, progress: Progress, rng: Rng): T[] {
-  const now = Date.now();
-  const due: T[] = [];
-  const fresh: T[] = [];
-  const rest: T[] = [];
-  for (const it of shuffle(rng, items)) {
-    const s = progress.srs[key(it)];
-    if (!s) fresh.push(it);
-    else if (s.due <= now) due.push(it);
-    else rest.push(it);
-  }
-  return [...due, ...fresh, ...rest];
-}
-
-export function trainerSession(o: TrainerOptions, progress: Progress, rng: Rng = defaultRng): Session {
-  if (o.pool === 'prep') {
-    const pvs = prioritise(
-      PREP_VERBS.filter((p) => o.levels.includes(p.level)),
-      (p) => srsKey.prep(p.verb, p.prep),
-      progress,
-      rng,
-    ).slice(0, o.count);
-    const exercises: Exercise[] = [];
-    for (let i = 0; i < pvs.length; i += 5) {
-      exercises.push({
-        type: 'choice',
-        title: 'Глаголы с предлогами',
-        instruction: 'Выберите предлог.',
-        layout: 'inline',
-        items: pvs.slice(i, i + 5).map((p) => prepItem(p.verb, p.prep, rng)),
-      });
-    }
-    return { title: 'Тренажёр глаголов', exercises, srsCreate: true };
-  }
-  const verbs = prioritise(trainerVerbs(o), (v) => modeKey(o.mode, v), progress, rng).slice(0, o.count);
-  const exercises: Exercise[] = [];
-  const per = o.mode === 'forms' ? 3 : 5;
-  for (let i = 0; i < verbs.length; i += per) {
-    const chunk = verbs.slice(i, i + per);
-    if (o.mode === 'translate') exercises.push(translateEx(chunk));
-    else
-      exercises.push({
-        type: 'forms',
-        title: o.mode === 'praesens' ? 'Präsens: er/sie/es' : 'Три формы глагола',
-        instruction: o.mode === 'praesens' ? 'Напишите форму 3-го лица ед. ч.' : 'Напишите Präteritum, Partizip II и вспомогательный глагол.',
-        items: chunk.map((v) => formsItem(v, modeFields(o.mode, v))),
-      });
-  }
-  return { title: 'Тренажёр глаголов', exercises, srsCreate: true };
-}
-
-// ---------------------------------------------------------------------------
-// saved words ("Мои слова")
-
-// ---------------------------------------------------------------------------
 // reading texts
 
 /** Unique content words (nouns, verbs, adjectives) of a text, resolved offline. */
@@ -328,8 +218,7 @@ export function textSession(text: ReadingText, progress: Progress, rng: Rng = de
 // ---------------------------------------------------------------------------
 // lexicon (nouns, pronouns, saved words)
 
-/** Cards for lexicon entries and saved words (pronouns and the rest are asked separately, each with fitting distractors). */
+/** Cards for lexicon entries and saved words of one kind. */
 function lexCards(entries: LexEntry[], dir: 'de-ru' | 'ru-de', rng: Rng): Exercise {
-  const pool = entries[0]?.pos === 'pron' ? LEX_PRONOUNS : LEX_NOUNS;
-  return cardsEx(entries, rng, { direction: dir, extraPool: pool, srsKey: (w) => lexKey(w as LexEntry, dir) });
+  return cardsEx(entries, rng, { direction: dir, ...distractorPool(entries[0]), srsKey: (w) => lexKey(w as LexEntry, dir) });
 }

@@ -10,7 +10,7 @@ const KEY = 'augapfel.lexiconFilter';
 export function loadFilter(level: Level): LexFilter {
   try {
     const f = JSON.parse(localStorage.getItem(KEY) ?? 'null') as LexFilter | null;
-    if (f && ['noun', 'pron', 'mine'].includes(f.kind) && typeof f.group === 'string' && Array.isArray(f.levels) && f.levels.length) return f;
+    if (f && ['noun', 'verb', 'pron', 'mine'].includes(f.kind) && typeof f.group === 'string' && Array.isArray(f.levels) && f.levels.length) return f;
   } catch {
     // no storage — use the default
   }

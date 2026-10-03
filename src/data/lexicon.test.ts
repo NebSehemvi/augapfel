@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { LEX_NOUNS, LEX_PRONOUNS } from './lexicon';
-import { cardQuestion, isLearned, learnSteps, learnWords, LEARN_MINE, LEARN_SIZE, reviewQuestions, reviewUpdate, scopeEntries, sessionEntries, speedQuestions, SPEED_SIZE, typeQuestion } from '../exercises/lexiconGame';
+import { LEX_NOUNS, LEX_PRONOUNS, LEX_VERBS } from './lexicon';
+import { VERBS, verbKey } from './verbs';
+import { VERB_GOV } from './verbGov';
+import { aspectQuestion, cardQuestion, hasCase, isLearned, verbAspects, learnSteps, learnWords, LEARN_MINE, LEARN_SIZE, reviewQuestions, reviewUpdate, scopeEntries, sessionEntries, speedQuestions, SPEED_SIZE, typeQuestion } from '../exercises/lexiconGame';
 import type { SavedWord } from '../lib/progress';
 import { germanForm } from '../exercises/vocab';
 import { validGap } from '../exercises/gaps';
@@ -22,10 +24,10 @@ describe('lexicon', () => {
     expect(germanForm(LEX_NOUNS.find((e) => e.lemma.startsWith('die Eltern'))!)).toBe('die Eltern (мн.)');
   });
 
-  for (const kind of ['noun', 'pron'] as const)
+  for (const kind of ['noun', 'pron', 'verb'] as const)
     for (const direction of ['ru-de', 'de-ru'] as const)
       it(`${kind} cards ${direction}: 4 different options, exactly one fits`, () => {
-        const entries = kind === 'noun' ? LEX_NOUNS : LEX_PRONOUNS;
+        const entries = kind === 'noun' ? LEX_NOUNS : kind === 'verb' ? LEX_VERBS : LEX_PRONOUNS;
         for (let seed = 1; seed <= 3; seed++)
           for (const e of entries) {
             const item = cardQuestion(e, direction, seeded(seed));
@@ -38,6 +40,57 @@ describe('lexicon', () => {
             expect(matching.length, `${item.prompt}: ${item.options.join(' | ')}`).toBe(1);
           }
       });
+});
+
+describe('verbs', () => {
+  it('every A1/A2 verb has its case, and every case entry is a real verb', () => {
+    const keys = new Set(VERBS.map(verbKey));
+    expect([...VERB_GOV.keys()].filter((k) => !keys.has(k))).toEqual([]);
+    expect(VERBS.filter((v) => v.level !== 'B1' && !VERB_GOV.has(verbKey(v))).map(verbKey)).toEqual([]);
+  });
+
+  it('shows verbs with their case and asks for it', () => {
+    const byId = (id: string) => LEX_VERBS.find((e) => e.id === id)!;
+    expect(germanForm(byId('helfen'))).toBe('helfen + Dat.');
+    expect(germanForm(byId('anrufen'))).toBe('anrufen + Akk.');
+    expect(germanForm(byId('geben'))).toBe('geben + Dat. + Akk.');
+    expect(germanForm(byId('gehen'))).toBe('gehen');
+    expect(germanForm(byId('warten auf'))).toBe('warten auf + Akk.');
+    expect(byId('helfen').forms).toBe('hilft · hat geholfen');
+    for (const e of LEX_VERBS.filter(hasCase)) {
+      const q = aspectQuestion(e, 'case', seeded(1));
+      expect(q.options[q.answer], e.id).toBe(`+ ${e.gov}`);
+      expect(q.options.length).toBe(e.group === 'prep' ? 2 : 3);
+    }
+    expect(hasCase(byId('gehen'))).toBe(false);
+    expect(hasCase(byId('können'))).toBe(false);
+  });
+
+  it('asks the Perfekt of verbs where it has to be learned, with exactly one right option', () => {
+    const byId = (id: string) => LEX_VERBS.find((e) => e.id === id)!;
+    expect(byId('fahren').perfekt).toEqual(['ist gefahren', 'hat gefahren', 'ist gefahrt', 'hat gefahrt']);
+    expect(byId('besuchen').perfekt?.[0]).toBe('hat besucht');
+    expect(byId('aufstehen').perfekt?.[0]).toBe('ist aufgestanden');
+    expect(byId('machen').perfekt).toBeUndefined(); // hat gemacht — regular
+    expect(byId('joggen').perfekt).toBeUndefined(); // haben and sein both fine
+    for (const e of LEX_VERBS.filter((x) => x.perfekt)) {
+      expect(new Set(e.perfekt).size, e.id).toBe(4);
+      const q = aspectQuestion(e, 'perfekt', seeded(2));
+      expect(q.options[q.answer], e.id).toBe(e.perfekt![0]);
+    }
+  });
+
+  it('asks the preposition without offering another one the verb also takes', () => {
+    const freuen = LEX_VERBS.find((e) => e.id === 'sich freuen auf')!;
+    expect(verbAspects(freuen)).toEqual(['case', 'prep']);
+    for (let seed = 1; seed <= 20; seed++) {
+      const q = aspectQuestion(freuen, 'prep', seeded(seed));
+      expect(q.prompt).toBe('sich freuen ___');
+      expect(q.options[q.answer]).toBe('auf');
+      expect(q.options).not.toContain('über');
+      expect(new Set(q.options).size).toBe(3);
+    }
+  });
 });
 
 describe('plurals in texts', () => {
@@ -120,7 +173,7 @@ describe('lexicon modes', () => {
   const withWords = () => {
     const p = empty();
     p.words = {
-      gehen: saved('gehen', 'verb', 'идти', 1),
+      googeln: saved('googeln', 'verb', 'гуглить', 1),
       schnell: saved('schnell', 'adj', 'быстро', 2),
       'sich freuen': saved('sich freuen', 'verb', 'радоваться', 3),
       'der Sohn': saved('der Sohn', 'noun', 'сын', 4),
@@ -131,9 +184,10 @@ describe('lexicon modes', () => {
   it('saved words are a scope of their own; a saved lexicon noun is the same entry', () => {
     const p = withWords();
     const mine = scopeEntries({ kind: 'mine', group: 'all', levels: ['A1'] }, p);
-    expect(mine.map((e) => e.id)).toEqual(['gehen', 'schnell', 'sich freuen', 'der Sohn']);
+    expect(mine.map((e) => e.id)).toEqual(['googeln', 'schnell', 'sich freuen', 'der Sohn']);
     expect(mine.find((e) => e.id === 'der Sohn')).toBe(LEX_NOUNS.find((e) => e.id === 'der Sohn'));
     expect(mine[0].kind).toBe('mine');
+    expect(mine[2].kind).toBe('verb');
     for (const e of mine)
       for (const dir of ['de-ru', 'ru-de'] as const) {
         const q = cardQuestion(e, dir, seeded(1));
@@ -149,14 +203,14 @@ describe('lexicon modes', () => {
       const words = learnWords(sessionEntries(pron, p), p, seeded(seed));
       expect(words.length).toBe(LEARN_SIZE);
       expect(words.filter((e) => p.words[e.lemma]).length).toBe(LEARN_MINE);
-      expect(words.filter((e) => p.words[e.lemma]).map((e) => e.id)).toEqual(expect.arrayContaining(['gehen', 'schnell']));
+      expect(words.filter((e) => p.words[e.lemma]).map((e) => e.id)).toEqual(expect.arrayContaining(['googeln', 'schnell']));
     }
     // learned saved words come back in other scopes only when due
     const now = Date.now();
-    p.srs['l|gehen|de-ru'] = { box: 1, due: now + 1e6, seen: 1, wrong: 0 };
+    p.srs['l|googeln|de-ru'] = { box: 1, due: now + 1e6, seen: 1, wrong: 0 };
     p.srs['l|schnell|de-ru'] = { box: 1, due: now - 1, seen: 1, wrong: 0 };
     const ids = sessionEntries(pron, p, now).map((e) => e.id);
-    expect(ids).not.toContain('gehen');
+    expect(ids).not.toContain('googeln');
     expect(ids).toContain('schnell');
   });
 });

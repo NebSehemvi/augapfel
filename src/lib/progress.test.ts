@@ -64,11 +64,11 @@ describe('saved words', () => {
 
   it('removing a saved word keeps progress of lexicon words only', () => {
     addWord({ lemma: 'der Sohn', pos: 'noun', ru: 'сын' });
-    addWord({ lemma: 'rennen', pos: 'verb', ru: 'бежать' });
-    recordSrs([{ key: 'l|der Sohn|de-ru', ok: true }, { key: 'l|rennen|de-ru', ok: true }], true);
+    addWord({ lemma: 'googeln', pos: 'verb', ru: 'гуглить' });
+    recordSrs([{ key: 'l|der Sohn|de-ru', ok: true }, { key: 'l|googeln|de-ru', ok: true }], true);
     removeWord('der Sohn');
-    removeWord('rennen');
+    removeWord('googeln');
     expect(getProgress().srs['l|der Sohn|de-ru']).toBeDefined();
-    expect(getProgress().srs['l|rennen|de-ru']).toBeUndefined();
+    expect(getProgress().srs['l|googeln|de-ru']).toBeUndefined();
   });
 });

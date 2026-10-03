@@ -1,9 +1,8 @@
 import type { Route } from '../../lib/router';
 import { dueKeys, getProgress } from '../../lib/progress';
-import { reviewSession, textSession, topicSession, trainerSession, type Session, type TrainerMode, type TrainerPool } from '../../exercises/session';
+import { reviewSession, textSession, topicSession, type Session } from '../../exercises/session';
 import { findText } from '../../lib/userTexts';
 import { providerLabel } from '../../ai/llm';
-import type { Level } from '../../grammar/types';
 import { getTopic } from '../../topics';
 
 /** What a practice route runs: how to build the session, where "back" goes, how results are recorded. */
@@ -44,21 +43,6 @@ export function specFor(route: Route): Spec {
         if (!text) throw new Error('Текст не найден');
         return textSession(text, getProgress());
       },
-    };
-  }
-  if (section === 'verbs') {
-    const q = route.query;
-    const levels = (q.get('levels') ?? 'A1,A2').split(',') as Level[];
-    return {
-      key: 'verbs',
-      back: '/verbs',
-      title: 'Тренажёр глаголов',
-      topicId: 'trainer',
-      make: () =>
-        trainerSession(
-          { pool: (q.get('pool') ?? 'table') as TrainerPool, mode: (q.get('mode') ?? 'forms') as TrainerMode, levels, count: Number(q.get('count') ?? 12) },
-          getProgress(),
-        ),
     };
   }
   return { key: 'review', back: '/review', title: 'Повторение', topicId: 'review', make: () => reviewSession(dueKeys().slice(0, 30), getProgress().words) };

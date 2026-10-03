@@ -1,12 +1,13 @@
 import type { LexEntry } from '../../data/lexicon';
 import { germanForm } from '../../exercises/vocab';
 import { POS_LABEL, type Pos } from '../../lib/dictionary';
+import { GOV_QUESTION } from '../../data/verbGov';
 import { Button } from '../common/Button';
 import { LevelBadge } from '../common/LevelBadge';
 import { canSpeak, speak } from './speak';
 import s from './game.module.css';
 
-/** A new word is shown before it is tested: German (with article and plural), translation, level. */
+/** A new word is shown before it is tested: German (nouns with article and plural, verbs with their case), translation, level. */
 export function PresentCard({ entry, mine, onNext }: { entry: LexEntry; mine: boolean; onNext: () => void }) {
   const de = germanForm(entry);
   return (
@@ -17,9 +18,15 @@ export function PresentCard({ entry, mine, onNext }: { entry: LexEntry; mine: bo
           {de}
         </div>
         {canSpeak && (
-          <button type="button" className={s.speak} onClick={() => speak(de)}>
+          <button type="button" className={s.speak} onClick={() => speak(entry.gov ? entry.lemma : de)}>
             🔊 Произнести
           </button>
+        )}
+        {entry.govCode && <div className={s.gov}>{GOV_QUESTION[entry.govCode]}</div>}
+        {entry.forms && (
+          <div className={s.forms} lang="de">
+            {entry.forms}
+          </div>
         )}
         <div className={s.ru}>{entry.ru}</div>
         {entry.en && (
