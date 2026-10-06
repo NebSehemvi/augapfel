@@ -23,8 +23,19 @@ import {
 /*
  * Exercise plans for "Числа и время": numbers and prices, clock times, dates.
  * Everything is generated, so every session has new numbers. Listening tasks are added only when the
- * browser can speak German.
+ * browser can speak German. Each task carries a review key ("z|t|3:30"), so mistakes come back in Повторение,
+ * where reviewNumbers() rebuilds a task for the same number, time or date.
  */
+
+/** Review keys: z|n|67 number, z|p|349 price, z|t|3:30 everyday time, z|f|15:30 official time, z|d|3.4 date, z|y|1989 year */
+export const numKey = {
+  number: (n: number) => `z|n|${n}`,
+  price: (c: number) => `z|p|${c}`,
+  time: (t: Time) => `z|t|${t.h}:${t.m}`,
+  formal: (t: Time) => `z|f|${t.h}:${t.m}`,
+  date: (x: Day) => `z|d|${x.d}.${x.m}`,
+  year: (y: number) => `z|y|${y}`,
+};
 
 const int = (rng: Rng, from: number, to: number) => from + Math.floor(rng() * (to - from + 1));
 
@@ -77,6 +88,27 @@ const anyNumber = (rng: Rng, k: number) => (k % 3 === 2 ? int(rng, 101, 999) : k
 
 const TRICKY = [11, 12, 16, 17, 21, 30, 60, 70, 66, 77, 101, 1000];
 
+/** 67 → pick "siebenundsechzig" (21–99) */
+const spellItem = (rng: Rng, n: number) => choice(rng, { question: String(n), options: [numberWord(n), ...wrongTwoDigit(n).slice(0, 3)], srs: numKey.number(n) });
+/** 67 → type the word */
+const wordItem = (n: number): FillItem => ({ parts: [`${n} → `, 0], answers: [numberWords(n)], srs: [numKey.number(n)] });
+/** siebenundsechzig → type 67 */
+const digitsItem = (n: number): FillItem => ({ parts: [`${numberWord(n)} → `, 0], answers: [[String(n)]], srs: [numKey.number(n)] });
+/** hear 67 → type 67 */
+const listenNumberItem = (n: number): FillItem => ({ parts: [0], answers: [[String(n)]], audio: numberWord(n), srs: [numKey.number(n)] });
+
+/** 3,49 € → pick "drei Euro neunundvierzig" */
+function priceItem(rng: Rng, c: number): ChoiceItem {
+  const e = Math.floor(c / 100);
+  const ct = c % 100;
+  const swapped = e * 100 + (ct % 10) * 10 + Math.floor(ct / 10);
+  return choice(rng, {
+    question: priceText(c),
+    options: [priceWord(c), priceWord(swapped), priceWord((e + 1) * 100 + ct), `${numberWord(e)} Euro ${wrongTwoDigit(ct)[0]}`],
+    srs: numKey.price(c),
+  });
+}
+
 function numbersPlan(ctx: Ctx): Exercise[] {
   const { rng } = ctx;
   const ex: Exercise[] = [];
@@ -94,21 +126,21 @@ function numbersPlan(ctx: Ctx): Exercise[] {
     title: 'Как это пишется?',
     instruction: 'Выберите правильное написание. Помните: сначала единицы, потом десятки.',
     layout: 'list',
-    items: distinct(rng, 4, twoDigit).map((n) => choice(rng, { question: String(n), options: [numberWord(n), ...wrongTwoDigit(n).slice(0, 3)] })),
+    items: distinct(rng, 4, twoDigit).map((n) => spellItem(rng, n)),
   });
 
   ex.push({
     type: 'fill',
     title: 'Напишите число словом',
     instruction: 'Одним словом, без пробелов: 21 → einundzwanzig.',
-    items: distinct(rng, 5, (r) => anyNumber(r, int(r, 0, 4))).map((n): FillItem => ({ parts: [`${n} → `, 0], answers: [numberWords(n)] })),
+    items: distinct(rng, 5, (r) => anyNumber(r, int(r, 0, 4))).map(wordItem),
   });
 
   ex.push({
     type: 'fill',
     title: 'Напишите цифрами',
     instruction: 'Прочитайте число и напишите его цифрами.',
-    items: distinct(rng, 4, (r) => anyNumber(r, int(r, 0, 3))).map((n): FillItem => ({ parts: [`${numberWord(n)} → `, 0], answers: [[String(n)]] })),
+    items: distinct(rng, 4, (r) => anyNumber(r, int(r, 0, 3))).map(digitsItem),
   });
 
   ex.push({
@@ -116,12 +148,7 @@ function numbersPlan(ctx: Ctx): Exercise[] {
     title: 'Was kostet das?',
     instruction: 'Как правильно прочитать цену?',
     layout: 'list',
-    items: distinct(rng, 4, (r) => int(r, 1, 30) * 100 + twoDigit(r)).map((c) => {
-      const e = Math.floor(c / 100);
-      const ct = c % 100;
-      const swapped = e * 100 + (ct % 10) * 10 + Math.floor(ct / 10);
-      return choice(rng, { question: priceText(c), options: [priceWord(c), priceWord(swapped), priceWord((e + 1) * 100 + ct), `${numberWord(e)} Euro ${wrongTwoDigit(ct)[0]}`] });
-    }),
+    items: distinct(rng, 4, (r) => int(r, 1, 30) * 100 + twoDigit(r)).map((c) => priceItem(rng, c)),
   });
 
   if (canSpeak) {
@@ -129,7 +156,7 @@ function numbersPlan(ctx: Ctx): Exercise[] {
       type: 'fill',
       title: 'Слушаем числа',
       instruction: 'Нажмите 🔊, прослушайте число и запишите его цифрами.',
-      items: distinct(rng, 4, (r) => anyNumber(r, int(r, 0, 3))).map((n): FillItem => ({ parts: [0], answers: [[String(n)]], audio: numberWord(n) })),
+      items: distinct(rng, 4, (r) => anyNumber(r, int(r, 0, 3))).map(listenNumberItem),
     });
   }
   return ex;
@@ -160,6 +187,24 @@ const wrongPhrases = (rng: Rng, t: Time) => {
   return shuffle(rng, [...new Set(confusable(t).map((x) => informalTime(x.h, x.m)))].filter((p) => !right.includes(p))).slice(0, 3);
 };
 
+/** 3:30 (or 15:30) → pick "halb vier" */
+const phraseItem = (rng: Rng, t: Time) =>
+  choice(rng, {
+    // half the times as 24-hour clock: 15:30 is also "halb vier"
+    question: clockText(rng() < 0.5 ? t.h : (t.h + 12) % 24, t.m),
+    options: [informalTime(t.h, t.m), ...wrongPhrases(rng, t)],
+    srs: numKey.time(t),
+  });
+
+const clockOptions = (rng: Rng, t: Time) => [clockText(t.h, t.m), ...shuffle(rng, confusable(t)).slice(0, 3).map((x) => clockText(x.h, x.m))];
+/** "Es ist halb vier." → pick 3:30 */
+const clockItem = (rng: Rng, t: Time) => choice(rng, { question: `Es ist ${informalTime(t.h, t.m)}.`, options: clockOptions(rng, t), srs: numKey.time(t) });
+/** hear "Es ist halb vier." → pick 3:30 */
+const listenClockItem = (rng: Rng, t: Time) =>
+  choice(rng, { question: 'Wie spät ist es?', audio: `Es ist ${informalTime(t.h, t.m)}.`, options: clockOptions(rng, t), srs: numKey.time(t) });
+/** 15:30 → type "fünfzehn Uhr dreißig" */
+const formalItem = (t: Time): FillItem => ({ parts: [`${clockText(t.h, t.m)} → `, 0], answers: [[formalTime(t.h, t.m)]], srs: [numKey.formal(t)] });
+
 const PREP_TIME: { parts: (string | number)[]; answers: string[][]; distractors: string[] }[] = [
   { parts: ['Der Kurs beginnt ', 0, ' neun Uhr.'], answers: [['um']], distractors: ['am', 'im'] },
   { parts: ['Ich arbeite ', 0, ' acht bis vier Uhr.'], answers: [['von']], distractors: ['um', 'am'] },
@@ -179,10 +224,7 @@ function clockPlan(ctx: Ctx): Exercise[] {
     title: 'Wie spät ist es?',
     instruction: 'Выберите, как это говорят в разговоре. Осторожно с «halb»!',
     layout: 'list',
-    items: distinct(rng, 4, dayTime, timeKey).map((t) =>
-      // half the times as 24-hour clock: 15:30 is also "halb vier"
-      choice(rng, { question: clockText(rng() < 0.5 ? t.h : (t.h + 12) % 24, t.m), options: [informalTime(t.h, t.m), ...wrongPhrases(rng, t)] }),
-    ),
+    items: distinct(rng, 4, dayTime, timeKey).map((t) => phraseItem(rng, t)),
   });
 
   ex.push({
@@ -190,12 +232,7 @@ function clockPlan(ctx: Ctx): Exercise[] {
     title: 'Который час?',
     instruction: 'Выберите время цифрами.',
     layout: 'inline',
-    items: distinct(rng, 4, (r) => ({ h: int(r, 1, 12), m: pick(r, [15, 20, 25, 30, 35, 40, 45]) }), timeKey).map((t) =>
-      choice(rng, {
-        question: `Es ist ${informalTime(t.h, t.m)}.`,
-        options: [clockText(t.h, t.m), ...shuffle(rng, confusable(t)).slice(0, 3).map((x) => clockText(x.h, x.m))],
-      }),
-    ),
+    items: distinct(rng, 4, (r) => ({ h: int(r, 1, 12), m: pick(r, [15, 20, 25, 30, 35, 40, 45]) }), timeKey).map((t) => clockItem(rng, t)),
   });
 
   ex.push(
@@ -210,7 +247,7 @@ function clockPlan(ctx: Ctx): Exercise[] {
     type: 'fill',
     title: 'Официальное время',
     instruction: 'Как это сказали бы на вокзале или по радио? 15:30 → fünfzehn Uhr dreißig.',
-    items: distinct(rng, 4, (r) => ({ h: int(r, 1, 23), m: int(r, 0, 59) }), timeKey).map((t): FillItem => ({ parts: [`${clockText(t.h, t.m)} → `, 0], answers: [[formalTime(t.h, t.m)]] })),
+    items: distinct(rng, 4, (r) => ({ h: int(r, 1, 23), m: int(r, 0, 59) }), timeKey).map(formalItem),
   });
 
   ex.push(
@@ -228,13 +265,7 @@ function clockPlan(ctx: Ctx): Exercise[] {
       title: 'Слушаем время',
       instruction: 'Нажмите 🔊 и выберите время.',
       layout: 'inline',
-      items: distinct(rng, 4, (r) => ({ h: int(r, 1, 12), m: pick(r, [15, 30, 45, 20, 40]) }), timeKey).map((t) =>
-        choice(rng, {
-          question: 'Wie spät ist es?',
-          audio: `Es ist ${informalTime(t.h, t.m)}.`,
-          options: [clockText(t.h, t.m), ...shuffle(rng, confusable(t)).slice(0, 3).map((x) => clockText(x.h, x.m))],
-        }),
-      ),
+      items: distinct(rng, 4, (r) => ({ h: int(r, 1, 12), m: pick(r, [15, 30, 45, 20, 40]) }), timeKey).map((t) => listenClockItem(rng, t)),
     });
   }
   return ex;
@@ -258,6 +289,44 @@ const DAT_FRAMES = [
   (x: string) => [`Der Termin ist am `, 0, ` ${x}.`],
 ];
 
+/** "Heute ist der ___ Mai. (3.)" → pick "dritte" */
+function ordinalItem(rng: Rng, x: Day): ChoiceItem {
+  const stem = ordinalStem(x.d);
+  // "siebente" is a valid (older) form of "siebte", so it is never offered as a wrong option
+  const naive = x.d === 7 ? 'siebete' : numberWord(x.d) + (x.d < 20 ? 'te' : 'ste');
+  return choice(rng, { parts: ['Heute ist der ', 0, ` ${MONTHS[x.m]}.`], context: `${x.d}.`, options: [`${stem}e`, naive, `${stem}en`, `${stem}er`], srs: numKey.date(x) });
+}
+
+/** type "dritte" (der … Mai) or "dritten" (am … Mai) */
+function dateFillItem(rng: Rng, x: Day, nominative: boolean): FillItem {
+  const month = MONTHS[x.m];
+  const stem = ordinalStem(x.d);
+  const forms = (end: string) => [`${stem}${end}`, ...(x.d === 7 ? [`siebent${end}`] : [])];
+  return nominative
+    ? { parts: ['Heute ist der ', 0, ` ${month}.`], answers: [forms('e')], context: `${x.d}.`, srs: [numKey.date(x)] }
+    : { parts: pick(rng, DAT_FRAMES)(month), answers: [forms('en')], context: `${x.d}.`, srs: [numKey.date(x)] };
+}
+
+/** 1986 → pick "neunzehnhundertsechsundachtzig" */
+function yearItem(rng: Rng, y: number): ChoiceItem {
+  const t = Math.floor((y % 100) / 10);
+  const o = y % 10;
+  const swapped = Math.floor(y / 100) * 100 + o * 10 + t;
+  // tens before units (neunzehnhundertachtzigsechs), swapped digits, and for 2000+ the English pattern
+  const tensFirst = o && t > 1 ? `${numberWord(Math.floor(y / 100))}hundert${TENS_WORD[t]}${numberWord(o)}` : yearWord(y + 2);
+  const wrong = [y < 2000 ? tensFirst : `zwanzighundert${numberWord(y % 100)}`, yearWord(swapped !== y ? swapped : y + 1)];
+  return choice(rng, { question: String(y), options: [yearWord(y), ...wrong], srs: numKey.year(y) });
+}
+
+/** hear "am dritten Mai" → pick 3.5. */
+const listenDateItem = (rng: Rng, x: Day) =>
+  choice(rng, {
+    question: 'Wann?',
+    audio: dateDat(x.d, x.m),
+    options: [dateText(x.d, x.m), dateText(x.d, (x.m + 1) % 12), dateText(x.d === 3 ? 13 : x.d + 10 > 28 ? x.d - 10 : x.d + 10, x.m), dateText(x.d, (x.m + 11) % 12)],
+    srs: numKey.date(x),
+  });
+
 const PREP_DATE: [string, string][] = [
   ['Montag', 'am'],
   ['Mai', 'im'],
@@ -280,26 +349,14 @@ function datePlan(ctx: Ctx): Exercise[] {
     title: 'Порядковые числа',
     instruction: 'Выберите правильную форму. Особые: erste, dritte, siebte, achte.',
     layout: 'inline',
-    items: distinct(rng, 5, anyDay, dayKey).map((x) => {
-      const stem = ordinalStem(x.d);
-      // "siebente" is a valid (older) form of "siebte", so it is never offered as a wrong option
-      const naive = x.d === 7 ? 'siebete' : numberWord(x.d) + (x.d < 20 ? 'te' : 'ste');
-      return choice(rng, { parts: ['Heute ist der ', 0, ` ${MONTHS[x.m]}.`], context: `${x.d}.`, options: [`${stem}e`, naive, `${stem}en`, `${stem}er`] });
-    }),
+    items: distinct(rng, 5, anyDay, dayKey).map((x) => ordinalItem(rng, x)),
   });
 
   ex.push({
     type: 'fill',
     title: 'Когда?',
     instruction: 'Напишите порядковое число: «am …ten» или «der …te».',
-    items: distinct(rng, 5, anyDay, dayKey).map((x, k): FillItem => {
-      const month = MONTHS[x.m];
-      const stem = ordinalStem(x.d);
-      const forms = (end: string) => [`${stem}${end}`, ...(x.d === 7 ? [`siebent${end}`] : [])];
-      return k % 3 === 0
-        ? { parts: ['Heute ist der ', 0, ` ${month}.`], answers: [forms('e')], context: `${x.d}.` }
-        : { parts: pick(rng, DAT_FRAMES)(month), answers: [forms('en')], context: `${x.d}.` };
-    }),
+    items: distinct(rng, 5, anyDay, dayKey).map((x, k) => dateFillItem(rng, x, k % 3 === 0)),
   });
 
   ex.push({
@@ -323,15 +380,7 @@ function datePlan(ctx: Ctx): Exercise[] {
     title: 'Годы',
     instruction: 'Как читают год?',
     layout: 'list',
-    items: [int(rng, 1950, 1999), int(rng, 1900, 1949), int(rng, 2001, 2030)].map((y) => {
-      const t = Math.floor((y % 100) / 10);
-      const o = y % 10;
-      const swapped = Math.floor(y / 100) * 100 + o * 10 + t;
-      // tens before units (neunzehnhundertachtzigsechs), swapped digits, and for 2000+ the English pattern
-      const tensFirst = o && t > 1 ? `${numberWord(Math.floor(y / 100))}hundert${TENS_WORD[t]}${numberWord(o)}` : yearWord(y + 2);
-      const wrong = [y < 2000 ? tensFirst : `zwanzighundert${numberWord(y % 100)}`, yearWord(swapped !== y ? swapped : y + 1)];
-      return choice(rng, { question: String(y), options: [yearWord(y), ...wrong] });
-    }),
+    items: [int(rng, 1950, 1999), int(rng, 1900, 1949), int(rng, 2001, 2030)].map((y) => yearItem(rng, y)),
   });
 
   if (canSpeak) {
@@ -340,16 +389,42 @@ function datePlan(ctx: Ctx): Exercise[] {
       title: 'Слушаем даты',
       instruction: 'Нажмите 🔊 и выберите дату.',
       layout: 'inline',
-      items: distinct(rng, 4, anyDay, dayKey).map((x) =>
-        choice(rng, {
-          question: 'Wann?',
-          audio: `${dateDat(x.d, x.m)}`,
-          options: [dateText(x.d, x.m), dateText(x.d, (x.m + 1) % 12), dateText(x.d === 3 ? 13 : x.d + 10 > 28 ? x.d - 10 : x.d + 10, x.m), dateText(x.d, (x.m + 11) % 12)],
-        }),
-      ),
+      items: distinct(rng, 4, anyDay, dayKey).map((x) => listenDateItem(rng, x)),
     });
   }
   return ex;
+}
+
+// ---------------------------------------------------------------------------
+// review
+
+/**
+ * Повторение of "Числа и время" mistakes: the same number / time / date in a typed or multiple-choice task.
+ * Unknown or malformed keys are skipped.
+ */
+export function reviewNumbers(keys: string[], rng: Rng): Exercise[] {
+  const fill: FillItem[] = [];
+  const choices: ChoiceItem[] = [];
+  const time = (v: string): Time | null => {
+    const [h, m] = v.split(':').map(Number);
+    return Number.isInteger(h) && Number.isInteger(m) && h >= 0 && h < 24 && m >= 0 && m < 60 ? { h, m } : null;
+  };
+  for (const key of keys) {
+    const [, kind, v] = key.split('|');
+    const n = Number(v);
+    if (kind === 'n' && Number.isInteger(n) && n >= 0 && n <= 9999) fill.push(wordItem(n));
+    else if (kind === 'p' && Number.isInteger(n) && n > 0 && n < 100000) choices.push(priceItem(rng, n));
+    else if (kind === 't' && time(v) && time(v)!.m % 5 === 0) choices.push(phraseItem(rng, { ...time(v)!, h: ((time(v)!.h + 11) % 12) + 1 }));
+    else if (kind === 'f' && time(v)) fill.push(formalItem(time(v)!));
+    else if (kind === 'd') {
+      const [d, m] = v.split('.').map(Number);
+      if (d >= 1 && d <= 31 && m >= 0 && m <= 11) fill.push(dateFillItem(rng, { d, m }, rng() < 0.5));
+    } else if (kind === 'y' && Number.isInteger(n) && n >= 1000 && n <= 2099) choices.push(yearItem(rng, n));
+  }
+  const out: Exercise[] = [];
+  if (fill.length) out.push({ type: 'fill', title: 'Повторение: числа и даты', instruction: 'Напишите словом или порядковым числом.', items: fill.slice(0, 8) });
+  if (choices.length) out.push({ type: 'choice', title: 'Повторение: время, цены, годы', instruction: 'Выберите правильный вариант.', layout: 'list', items: choices.slice(0, 8) });
+  return out;
 }
 
 export const NUMBER_PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
