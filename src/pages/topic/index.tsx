@@ -47,7 +47,7 @@ export function TopicPage({ id }: { id: string }) {
         <Explain />
       </section>
 
-      <p className={s.note}>Упражнения каждый раз на новую тему лексики: еда, квартира, работа, путешествия…</p>
+      {!topic.noTheme && <p className={s.note}>Упражнения каждый раз на новую тему лексики: еда, квартира, работа, путешествия…</p>}
       <StickyActions>
         <Button href={href(`/t/${id}/practice`)}>{stat ? 'Тренироваться снова' : 'Начать упражнения'} →</Button>
         {aiReady(ai) && (

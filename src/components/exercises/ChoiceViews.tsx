@@ -7,6 +7,7 @@ import { Context, HintSpoiler } from './HintSpoiler';
 import type { ViewProps } from './TextViews';
 import { fillParts } from '../../lib/format';
 import s from './ex.module.css';
+import { SpeakButton } from './SpeakButton';
 
 export function ChoiceView({ ex, onDone }: ViewProps<'choice'>) {
   const [sel, setSel] = useState<(number | null)[]>(() => ex.items.map(() => null));
@@ -39,12 +40,16 @@ export function ChoiceView({ ex, onDone }: ViewProps<'choice'>) {
             <li key={i} className={s.item}>
               {it.parts ? (
                 <div className={s.sentence} lang="de">
+                  {it.audio && <SpeakButton text={it.audio} />}
                   <GapText parts={it.parts} fill={chosen !== null ? it.options[chosen] : null} state={checked ? (chosen === it.answer ? 'ok' : 'bad') : null} />
                   <Context text={it.context} />
                   {it.hint && <HintSpoiler text={it.hint} revealed={checked} />}
                 </div>
               ) : (
-                <div className={s.question}>{it.question}</div>
+                <div className={s.question}>
+                  {it.audio && <SpeakButton text={it.audio} />}
+                  {it.question}
+                </div>
               )}
               <div className={list ? s.optionsList : s.options}>
                 {it.options.map((o, k) => {

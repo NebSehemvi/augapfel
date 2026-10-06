@@ -7,6 +7,7 @@ import type { Verb } from '../grammar/types';
 import { PLURAL_TYPES, pluralType, AKK_PREPS, DAT_PREPS, GENDER_ART } from '../grammar/articles';
 import { PREP_VERBS } from '../data/prepVerbs';
 import { verbAllowed } from '../exercises/context';
+import { NUMBER_PLANS } from './plansNumbers';
 
 const noGe = (v: Verb) => B.ppType(v) === 2;
 const isRegular = (v: Verb) => v.kind === 'weak' && !v.sep && !v.refl;
@@ -93,6 +94,7 @@ const COMMON_HABEN = ['essen', 'trinken', 'schreiben', 'lesen', 'sehen', 'machen
 // ---------------------------------------------------------------------------
 
 export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
+  ...NUMBER_PLANS,
   'praesens-regular': (ctx) => [
     B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), title: 'Präsens: выберите форму' }),
     B.asBank(ctx, B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), n: 4, title: 'Präsens: банк слов' })),

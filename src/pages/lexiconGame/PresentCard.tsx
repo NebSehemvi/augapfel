@@ -4,7 +4,7 @@ import { POS_LABEL, type Pos } from '../../lib/dictionary';
 import { GOV_QUESTION } from '../../data/verbGov';
 import { Button } from '../common/Button';
 import { LevelBadge } from '../common/LevelBadge';
-import { canSpeak, speak } from './speak';
+import { canSpeak, speak } from '../../lib/speech';
 import s from './game.module.css';
 import { Gendered } from '../../components/Gendered';
 

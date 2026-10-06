@@ -2,6 +2,8 @@ import { defaultRng, pick, sample, shuffle, type Rng } from '../lib/rng';
 import { THEMES, getNoun, hasNoun } from '../data/themes';
 import type { Theme } from '../data/themes/types';
 import { PLANS } from '../topics/plans';
+import { getTopic } from '../topics';
+import { reviewNumbers } from '../topics/plansNumbers';
 import type { Ctx } from './context';
 import type { ChoiceItem, Exercise, FillItem } from './types';
 import { formsItem, srsKey, verbLabel, type FormField } from './builders';
@@ -40,7 +42,8 @@ export function topicSession(topicId: string, progress: Progress, themeId?: stri
   // A single bad generation must never kill the session; retry a few times per exercise set.
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
-      return { title: topicId, theme, exercises: plan(ctx), srsCreate: false };
+      // topics without vocabulary themes (numbers, time, dates) don't show or rotate a theme
+      return { title: topicId, theme: getTopic(topicId)?.noTheme ? undefined : theme, exercises: plan(ctx), srsCreate: false };
     } catch (e) {
       console.warn('generation failed, retrying', e);
     }
@@ -58,6 +61,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
   const preps: [string, string][] = [];
   const infs: string[] = [];
   const lex: Record<'de-ru' | 'ru-de', LexEntry[]> = { 'de-ru': [], 'ru-de': [] };
+  const numberKeys: string[] = [];
 
   for (const key of keys) {
     const [kind, a, b] = key.split('|');
@@ -72,6 +76,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
       if (b === 'g') genders.push(a);
       else if (b === 'pl') plurals.push(a);
     } else if (kind === 'p' && findPrepVerb(a, b)) preps.push([a, b]);
+    else if (kind === 'z') numberKeys.push(key);
     else if (kind === 'l' && (b === 'de-ru' || b === 'ru-de')) {
       const e = getLexEntry(a, words);
       if (e) lex[b].push(e);
@@ -100,6 +105,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
       if (list.length) exercises.push(lexCards(list.slice(0, 12), dir, rng));
     }
   }
+  exercises.push(...reviewNumbers(numberKeys, rng));
   return { title: 'Повторение', exercises: shuffle(rng, exercises), srsCreate: true };
 }
 
