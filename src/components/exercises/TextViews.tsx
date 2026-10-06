@@ -6,6 +6,7 @@ import { Frame, Note, Solution } from './Frame';
 import { UInput, UTextarea } from './inputs';
 import { Context, HintSpoiler } from './HintSpoiler';
 import s from './ex.module.css';
+import { SpeakButton } from './SpeakButton';
 
 export interface ViewProps<T extends Exercise['type']> {
   ex: Extract<Exercise, { type: T }>;
@@ -69,6 +70,7 @@ export function FillView({ ex, lenient, onDone }: ViewProps<'fill'>) {
           return (
             <li key={i} className={s.item}>
               <div className={s.sentence} lang="de">
+                {it.audio && <SpeakButton text={it.audio} />}
                 {it.parts.map((p, k) =>
                   typeof p === 'number' ? (
                     <UInput

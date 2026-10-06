@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react';
 import { Ex, H, List, P, Scheme, Tbl, Tip } from '../components/Explain';
+import { EXPLAIN_NUMBERS } from './explanationsNumbers';
 
 const MAIN = ['Позиция 1', 'Глагол', 'Середина', 'Конец'];
 
 export const EXPLAIN: Record<string, () => ReactNode> = {
+  ...EXPLAIN_NUMBERS,
   'praesens-regular': () => (
     <>
       <P>

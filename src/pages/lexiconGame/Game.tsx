@@ -27,7 +27,7 @@ import { CardChoice } from './CardChoice';
 import { GameHud } from './GameHud';
 import { GameSummary } from './GameSummary';
 import { PresentCard } from './PresentCard';
-import { canSpeak } from './speak';
+import { canSpeak } from '../../lib/speech';
 import { TypeAnswer } from './TypeAnswer';
 import s from './game.module.css';
 

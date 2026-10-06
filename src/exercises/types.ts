@@ -15,6 +15,8 @@ export interface FillItem {
   distractors?: string[];
   /** show the first letter of the answer as an extra hint (typed verb gaps with a Russian hint) */
   firstLetter?: boolean;
+  /** listening task: German text read aloud with a 🔊 button */
+  audio?: string;
 }
 
 export interface ChoiceItem {
@@ -29,6 +31,8 @@ export interface ChoiceItem {
   srs?: string;
   /** shown after answering */
   explain?: string;
+  /** listening task: German text read aloud with a 🔊 button */
+  audio?: string;
 }
 
 export interface OrderItem {

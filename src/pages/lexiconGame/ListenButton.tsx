@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { speak } from './speak';
+import { speak } from '../../lib/speech';
 import s from './game.module.css';
 
 /** Big "play" button for listening questions; the word is also read once when the question appears. */

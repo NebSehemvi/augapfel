@@ -49,13 +49,16 @@ export function Tbl({ head, rows, caption }: { head: string[]; rows: string[][];
     <div className={s.tableWrap}>
       <table className={s.table}>
         {caption && <caption>{caption}</caption>}
-        <thead>
-          <tr>
-            {head.map((h) => (
-              <th key={h}>{h}</th>
-            ))}
-          </tr>
-        </thead>
+        {/* a table of plain values (no column names) has no header row */}
+        {head.some(Boolean) && (
+          <thead>
+            <tr>
+              {head.map((h, i) => (
+                <th key={i}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+        )}
         <tbody>
           {rows.map((r, i) => (
             <tr key={i}>
