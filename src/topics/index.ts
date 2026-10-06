@@ -25,6 +25,7 @@ export const TOPICS: TopicMeta[] = [
   { id: 'akkusativ', level: 'A1', group: 'Существительные', de: 'Akkusativ', ru: 'Винительный падеж', summary: 'Ich kaufe einen Apfel.' },
   { id: 'dativ', level: 'A1', group: 'Существительные', de: 'Dativ und Präpositionen', ru: 'Дательный падеж и предлоги', summary: 'mit dem Bus, bei meiner Tante' },
   { id: 'konnektoren-a1', level: 'A1', group: 'Порядок слов', de: 'und, aber, oder, denn; dann', ru: 'Союзы: позиция 0', summary: 'Ich bin müde, aber ich koche.' },
+  { id: 'vergleiche', level: 'A1', group: 'Прилагательные', noTheme: true, de: 'Vergleiche: so … wie, -er als', ru: 'Сравнение: wie и als', summary: 'größer als, so groß wie, am größten' },
   { id: 'zahlen', level: 'A1', group: 'Числа и время', noTheme: true, de: 'Zahlen und Preise', ru: 'Числа и цены', summary: 'einundzwanzig, 3,49 €' },
   { id: 'uhrzeit', level: 'A1', group: 'Числа и время', noTheme: true, de: 'Die Uhrzeit', ru: 'Который час?', summary: 'Viertel nach drei, halb vier = 3:30' },
   { id: 'datum', level: 'A1', group: 'Числа и время', noTheme: true, de: 'Das Datum', ru: 'Даты и порядковые числа', summary: 'am dritten Mai, im Mai, um acht' },
