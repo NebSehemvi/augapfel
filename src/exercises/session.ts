@@ -4,6 +4,7 @@ import type { Theme } from '../data/themes/types';
 import { PLANS } from '../topics/plans';
 import { getTopic } from '../topics';
 import { reviewNumbers } from '../topics/plansNumbers';
+import { reviewComparatives } from '../topics/plansCompare';
 import type { Ctx } from './context';
 import type { ChoiceItem, Exercise, FillItem } from './types';
 import { formsItem, srsKey, verbLabel, type FormField } from './builders';
@@ -62,6 +63,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
   const infs: string[] = [];
   const lex: Record<'de-ru' | 'ru-de', LexEntry[]> = { 'de-ru': [], 'ru-de': [] };
   const numberKeys: string[] = [];
+  const compKeys: string[] = [];
 
   for (const key of keys) {
     const [kind, a, b] = key.split('|');
@@ -77,6 +79,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
       else if (b === 'pl') plurals.push(a);
     } else if (kind === 'p' && findPrepVerb(a, b)) preps.push([a, b]);
     else if (kind === 'z') numberKeys.push(key);
+    else if (kind === 'c') compKeys.push(key);
     else if (kind === 'l' && (b === 'de-ru' || b === 'ru-de')) {
       const e = getLexEntry(a, words);
       if (e) lex[b].push(e);
@@ -105,7 +108,7 @@ export function reviewSession(keys: string[], words: Progress['words'] = {}, rng
       if (list.length) exercises.push(lexCards(list.slice(0, 12), dir, rng));
     }
   }
-  exercises.push(...reviewNumbers(numberKeys, rng));
+  exercises.push(...reviewNumbers(numberKeys, rng), ...reviewComparatives(compKeys));
   return { title: 'Повторение', exercises: shuffle(rng, exercises), srsCreate: true };
 }
 

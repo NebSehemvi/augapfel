@@ -10,7 +10,8 @@ import { article, contract, GENDER_ART, nounForm, prepCase } from '../grammar/ar
 import { getNoun, getTheme } from '../data/themes';
 import type { Frame, Pair } from '../data/themes/types';
 import type { Ctx, Act } from './context';
-import { clauseAct, MODALS, pickActs, pickSubject, pickSubjects, pickTime, pickTimes, spec, TENSE_LABEL } from './context';
+import { A2_NOUNS } from '../data/nouns';
+import { clauseAct, MODALS, preferLevel, pickActs, pickSubject, pickSubjects, pickTime, pickTimes, spec, TENSE_LABEL } from './context';
 import type { BankItem, ChoiceItem, Exercise, FillItem, FormsItem, OrderItem, Seg } from './types';
 import { ALL_PREPS, daForm, findPrepVerb, woForm } from '../data/prepVerbs';
 
@@ -561,7 +562,7 @@ export function matchEx(title: string, instruction: string, pairs: [string, stri
 // nouns & articles
 
 export function themeNouns(ctx: Ctx, n: number, pred: (x: ReturnType<typeof getNoun>) => boolean = () => true) {
-  return sample(ctx.rng, ctx.theme.nouns.filter(pred), n);
+  return preferLevel(ctx, ctx.rng, ctx.theme.nouns.filter(pred), (x) => A2_NOUNS.has(x.de)).slice(0, n);
 }
 
 export function choiceGender(ctx: Ctx, n = 8): Exercise {
@@ -633,12 +634,13 @@ export function frameItem(ctx: Ctx, f: Frame): { parts: Seg[]; form: string; opt
 }
 
 export function framesEx(ctx: Ctx, pred: (f: Frame) => boolean, mode: 'fill' | 'choice', n: number, title: string, instruction: string): Exercise {
-  let frames = ctx.theme.frames.filter(pred);
+  const harder = (f: Frame) => A2_NOUNS.has(f.n);
+  let frames = preferLevel(ctx, ctx.rng, ctx.theme.frames.filter(pred), harder);
   if (frames.length < n) {
     // top up from other themes
     const extra = ['family', 'food', 'work', 'leisure', 'school'].flatMap((id) => (id === ctx.theme.id ? [] : getTheme(id).frames.filter(pred)));
-    frames = [...shuffle(ctx.rng, frames), ...shuffle(ctx.rng, extra)];
-  } else frames = shuffle(ctx.rng, frames);
+    frames = [...frames, ...preferLevel(ctx, ctx.rng, extra, harder)];
+  }
   const chosen = frames.slice(0, n);
   const items = chosen.map((f) => frameItem(ctx, f));
   if (mode === 'fill') {
@@ -868,7 +870,19 @@ function answerSubjectKeep(s: Subject): Subject {
   return /^(Anna|Lena|Frau|meine Schwester)/.test(s.de) ? PRONOUNS[3] : PRONOUNS[2];
 }
 
-export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'deshalb' | 'denn' | 'trotzdem'): Exercise {
+/** Lead-ins for an indirect yes/no question; the ones ending in "?" make the whole sentence a question. */
+const OB_INTROS = ['Ich weiß nicht', 'Ich frage mich', 'Weißt du', 'Kannst du mir sagen'];
+const DASS_INTROS = ['Ich glaube', 'Ich weiß', 'Ich hoffe', 'Ich finde es gut', 'Es ist wichtig'];
+/** Lead-ins that only take dass — "Ich weiß, ob …" / "Es ist wichtig, ob …" are also correct, so they'd make the dass/ob choice ambiguous. */
+const DASS_ONLY_INTROS = ['Ich glaube', 'Ich hoffe', 'Ich finde es gut'];
+
+/** "Weißt du, ob du …?" sounds odd — with a du-subject only the statement lead-ins are used. */
+function obIntro(ctx: Ctx, subj: Subject): { intro: string; punct: '.' | '?' } {
+  const intro = pick(ctx.rng, subj.person === 1 ? OB_INTROS.slice(0, 2) : OB_INTROS);
+  return { intro, punct: /du/.test(intro) ? '?' : '.' };
+}
+
+export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'ob' | 'deshalb' | 'denn' | 'trotzdem'): Exercise {
   const pair = pick(ctx.rng, conj === 'trotzdem' ? ctx.theme.contras : ctx.theme.causes);
   const [eff, cause] = pairSpecs(ctx, pair);
   const subjP = pronounFor(eff.subj);
@@ -904,10 +918,17 @@ export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'deshalb'
       break;
     }
     case 'dass': {
-      const intro = pick(ctx.rng, ['Ich glaube', 'Ich weiß', 'Ich finde gut', 'Es ist wichtig', 'Ich hoffe']);
+      const intro = pick(ctx.rng, DASS_INTROS);
       cues = [intro, sentence(render(eff, 'S'))];
       answers = renderAll({ ...eff, lead: 'dass' }, 'SUB').map((ch) => `${intro}, ${joinChunks(ch, { capitalize: false })}.`);
       task = 'Соедините с помощью «dass».';
+      break;
+    }
+    case 'ob': {
+      const { intro, punct } = obIntro(ctx, eff.subj);
+      cues = [intro, sentence(render(eff, 'Y'), '?')];
+      answers = renderAll({ ...eff, lead: 'ob' }, 'SUB').map((ch) => `${intro}, ${joinChunks(ch, { capitalize: false })}${punct}`);
+      task = 'Превратите вопрос в придаточное с «ob».';
       break;
     }
   }
@@ -970,7 +991,44 @@ export function connectorChoiceEx(ctx: Ctx, conjs: ('weil' | 'denn' | 'deshalb' 
   };
 }
 
+/** dass / ob / wenn in one round: "Ich weiß nicht, ob …" vs "Ich glaube, dass …" vs "Wenn …, …". */
+export function subConjChoiceEx(ctx: Ctx, n = 6): Exercise {
+  const conjs = ['dass', 'ob', 'wenn'] as const;
+  const items: ChoiceItem[] = [];
+  for (let i = 0; i < n; i++) {
+    const conj = conjs[i % conjs.length];
+    const [eff, cause] = pairSpecs(ctx, pick(ctx.rng, ctx.theme.causes));
+    const subjP = pronounFor(eff.subj);
+    let text: string;
+    if (conj === 'wenn') {
+      text = '\u0000 ' + subFirst({ ...cause, lead: 'X' }, { ...eff, subj: subjP }).texts[0].replace(/^X /, '');
+    } else {
+      const { intro, punct } = conj === 'ob' ? obIntro(ctx, eff.subj) : { intro: pick(ctx.rng, DASS_ONLY_INTROS), punct: '.' };
+      text = `${intro}, \u0000 ${joinChunks(render({ ...eff, lead: 'X' }, 'SUB')).replace(/^X /, '')}${punct}`;
+    }
+    const [before, after] = text.split('\u0000');
+    const atStart = before === '';
+    const shown = shuffle(ctx.rng, [...conjs]).map((o) => (atStart ? cap(o) : o));
+    items.push({
+      parts: [before, 0, after],
+      options: shown,
+      answer: shown.indexOf(atStart ? cap(conj) : conj),
+      explain: CONJ_EXPLAIN[conj],
+    });
+  }
+  return {
+    type: 'choice',
+    title: 'dass, ob или wenn?',
+    instruction: 'ob = «ли» (вопрос без вопросительного слова), dass = «что», wenn = «если / когда».',
+    layout: 'inline',
+    items: shuffle(ctx.rng, items),
+  };
+}
+
 const CONJ_EXPLAIN: Record<string, string> = {
+  dass: 'dass — «что»: передаём утверждение (Ich glaube, dass …)',
+  ob: 'ob — «ли»: косвенный вопрос да/нет (Ich weiß nicht, ob …)',
+  wenn: 'wenn — «если / когда»: условие, не вопрос',
   weil: 'weil — глагол в конце предложения',
   denn: 'denn — позиция 0, обычный порядок слов',
   deshalb: 'deshalb — позиция 1, глагол сразу после него (инверсия)',
@@ -980,7 +1038,7 @@ const CONJ_EXPLAIN: Record<string, string> = {
   oder: 'oder — позиция 0, обычный порядок слов',
 };
 
-export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn', tense: Tense = 'pres'): Exercise {
+export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'ob', tense: Tense = 'pres'): Exercise {
   const pair = pick(ctx.rng, ctx.theme.causes);
   const [eff, cause] = pairSpecs(ctx, pair, tense);
   const subjP = pronounFor(eff.subj);
@@ -994,20 +1052,21 @@ export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn', tense: Tens
       item,
     };
   }
-  const main = joinChunks(render(eff, 'S'));
-  const sub = conj === 'weil' ? { ...cause, subj: subjP, lead: 'weil' } : { ...eff, subj: subjP, lead: 'dass' };
+  const sub = conj === 'weil' ? { ...cause, subj: subjP, lead: 'weil' } : { ...eff, subj: subjP, lead: conj };
   const variants = renderAll(sub, 'SUB');
-  const head = conj === 'dass' ? 'Ich glaube' : main;
+  const ob = conj === 'ob' ? obIntro(ctx, subjP) : undefined;
+  const head = ob ? ob.intro : conj === 'dass' ? 'Ich glaube' : joinChunks(render(eff, 'S'));
+  const punct = ob?.punct ?? '.';
   const item = orderItemFrom(ctx, variants, {
     fixFirst: true,
-    punct: '.',
+    punct,
     hint: `${head}, …`,
-    solution: `${head}, ${joinChunks(variants[0], { capitalize: false })}.`,
+    solution: `${head}, ${joinChunks(variants[0], { capitalize: false })}${punct}`,
   });
   return {
     type: 'order',
     title: `Придаточное с «${conj}»`,
-    instruction: conj === 'dass' ? 'Продолжите: «Ich glaube, …». Глагол — в конец!' : `Продолжите: «${main}, …». Глагол — в конец!`,
+    instruction: `Продолжите: «${head}, …». Глагол — в конец!`,
     item,
   };
 }

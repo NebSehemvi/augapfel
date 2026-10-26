@@ -2,8 +2,9 @@ import { getVerb, hasVerb } from '../../data/verbs';
 import { verbLabel } from '../../exercises/builders';
 import { getLexEntry } from '../../data/lexicon';
 import { clockText, dateText, priceText } from '../../grammar/numbers';
+import { getAdjective, hasAdjective } from '../../data/adjectives';
 
-export const KIND_LABEL: Record<string, string> = { v: 'Формы глаголов', n: 'Существительные (род, мн. ч.)', p: 'Глаголы с предлогами', l: 'Лексика', z: 'Числа и время' };
+export const KIND_LABEL: Record<string, string> = { v: 'Формы глаголов', n: 'Существительные (род, мн. ч.)', p: 'Глаголы с предлогами', l: 'Лексика', z: 'Числа и время', c: 'Сравнительная степень' };
 
 const FORM_LABEL: Record<string, string> = {
   pres: 'Präsens',
@@ -24,6 +25,7 @@ export function describe(key: string): string {
   if (kind === 'n') return `${a} — ${FORM_LABEL[b] ?? b}`;
   if (kind === 'p') return `${a} ${b} …`;
   if (kind === 'z') return describeNumber(a, b);
+  if (kind === 'c') return hasAdjective(a) ? `${a} → ${getAdjective(a).comp}` : a;
   if (kind === 'l') {
     const e = getLexEntry(a);
     return `${e ? e.lemma : a}${e?.kind === 'pron' ? ` (${e.ru})` : ''} — ${FORM_LABEL[b] ?? b}`;

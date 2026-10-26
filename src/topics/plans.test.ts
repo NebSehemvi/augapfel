@@ -83,15 +83,17 @@ function validate(ex: Exercise, where: string) {
 
 describe('topic plans', () => {
   for (const [id, plan] of Object.entries(PLANS)) {
-    it(`${id} generates valid exercises for every theme`, () => {
-      for (const theme of THEMES) {
-        for (let seed = 1; seed <= 15; seed++) {
-          const ctx: Ctx = { theme, rng: seeded(seed * 7919 + theme.id.length), level: 'A2', includeRare: false };
-          const exs = plan(ctx);
-          exs.forEach((ex, i) => validate(ex, `${id}/${theme.id}/seed ${seed}/#${i} ${ex.type}`));
+    for (const level of ['A1', 'A2'] as const) {
+      it(`${id} generates valid exercises for every theme (${level})`, () => {
+        for (const theme of THEMES) {
+          for (let seed = 1; seed <= 15; seed++) {
+            const ctx: Ctx = { theme, rng: seeded(seed * 7919 + theme.id.length), level, includeRare: false };
+            const exs = plan(ctx);
+            exs.forEach((ex, i) => validate(ex, `${id}/${level}/${theme.id}/seed ${seed}/#${i} ${ex.type}`));
+          }
         }
-      }
-    });
+      });
+    }
   }
 });
 
@@ -101,7 +103,7 @@ describe('samples (printed for review)', () => {
     const out: string[] = [];
     for (const [id, plan] of Object.entries(PLANS)) {
       const theme = THEMES[(id.length * 3) % THEMES.length];
-      const exs = plan({ theme, rng: seeded(42), level: 'A2', includeRare: false });
+      const exs = plan({ theme, rng: seeded(42), level: 'A1', includeRare: false });
       out.push(`\n=== ${id} (${theme.id})`);
       for (const ex of exs) {
         out.push(`-- ${ex.type}: ${ex.title}`);

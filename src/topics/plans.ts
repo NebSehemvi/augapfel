@@ -8,6 +8,9 @@ import { PLURAL_TYPES, pluralType, AKK_PREPS, DAT_PREPS, GENDER_ART } from '../g
 import { PREP_VERBS } from '../data/prepVerbs';
 import { verbAllowed } from '../exercises/context';
 import { NUMBER_PLANS } from './plansNumbers';
+import { COMPARE_PLANS } from './plansCompare';
+import { NEGATION_PLANS } from './plansNegation';
+import { IMPERATIV_PLANS } from './plansImperativ';
 
 const noGe = (v: Verb) => B.ppType(v) === 2;
 const isRegular = (v: Verb) => v.kind === 'weak' && !v.sep && !v.refl;
@@ -95,6 +98,9 @@ const COMMON_HABEN = ['essen', 'trinken', 'schreiben', 'lesen', 'sehen', 'machen
 
 export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
   ...NUMBER_PLANS,
+  ...COMPARE_PLANS,
+  ...IMPERATIV_PLANS,
+  ...NEGATION_PLANS,
   'praesens-regular': (ctx) => [
     B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), title: 'Präsens: выберите форму' }),
     B.asBank(ctx, B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), n: 4, title: 'Präsens: банк слов' })),
@@ -326,13 +332,16 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
   nebensaetze: (ctx) => [
     B.connectorChoiceEx(ctx, ['weil', 'denn'], 4),
     B.subOrderEx(ctx, 'weil'),
-    B.tableEx(ctx, { tense: pick(ctx.rng, ['pres', 'perf'] as const), order: 'SUB', lead: pick(ctx.rng, ['weil', 'dass', 'wenn']) }),
+    B.tableEx(ctx, { tense: pick(ctx.rng, ['pres', 'perf'] as const), order: 'SUB', lead: pick(ctx.rng, ['weil', 'dass', 'wenn', 'ob']) }),
     B.weilWriteEx(ctx, 'weil'),
     B.subOrderEx(ctx, 'wenn'),
     B.choiceCorrectOrder(ctx, { tense: 'pres', order: 'SUB', lead: 'weil' }),
     B.weilWriteEx(ctx, 'dass'),
     B.weilWriteEx(ctx, 'wenn'),
     B.subOrderEx(ctx, 'dass', 'perf'),
+    B.subConjChoiceEx(ctx, 6),
+    B.subOrderEx(ctx, 'ob'),
+    B.weilWriteEx(ctx, 'ob'),
   ],
 
   'deshalb-trotzdem': (ctx) => [

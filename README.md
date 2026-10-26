@@ -6,7 +6,7 @@ Each topic has an **explanation** (in Russian, with English comparisons where th
 
 ## What's inside
 
-- **23 topics**: numbers and prices, clock times, dates (with listening tasks), Präsens, inversion and the verb bracket, questions, separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum of sein/haben/modal verbs, Futur I, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn, deshalb/trotzdem, and Wechselpräpositionen.
+- **26 topics**: numbers and prices, clock times, dates (with listening tasks), comparisons (so … wie, -er als), Präsens, the imperative (du / ihr / Sie), inversion and the verb bracket, questions, negation (nicht / kein, doch), separable verbs, modal verbs, Perfekt (haben/sein), articles and plurals, Akkusativ, Dativ, und/aber/denn, Präteritum of sein/haben/modal verbs, Futur I, verbs with prepositions (worauf? darauf), reflexive verbs, weil/dass/wenn/ob, deshalb/trotzdem, and Wechselpräpositionen.
 - **11 exercise types**, modelled on the textbook (Menschen A1/A2):
   - multiple choice
   - fill in the blanks
@@ -41,7 +41,7 @@ The code is organised like this:
 - `src/grammar/`: conjugation, articles, and word order (`clause.ts` renders V2, inversion, the verb bracket and subordinate clauses).
 - `src/data/`: the verb database (`verbs.ts`), the case each verb takes (`verbGov.ts`), verbs with prepositions, and vocabulary themes.
 - `src/exercises/`: exercise generators (`builders.ts`) and session assembly.
-- `src/topics/`: topic list, exercise plans per topic, and explanations.
+- `src/topics/`: topic list and exercise plans per topic; `src/topics/explanations/` has one explanation component per topic.
 - `src/pages/<page>/`: one folder per page — `index.tsx` with the page component, one file per sub-component and the page's own CSS module. Components and styles shared by several pages live in `src/pages/common/`.
 - `src/components/`: exercise views and the word popup (React + CSS modules).
 

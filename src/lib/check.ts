@@ -115,3 +115,20 @@ export function diffWords(input: string, expected: string): { word: string; ok: 
   }
   return b.map((word, k) => ({ word, ok: okIdx.has(k) }));
 }
+
+/** Tile identities are irrelevant when their displayed text is identical. */
+export function checkTileOrder(chunks: string[], placed: number[], answers: number[][]): boolean {
+  return answers.some((answer) => answer.length === placed.length &&
+    answer.every((id, i) => chunks[id] !== undefined && chunks[id] === chunks[placed[i]]));
+}
+
+/** Match each placed tile to one unused expected tile with the same text and column. */
+export function checkTileBuckets(items: { text: string; cat: number }[], where: (number | null)[]): boolean[] {
+  const unused = new Set(items.map((_, i) => i));
+  return items.map((item, i) => {
+    const match = [...unused].find((j) => items[j].text === item.text && items[j].cat === where[i]);
+    if (match === undefined) return false;
+    unused.delete(match);
+    return true;
+  });
+}

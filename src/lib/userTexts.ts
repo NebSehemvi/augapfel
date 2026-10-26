@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { ReadingText } from '../data/texts';
 import { BUILTIN_TEXTS } from '../data/texts';
+import { reportSave } from './saveStatus';
 
 /** Texts generated with Claude, stored on this device. */
 const KEY = 'augapfel.texts.v1';
@@ -20,8 +21,10 @@ function save(next: ReadingText[]) {
   texts = next;
   try {
     localStorage.setItem(KEY, JSON.stringify(texts));
+    reportSave(KEY, true);
   } catch {
-    // storage full
+    // storage full or unavailable — kept in memory, the learner is warned (see saveStatus)
+    reportSave(KEY, false);
   }
   listeners.forEach((l) => l());
 }
@@ -48,19 +51,13 @@ export function getUserTexts(): ReadingText[] {
   return texts;
 }
 
-function isText(t: unknown): t is ReadingText {
-  const x = t as ReadingText;
-  return !!x && typeof x.id === 'string' && typeof x.title === 'string' && Array.isArray(x.paragraphs) && x.paragraphs.every((p) => typeof p === 'string');
-}
-
-/** Adds imported texts that aren't on this device yet (matched by id). Returns how many were added. */
-export function mergeUserTexts(incoming: unknown): number {
-  if (!Array.isArray(incoming)) return 0;
+/** Adds already validated imported texts that aren't on this device yet (matched by id). Returns how many were added. */
+export function mergeUserTexts(incoming: ReadingText[] | undefined): number {
+  if (!incoming) return 0;
   const have = new Set(texts.map((t) => t.id));
   const fresh = incoming
-    .filter(isText)
     .filter((t) => !have.has(t.id))
-    .map((t) => ({ ...t, glossary: t.glossary ?? {}, questions: t.questions ?? [], generated: true }));
+    .map((t) => ({ ...t, theme: t.theme ?? 'custom', level: t.level ?? 'A1', glossary: t.glossary ?? {}, questions: t.questions ?? [], generated: true }));
   if (fresh.length) save([...texts, ...fresh].sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0)));
   return fresh.length;
 }
