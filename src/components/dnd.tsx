@@ -106,10 +106,11 @@ interface TileProps {
   onTap: () => void;
   className?: string;
   disabled?: boolean;
+  pressed?: boolean;
   children?: ReactNode;
 }
 
-export function DragTile({ id, label, index, onDrop, onTap, className, disabled, children }: TileProps) {
+export function DragTile({ id, label, index, onDrop, onTap, className, disabled, pressed, children }: TileProps) {
   const { start, dragging } = useDnd();
   return (
     <button
@@ -118,6 +119,7 @@ export function DragTile({ id, label, index, onDrop, onTap, className, disabled,
       data-index={index}
       data-id={id}
       disabled={disabled}
+      aria-pressed={pressed}
       onPointerDown={(e) => !disabled && start(e, id, label, onDrop, onTap)}
       onKeyDown={(e) => {
         if (!disabled && (e.key === 'Enter' || e.key === ' ')) {

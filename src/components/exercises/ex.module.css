@@ -782,3 +782,18 @@
   line-height: 1.3;
   vertical-align: middle;
 }
+
+.bucketLabel {
+  border: 1px solid var(--chip-line);
+  border-radius: 8px;
+  background: var(--chip);
+  padding: 0.5rem;
+  min-height: 40px;
+  text-align: left;
+}
+
+.slotEmpty:focus-visible,
+.bucketLabel:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}

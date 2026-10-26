@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { checkTileOrder, checkTileBuckets } from '../../lib/check';
 import type { ExerciseResult } from '../../exercises/types';
 import { Frame, Solution } from './Frame';
 import { DndProvider, DragTile, type DropInfo } from '../dnd';
@@ -13,7 +14,7 @@ export function OrderView({ ex, onDone }: ViewProps<'order'>) {
   const [placed, setPlaced] = useState<number[]>(() => (fixed !== undefined ? [fixed] : []));
   const [checked, setChecked] = useState(false);
   const inBank = item.chunks.map((_, i) => i).filter((i) => !placed.includes(i));
-  const ok = item.answers.some((a) => a.length === placed.length && a.every((x, k) => x === placed[k]));
+  const ok = checkTileOrder(item.chunks, placed, item.answers);
   const solution = item.solution ?? capFirst(item.answers[0].map((k) => item.chunks[k]).join(' ')) + item.punct;
 
   const insertAt = (chunk: number, index: number) => {
@@ -77,10 +78,11 @@ interface BucketProps {
   items: { text: string; cat: number }[];
   checked: boolean;
   where: (number | null)[];
+  matches: boolean[];
   setWhere: (w: (number | null)[]) => void;
 }
 
-function Buckets({ buckets, items, checked, where, setWhere }: BucketProps) {
+function Buckets({ buckets, items, checked, where, setWhere, matches }: BucketProps) {
   const [sel, setSel] = useState<number | null>(null);
   const put = (item: number, bucket: number | null) => {
     setWhere(where.map((w, i) => (i === item ? bucket : w)));
@@ -98,7 +100,7 @@ function Buckets({ buckets, items, checked, where, setWhere }: BucketProps) {
       {!checked && free.length > 0 && (
         <div className={s.bankTop} data-drop="bank">
           {free.map((i) => (
-            <DragTile key={i} id={`i${i}`} label={items[i].text} onDrop={onDrop(i)} onTap={() => setSel(sel === i ? null : i)} className={sel === i ? s.tileSel : ''} />
+            <DragTile key={i} id={`i${i}`} label={items[i].text} onDrop={onDrop(i)} onTap={() => setSel(sel === i ? null : i)} pressed={sel === i} className={sel === i ? s.tileSel : ''} />
           ))}
         </div>
       )}
@@ -110,11 +112,18 @@ function Buckets({ buckets, items, checked, where, setWhere }: BucketProps) {
             className={`${s.bucket} ${sel !== null ? s.bucketTarget : ''}`}
             data-drop={`b-${bi}`}
             onClick={(e) => {
+              // the whole column stays a tap target; the label button is the keyboard route
               if ((e.target as HTMLElement).closest('button')) return;
               if (sel !== null && !checked) put(sel, bi);
             }}
           >
-            <div className={s.bucketLabel}>{b}</div>
+            <button
+              type="button"
+              className={s.bucketLabel}
+              disabled={checked}
+              aria-label={sel === null ? `Колонка «${b}»: сначала выберите элемент` : `Поместить «${items[sel].text}» в колонку «${b}»`}
+              onClick={() => { if (sel !== null && !checked) put(sel, bi); }}
+            >{b}</button>
             <div className={s.bucketItems}>
               {items.map((it, i) =>
                 where[i] === bi ? (
@@ -125,7 +134,7 @@ function Buckets({ buckets, items, checked, where, setWhere }: BucketProps) {
                     onDrop={onDrop(i)}
                     onTap={() => !checked && put(i, null)}
                     disabled={checked}
-                    className={checked ? (it.cat === bi ? s.ok : s.bad) : ''}
+                    className={checked ? (matches[i] ? s.ok : s.bad) : ''}
                   />
                 ) : null,
               )}
@@ -133,10 +142,10 @@ function Buckets({ buckets, items, checked, where, setWhere }: BucketProps) {
           </div>
         ))}
       </div>
-      {checked && items.some((it, i) => where[i] !== it.cat) && (
+      {checked && matches.some((ok) => !ok) && (
         <Solution>
           {items
-            .filter((it, i) => where[i] !== it.cat)
+            .filter((_, i) => !matches[i])
             .map((it) => `${it.text} → ${buckets[it.cat]}`)
             .join('; ')}
         </Solution>
@@ -149,7 +158,8 @@ export function TableView({ ex, onDone }: ViewProps<'table'>) {
   const items = ex.item.chunks.map((c) => ({ text: c.text, cat: c.col }));
   const [where, setWhere] = useState<(number | null)[]>(() => items.map(() => null));
   const [checked, setChecked] = useState(false);
-  const correct = items.filter((it, i) => where[i] === it.cat).length;
+  const matches = checkTileBuckets(items, where);
+  const correct = matches.filter(Boolean).length;
   return (
     <Frame
       title={ex.title}
@@ -165,7 +175,7 @@ export function TableView({ ex, onDone }: ViewProps<'table'>) {
           {ex.item.hint}
         </p>
       )}
-      <Buckets buckets={ex.columns} items={items} checked={checked} where={where} setWhere={setWhere} />
+      <Buckets buckets={ex.columns} items={items} checked={checked} where={where} setWhere={setWhere} matches={matches} />
     </Frame>
   );
 }
@@ -173,7 +183,8 @@ export function TableView({ ex, onDone }: ViewProps<'table'>) {
 export function SortView({ ex, onDone }: ViewProps<'sort'>) {
   const [where, setWhere] = useState<(number | null)[]>(() => ex.items.map(() => null));
   const [checked, setChecked] = useState(false);
-  const correct = ex.items.filter((it, i) => where[i] === it.cat).length;
+  const matches = checkTileBuckets(ex.items, where);
+  const correct = matches.filter(Boolean).length;
   return (
     <Frame
       title={ex.title}
@@ -185,13 +196,13 @@ export function SortView({ ex, onDone }: ViewProps<'sort'>) {
         onDone({
           correct,
           total: ex.items.length,
-          srs: ex.items.flatMap((it, i) => (it.srs ? [{ key: it.srs, ok: where[i] === it.cat }] : [])),
-          mistakes: ex.items.filter((it, i) => where[i] !== it.cat).map((it) => `${it.text} → ${ex.categories[it.cat]}`),
+          srs: ex.items.flatMap((it, i) => (it.srs ? [{ key: it.srs, ok: matches[i] }] : [])),
+          mistakes: ex.items.filter((_, i) => !matches[i]).map((it) => `${it.text} → ${ex.categories[it.cat]}`),
         })
       }
       score={checked ? { correct, total: ex.items.length } : undefined}
     >
-      <Buckets buckets={ex.categories} items={ex.items} checked={checked} where={where} setWhere={setWhere} />
+      <Buckets buckets={ex.categories} items={ex.items} checked={checked} where={where} setWhere={setWhere} matches={matches} />
     </Frame>
   );
 }

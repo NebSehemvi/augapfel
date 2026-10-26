@@ -4,12 +4,13 @@ import { POS_LABEL, type Pos } from '../../lib/dictionary';
 import { GOV_QUESTION } from '../../data/verbGov';
 import { Button } from '../common/Button';
 import { LevelBadge } from '../common/LevelBadge';
-import { canSpeak, speak } from '../../lib/speech';
+import { useCanSpeak, speak } from '../../lib/speech';
 import s from './game.module.css';
 import { Gendered } from '../../components/Gendered';
 
 /** A new word is shown before it is tested: German (nouns with article and plural, verbs with their case), translation, level. */
 export function PresentCard({ entry, mine, onNext }: { entry: LexEntry; mine: boolean; onNext: () => void }) {
+  const canSpeak = useCanSpeak();
   const de = germanForm(entry);
   return (
     <>
