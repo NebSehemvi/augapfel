@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { exportProgress, importProgress } from '../../lib/progress';
+import { downloadExport } from '../../lib/transfer';
 import { Button } from '../common/Button';
 import { Muted } from '../common/Muted';
 import { Panel } from '../common/Panel';
@@ -11,15 +12,7 @@ export function TransferSection() {
   const [paste, setPaste] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const download = () => {
-    const blob = new Blob([exportProgress()], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `augapfel-progress-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
+  const download = downloadExport;
 
   const share = async () => {
     const file = new File([exportProgress()], 'augapfel-progress.json', { type: 'application/json' });

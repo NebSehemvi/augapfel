@@ -160,3 +160,9 @@
   padding: 2rem 0;
   text-align: center;
 }
+
+.loading {
+  color: var(--muted);
+  text-align: center;
+  padding: 3rem 0;
+}

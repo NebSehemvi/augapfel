@@ -1,15 +1,17 @@
-import { Component, type ReactNode } from 'react';
+import { Component, lazy, Suspense, type ReactNode } from 'react';
 import { useRoute, href } from './lib/router';
 import { useProgress, dueKeys } from './lib/progress';
+import { Banners } from './components/Banners';
 import { Home } from './pages/home';
-import { TopicPage } from './pages/topic';
-import { Practice } from './pages/practice';
-import { LexiconPage } from './pages/lexicon';
-import { LexiconGamePage } from './pages/lexiconGame';
-import { TextsPage } from './pages/texts';
-import { ReaderPage } from './pages/reader';
-import { ReviewPage } from './pages/review';
-import { ProfilePage } from './pages/profile';
+
+const TopicPage = lazy(() => import('./pages/topic').then((m) => ({ default: m.TopicPage })));
+const Practice = lazy(() => import('./pages/practice').then((m) => ({ default: m.Practice })));
+const LexiconPage = lazy(() => import('./pages/lexicon').then((m) => ({ default: m.LexiconPage })));
+const LexiconGamePage = lazy(() => import('./pages/lexiconGame').then((m) => ({ default: m.LexiconGamePage })));
+const TextsPage = lazy(() => import('./pages/texts').then((m) => ({ default: m.TextsPage })));
+const ReaderPage = lazy(() => import('./pages/reader').then((m) => ({ default: m.ReaderPage })));
+const ReviewPage = lazy(() => import('./pages/review').then((m) => ({ default: m.ReviewPage })));
+const ProfilePage = lazy(() => import('./pages/profile').then((m) => ({ default: m.ProfilePage })));
 import s from './App.module.css';
 
 export default function App() {
@@ -35,9 +37,12 @@ export default function App() {
 
   return (
     <div className={s.app}>
+      <Banners session={fullscreen} />
       {!fullscreen && <TopBar active={section ?? ''} />}
       <main className={`${s.main} ${fullscreen ? s.mainPractice : ''}`}>
-        <ErrorBoundary key={route.path.join('/')}>{page}</ErrorBoundary>
+        <ErrorBoundary key={route.path.join('/')}>
+          <Suspense fallback={<p className={s.loading}>Загрузка…</p>}>{page}</Suspense>
+        </ErrorBoundary>
       </main>
       {!fullscreen && <TabBar active={section ?? ''} />}
     </div>

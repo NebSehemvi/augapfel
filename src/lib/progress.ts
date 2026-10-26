@@ -1,6 +1,9 @@
 import { useSyncExternalStore } from 'react';
 import { getUserTexts, mergeUserTexts } from './userTexts';
+import type { ReadingText } from '../data/texts';
 import { inLexicon } from '../data/lexicon';
+import { reportSave } from './saveStatus';
+import { parseExportFile } from './schemas';
 
 export interface TopicStat {
   sessions: number;
@@ -114,8 +117,10 @@ const listeners = new Set<() => void>();
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(state));
+    reportSave(KEY, true);
   } catch {
-    // storage full or unavailable — keep in memory
+    // storage full or unavailable — keep in memory and tell the learner (see saveStatus)
+    reportSave(KEY, false);
   }
 }
 
@@ -231,11 +236,13 @@ export function exportProgress(): string {
   return JSON.stringify({ app: 'augapfel', exportedAt: new Date().toISOString(), progress: state, texts: getUserTexts() }, null, 2);
 }
 
-/** Merge imported progress: keeps the better topic stats and the more advanced SRS item. */
+/**
+ * Merge imported progress: keeps the better topic stats and the more advanced SRS item.
+ * The whole file is validated first; on any problem nothing is changed.
+ */
 export function importProgress(json: string): { topics: number; items: number; texts: number } {
-  const data = JSON.parse(json);
-  if (data?.app !== 'augapfel' || !data.progress) throw new Error('Это не файл прогресса Augapfel.');
-  const inc = migrate(data.progress);
+  const data = parseExportFile(json);
+  const inc = migrate(data.progress as Partial<Progress>);
   const topics = { ...state.topics };
   for (const [k, v] of Object.entries(inc.topics)) {
     const cur = topics[k];
@@ -251,7 +258,7 @@ export function importProgress(json: string): { topics: number; items: number; t
   const days = [...new Set([...state.days, ...inc.days])].sort();
   const words = { ...inc.words, ...state.words };
   set({ ...state, topics, srs, days, words });
-  const texts = mergeUserTexts(data.texts);
+  const texts = mergeUserTexts(data.texts as ReadingText[] | undefined);
   return { topics: Object.keys(inc.topics).length, items: Object.keys(inc.srs).length + Object.keys(inc.words).length, texts };
 }
 
