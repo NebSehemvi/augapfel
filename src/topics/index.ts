@@ -16,6 +16,7 @@ export const TOPICS: TopicMeta[] = [
   { id: 'praesens-irregular', level: 'A1', group: 'Глаголы', de: 'Präsens: starke Verben, sein, haben', ru: 'Настоящее время: сильные глаголы', summary: 'du fährst, er liest, sie nimmt' },
   { id: 'satzbau-inversion', level: 'A1', group: 'Порядок слов', de: 'Satzbau und Inversion', ru: 'Порядок слов и инверсия', summary: 'Am Abend habe ich … / Ich habe …' },
   { id: 'fragen', level: 'A1', group: 'Порядок слов', de: 'W-Fragen und Ja/Nein-Fragen', ru: 'Вопросы', summary: 'Was machst du? Kommst du?' },
+  { id: 'negation', level: 'A1', group: 'Порядок слов', de: 'Negation: nicht / kein', ru: 'Отрицание: nicht / kein', summary: 'kein Apfel · nicht müde · Doch!' },
   { id: 'trennbare', level: 'A1', group: 'Глаголы', de: 'Trennbare Verben', ru: 'Глаголы с отделяемой приставкой', summary: 'Ich stehe um 7 Uhr auf.' },
   { id: 'modalverben', level: 'A1', group: 'Глаголы', de: 'Modalverben', ru: 'Модальные глаголы', summary: 'Ich will heute Deutsch lernen.' },
   { id: 'imperativ', level: 'A1', group: 'Глаголы', de: 'Imperativ: du, ihr, Sie', ru: 'Повелительное наклонение', summary: 'Komm! Kommt! Kommen Sie!' },

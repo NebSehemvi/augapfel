@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { PraesensRegular } from './PraesensRegular';
 import { PraesensIrregular } from './PraesensIrregular';
 import { SatzbauInversion } from './SatzbauInversion';
+import { Negation } from './Negation';
 import { Fragen } from './Fragen';
 import { Trennbare } from './Trennbare';
 import { Modalverben } from './Modalverben';
@@ -30,6 +31,7 @@ export const EXPLAIN: Record<string, ComponentType> = {
   'praesens-irregular': PraesensIrregular,
   'satzbau-inversion': SatzbauInversion,
   'fragen': Fragen,
+  'negation': Negation,
   'trennbare': Trennbare,
   'modalverben': Modalverben,
   'imperativ': Imperativ,
