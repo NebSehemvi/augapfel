@@ -42,7 +42,7 @@ export const TOPIC_FOCUS: Record<string, string> = {
   datum: 'Dates: ordinal numbers (erste, dritte, siebte, achte, zwanzigste), der dritte Mai vs. am dritten Mai, am + day/date, im + month/season, um + clock time, years (neunzehnhundertneunundachtzig, zweitausendvierundzwanzig).',
   'verben-praep': 'Verbs with fixed prepositions (warten auf, denken an, sich freuen auf/über, sich interessieren für, träumen von …) and the case they govern; wo(r)-/da(r)- forms.',
   reflexiv: 'Reflexive verbs with the correct pronoun (ich freue mich, du ziehst dich an) and dative reflexive pronouns with an accusative object (ich wasche mir die Hände).',
-  nebensaetze: 'Subordinate clauses with weil, dass, wenn: the finite verb goes to the end; a fronted subordinate clause causes inversion in the main clause.',
+  nebensaetze: 'Subordinate clauses with weil, dass, wenn, ob: the finite verb goes to the end; a fronted subordinate clause causes inversion in the main clause. ob introduces an indirect yes/no question (Ich weiß nicht, ob er kommt; Weißt du, ob …?) — contrast it with dass (statement) and wenn (condition, never "whether").',
   'deshalb-trotzdem': 'deshalb, trotzdem, dann, danach at position 1 followed by the verb (inversion), contrasted with weil/denn.',
   wechselpraep: 'Two-way prepositions: Wohin? + Akkusativ (Ich lege das Buch auf den Tisch) vs. Wo? + Dativ (Das Buch liegt auf dem Tisch); stellen/stehen, legen/liegen, contractions im/ins/am.',
 };

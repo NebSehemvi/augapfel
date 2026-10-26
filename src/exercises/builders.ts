@@ -868,7 +868,19 @@ function answerSubjectKeep(s: Subject): Subject {
   return /^(Anna|Lena|Frau|meine Schwester)/.test(s.de) ? PRONOUNS[3] : PRONOUNS[2];
 }
 
-export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'deshalb' | 'denn' | 'trotzdem'): Exercise {
+/** Lead-ins for an indirect yes/no question; the ones ending in "?" make the whole sentence a question. */
+const OB_INTROS = ['Ich weiß nicht', 'Ich frage mich', 'Weißt du', 'Kannst du mir sagen'];
+const DASS_INTROS = ['Ich glaube', 'Ich weiß', 'Ich hoffe', 'Ich finde es gut', 'Es ist wichtig'];
+/** Lead-ins that only take dass — "Ich weiß, ob …" / "Es ist wichtig, ob …" are also correct, so they'd make the dass/ob choice ambiguous. */
+const DASS_ONLY_INTROS = ['Ich glaube', 'Ich hoffe', 'Ich finde es gut'];
+
+/** "Weißt du, ob du …?" sounds odd — with a du-subject only the statement lead-ins are used. */
+function obIntro(ctx: Ctx, subj: Subject): { intro: string; punct: '.' | '?' } {
+  const intro = pick(ctx.rng, subj.person === 1 ? OB_INTROS.slice(0, 2) : OB_INTROS);
+  return { intro, punct: /du/.test(intro) ? '?' : '.' };
+}
+
+export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'ob' | 'deshalb' | 'denn' | 'trotzdem'): Exercise {
   const pair = pick(ctx.rng, conj === 'trotzdem' ? ctx.theme.contras : ctx.theme.causes);
   const [eff, cause] = pairSpecs(ctx, pair);
   const subjP = pronounFor(eff.subj);
@@ -904,10 +916,17 @@ export function weilWriteEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'deshalb'
       break;
     }
     case 'dass': {
-      const intro = pick(ctx.rng, ['Ich glaube', 'Ich weiß', 'Ich finde gut', 'Es ist wichtig', 'Ich hoffe']);
+      const intro = pick(ctx.rng, DASS_INTROS);
       cues = [intro, sentence(render(eff, 'S'))];
       answers = renderAll({ ...eff, lead: 'dass' }, 'SUB').map((ch) => `${intro}, ${joinChunks(ch, { capitalize: false })}.`);
       task = 'Соедините с помощью «dass».';
+      break;
+    }
+    case 'ob': {
+      const { intro, punct } = obIntro(ctx, eff.subj);
+      cues = [intro, sentence(render(eff, 'Y'), '?')];
+      answers = renderAll({ ...eff, lead: 'ob' }, 'SUB').map((ch) => `${intro}, ${joinChunks(ch, { capitalize: false })}${punct}`);
+      task = 'Превратите вопрос в придаточное с «ob».';
       break;
     }
   }
@@ -970,7 +989,44 @@ export function connectorChoiceEx(ctx: Ctx, conjs: ('weil' | 'denn' | 'deshalb' 
   };
 }
 
+/** dass / ob / wenn in one round: "Ich weiß nicht, ob …" vs "Ich glaube, dass …" vs "Wenn …, …". */
+export function subConjChoiceEx(ctx: Ctx, n = 6): Exercise {
+  const conjs = ['dass', 'ob', 'wenn'] as const;
+  const items: ChoiceItem[] = [];
+  for (let i = 0; i < n; i++) {
+    const conj = conjs[i % conjs.length];
+    const [eff, cause] = pairSpecs(ctx, pick(ctx.rng, ctx.theme.causes));
+    const subjP = pronounFor(eff.subj);
+    let text: string;
+    if (conj === 'wenn') {
+      text = '\u0000 ' + subFirst({ ...cause, lead: 'X' }, { ...eff, subj: subjP }).texts[0].replace(/^X /, '');
+    } else {
+      const { intro, punct } = conj === 'ob' ? obIntro(ctx, eff.subj) : { intro: pick(ctx.rng, DASS_ONLY_INTROS), punct: '.' };
+      text = `${intro}, \u0000 ${joinChunks(render({ ...eff, lead: 'X' }, 'SUB')).replace(/^X /, '')}${punct}`;
+    }
+    const [before, after] = text.split('\u0000');
+    const atStart = before === '';
+    const shown = shuffle(ctx.rng, [...conjs]).map((o) => (atStart ? cap(o) : o));
+    items.push({
+      parts: [before, 0, after],
+      options: shown,
+      answer: shown.indexOf(atStart ? cap(conj) : conj),
+      explain: CONJ_EXPLAIN[conj],
+    });
+  }
+  return {
+    type: 'choice',
+    title: 'dass, ob или wenn?',
+    instruction: 'ob = «ли» (вопрос без вопросительного слова), dass = «что», wenn = «если / когда».',
+    layout: 'inline',
+    items: shuffle(ctx.rng, items),
+  };
+}
+
 const CONJ_EXPLAIN: Record<string, string> = {
+  dass: 'dass — «что»: передаём утверждение (Ich glaube, dass …)',
+  ob: 'ob — «ли»: косвенный вопрос да/нет (Ich weiß nicht, ob …)',
+  wenn: 'wenn — «если / когда»: условие, не вопрос',
   weil: 'weil — глагол в конце предложения',
   denn: 'denn — позиция 0, обычный порядок слов',
   deshalb: 'deshalb — позиция 1, глагол сразу после него (инверсия)',
@@ -980,7 +1036,7 @@ const CONJ_EXPLAIN: Record<string, string> = {
   oder: 'oder — позиция 0, обычный порядок слов',
 };
 
-export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn', tense: Tense = 'pres'): Exercise {
+export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn' | 'ob', tense: Tense = 'pres'): Exercise {
   const pair = pick(ctx.rng, ctx.theme.causes);
   const [eff, cause] = pairSpecs(ctx, pair, tense);
   const subjP = pronounFor(eff.subj);
@@ -994,20 +1050,21 @@ export function subOrderEx(ctx: Ctx, conj: 'weil' | 'dass' | 'wenn', tense: Tens
       item,
     };
   }
-  const main = joinChunks(render(eff, 'S'));
-  const sub = conj === 'weil' ? { ...cause, subj: subjP, lead: 'weil' } : { ...eff, subj: subjP, lead: 'dass' };
+  const sub = conj === 'weil' ? { ...cause, subj: subjP, lead: 'weil' } : { ...eff, subj: subjP, lead: conj };
   const variants = renderAll(sub, 'SUB');
-  const head = conj === 'dass' ? 'Ich glaube' : main;
+  const ob = conj === 'ob' ? obIntro(ctx, subjP) : undefined;
+  const head = ob ? ob.intro : conj === 'dass' ? 'Ich glaube' : joinChunks(render(eff, 'S'));
+  const punct = ob?.punct ?? '.';
   const item = orderItemFrom(ctx, variants, {
     fixFirst: true,
-    punct: '.',
+    punct,
     hint: `${head}, …`,
-    solution: `${head}, ${joinChunks(variants[0], { capitalize: false })}.`,
+    solution: `${head}, ${joinChunks(variants[0], { capitalize: false })}${punct}`,
   });
   return {
     type: 'order',
     title: `Придаточное с «${conj}»`,
-    instruction: conj === 'dass' ? 'Продолжите: «Ich glaube, …». Глагол — в конец!' : `Продолжите: «${main}, …». Глагол — в конец!`,
+    instruction: `Продолжите: «${head}, …». Глагол — в конец!`,
     item,
   };
 }
