@@ -148,7 +148,14 @@ function SlotBank({ slots, tiles, isCorrect, checked, assign, setAssign, layout 
             t !== null ? (
               <DragTile id={`t${t}`} label={tiles[t]} onDrop={dropTile(t)} onTap={() => tapSlot(i)} className={`${s.slotTile} ${state}`} disabled={checked} />
             ) : (
-              <span className={`${s.slotEmpty} ${selSlot === i ? s.slotSel : ''} ${state}`}>{'   '}</span>
+              <button
+                type="button"
+                className={`${s.slotEmpty} ${selSlot === i ? s.slotSel : ''} ${state}`}
+                disabled={checked}
+                aria-label={`Выбрать пропуск ${i + 1}`}
+                aria-pressed={selSlot === i}
+                onClick={() => tapSlot(i)}
+              >{'   '}</button>
             );
           return (
             <li key={i} className={s.item}>

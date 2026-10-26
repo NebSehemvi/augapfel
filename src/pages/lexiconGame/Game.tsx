@@ -27,7 +27,7 @@ import { CardChoice } from './CardChoice';
 import { GameHud } from './GameHud';
 import { GameSummary } from './GameSummary';
 import { PresentCard } from './PresentCard';
-import { canSpeak } from '../../lib/speech';
+import { canSpeak, useCanSpeak } from '../../lib/speech';
 import { TypeAnswer } from './TypeAnswer';
 import s from './game.module.css';
 
@@ -44,6 +44,7 @@ function buildSteps(mode: LexMode, scope: LexScope): Step[] {
 
 /** One lexicon session: learning new words, classic review, speed review or the articles round (timer, three lives). */
 export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: LexScope; back: string; restart: () => void }) {
+  const audio = useCanSpeak();
   const progress = useProgress();
   const [steps, setSteps] = useState<Step[]>(() => buildSteps(mode, scope));
   const [words] = useState<LexEntry[]>(() => steps.flatMap((x) => (x.kind === 'present' ? [x.entry] : [])));
@@ -67,7 +68,11 @@ export function Game({ mode, scope, back, restart }: { mode: LexMode; scope: Lex
   const nextTimer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(nextTimer.current), []);
 
-  const step = steps[i] as Step | undefined;
+  const current = steps[i] as Step | undefined;
+  // A voice can disappear or fail during a round: show the normal written question.
+  const step = current && current.kind !== 'present' && current.listen && !audio
+    ? { ...current, listen: false, label: current.kind === 'cards' ? 'Выберите перевод' : undefined }
+    : current;
   const timed = isTimed(mode);
 
   const finish = () => {
