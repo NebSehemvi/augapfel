@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react';
-import { Ex, H, List, P, Tbl, Tip } from '../components/Explain';
+import { Ex, H, List, P, Tbl, Tip } from '../../components/Explain';
 
-/** Explanation of the comparisons topic. */
-export const EXPLAIN_COMPARE: Record<string, () => ReactNode> = {
-  vergleiche: () => (
+export function Vergleiche() {
+  return (
     <>
       <P>
         Когда сравниваем, есть два случая: <b>одинаково</b> — <b>so … wie</b>, и <b>больше / меньше</b> — сравнительная степень +{' '}
@@ -66,5 +64,5 @@ export const EXPLAIN_COMPARE: Record<string, () => ReactNode> = {
       <Ex de="Ich trinke **lieber** Tee **als** Kaffee." ru="Я больше люблю чай, чем кофе." en="I prefer tea to coffee." />
       <Ex de="Im Juli ist es **am heißesten**." ru="В июле жарче всего." />
     </>
-  ),
-};
+  );
+}
