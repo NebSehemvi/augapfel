@@ -32,11 +32,11 @@ describe('export / import', () => {
     expect(getUserTexts().filter((t) => t.id === TEXT.id).length).toBe(1);
   });
 
-  it('accepts old export files without texts and ignores malformed texts', () => {
+  it('accepts old export files without texts and rejects malformed texts', () => {
     const old = JSON.stringify({ app: 'augapfel', progress: { topics: {}, srs: {} } });
     expect(importProgress(old).texts).toBe(0);
     const bad = JSON.stringify({ app: 'augapfel', progress: {}, texts: [{ id: 1 }, { id: 'x', title: 'T', paragraphs: [3] }] });
-    expect(importProgress(bad).texts).toBe(0);
+    expect(() => importProgress(bad)).toThrow();
   });
 });
 
@@ -70,5 +70,34 @@ describe('saved words', () => {
     removeWord('googeln');
     expect(getProgress().srs['l|der Sohn|de-ru']).toBeDefined();
     expect(getProgress().srs['l|googeln|de-ru']).toBeUndefined();
+  });
+});
+
+describe('import validation', () => {
+  const wrap = (progress: unknown, texts?: unknown) => JSON.stringify({ app: 'augapfel', progress, texts });
+
+  it('accepts a legacy export (no version, no texts, partial settings)', () => {
+    const r = importProgress(wrap({ topics: { x: { sessions: 1, best: 0.5, last: 0.5, lastAt: 5 } }, settings: { level: 'A2' } }));
+    expect(r.topics).toBe(1);
+    expect(r.texts).toBe(0);
+  });
+
+  it('rejects malformed payloads without touching state', () => {
+    const before = JSON.stringify(getProgress());
+    const textsBefore = getUserTexts().length;
+    const bad = [
+      'not json',
+      JSON.stringify({ app: 'other', progress: {} }),
+      wrap({ topics: { x: { sessions: 'many' } } }),
+      wrap({ srs: { k: { box: 1, due: 1, seen: 1 } } }),
+      wrap({ settings: { level: 'C2' } }),
+      wrap({ days: 'today' }),
+      // valid progress but a broken text: nothing may be applied
+      wrap({ topics: { ok: { sessions: 9, best: 1, last: 1, lastAt: 1 } } }, [{ id: 't', title: 'T', paragraphs: [1] }]),
+      wrap({}, [{ id: 't', title: 'T', paragraphs: ['a'], questions: [{ q: 'q', options: ['a'], answer: 3 }] }]),
+    ];
+    for (const b of bad) expect(() => importProgress(b)).toThrow(/Augapfel|JSON|повреждён/);
+    expect(JSON.stringify(getProgress())).toBe(before);
+    expect(getUserTexts().length).toBe(textsBefore);
   });
 });
