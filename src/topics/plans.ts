@@ -328,13 +328,16 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
   nebensaetze: (ctx) => [
     B.connectorChoiceEx(ctx, ['weil', 'denn'], 4),
     B.subOrderEx(ctx, 'weil'),
-    B.tableEx(ctx, { tense: pick(ctx.rng, ['pres', 'perf'] as const), order: 'SUB', lead: pick(ctx.rng, ['weil', 'dass', 'wenn']) }),
+    B.tableEx(ctx, { tense: pick(ctx.rng, ['pres', 'perf'] as const), order: 'SUB', lead: pick(ctx.rng, ['weil', 'dass', 'wenn', 'ob']) }),
     B.weilWriteEx(ctx, 'weil'),
     B.subOrderEx(ctx, 'wenn'),
     B.choiceCorrectOrder(ctx, { tense: 'pres', order: 'SUB', lead: 'weil' }),
     B.weilWriteEx(ctx, 'dass'),
     B.weilWriteEx(ctx, 'wenn'),
     B.subOrderEx(ctx, 'dass', 'perf'),
+    B.subConjChoiceEx(ctx, 6),
+    B.subOrderEx(ctx, 'ob'),
+    B.weilWriteEx(ctx, 'ob'),
   ],
 
   'deshalb-trotzdem': (ctx) => [

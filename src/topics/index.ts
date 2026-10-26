@@ -33,7 +33,7 @@ export const TOPICS: TopicMeta[] = [
   { id: 'futur', level: 'A2', group: 'Глаголы', de: 'Futur I: werden + Infinitiv', ru: 'Будущее время: Futur I', summary: 'Ich werde morgen anrufen.' },
   { id: 'verben-praep', level: 'A2', group: 'Глаголы', de: 'Verben mit Präpositionen', ru: 'Глаголы с предлогами', summary: 'warten auf, denken an; worauf? darauf' },
   { id: 'reflexiv', level: 'A2', group: 'Глаголы', de: 'Reflexive Verben', ru: 'Возвратные глаголы', summary: 'Ich freue mich. Ich wasche mir die Hände.' },
-  { id: 'nebensaetze', level: 'A2', group: 'Порядок слов', de: 'Nebensätze: weil, dass, wenn', ru: 'Придаточные: weil, dass, wenn', summary: '…, weil ich Hunger habe.' },
+  { id: 'nebensaetze', level: 'A2', group: 'Порядок слов', de: 'Nebensätze: weil, dass, wenn, ob', ru: 'Придаточные: weil, dass, wenn, ob', summary: '…, weil ich Hunger habe.' },
   { id: 'deshalb-trotzdem', level: 'A2', group: 'Порядок слов', de: 'deshalb, trotzdem, dann', ru: 'deshalb, trotzdem: инверсия', summary: 'Deshalb esse ich einen Salat.' },
   { id: 'wechselpraep', level: 'A2', group: 'Существительные', de: 'Wechselpräpositionen: wo? wohin?', ru: 'Двойные предлоги: где? куда?', summary: 'auf den Tisch / auf dem Tisch' },
 ];
