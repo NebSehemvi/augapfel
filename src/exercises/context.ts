@@ -18,6 +18,15 @@ export function verbAllowed(ctx: Ctx, v: Verb): boolean {
   return v.level !== 'B1' || ctx.includeRare;
 }
 
+/** A1 sessions prefer A1 vocabulary: A1 items first (shuffled), the rest only as a fallback. */
+export function preferLevel<T>(ctx: Ctx, rng: Rng, items: T[], isHarder: (x: T) => boolean): T[] {
+  const list = shuffle(rng, items);
+  if (ctx.level !== 'A1') return list;
+  return [...list.filter((x) => !isHarder(x)), ...list.filter(isHarder)];
+}
+
+const isA1 = (acts: Act[], yes = true) => acts.filter((a) => (a.verb.level === 'A1') === yes);
+
 export interface Act extends Activity {
   verb: Verb;
 }
@@ -32,11 +41,13 @@ function toAct(a: Activity): Act {
  */
 export function pickActs(ctx: Ctx, n: number, pred: (a: Act) => boolean = () => true): Act[] {
   const ok = (a: Act) => verbAllowed(ctx, a.verb) && pred(a);
-  const fromTheme = shuffle(ctx.rng, ctx.theme.acts.map(toAct).filter(ok));
-  const fromGeneral = shuffle(ctx.rng, GENERAL.map(toAct).filter(ok));
+  const theme = shuffle(ctx.rng, ctx.theme.acts.map(toAct).filter(ok));
+  const general = shuffle(ctx.rng, GENERAL.map(toAct).filter(ok));
+  // A1 sessions: A1 verbs of the theme, then general A1 verbs, and A2 verbs only when those run out
+  const pool = ctx.level === 'A1' ? [...isA1(theme), ...isA1(general), ...isA1(theme, false), ...isA1(general, false)] : [...theme, ...general];
   const out: Act[] = [];
   const seen = new Set<string>();
-  for (const a of [...fromTheme, ...fromGeneral]) {
+  for (const a of pool) {
     if (out.length >= n) break;
     if (seen.has(a.v)) continue;
     seen.add(a.v);

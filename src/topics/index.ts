@@ -18,6 +18,7 @@ export const TOPICS: TopicMeta[] = [
   { id: 'fragen', level: 'A1', group: 'Порядок слов', de: 'W-Fragen und Ja/Nein-Fragen', ru: 'Вопросы', summary: 'Was machst du? Kommst du?' },
   { id: 'trennbare', level: 'A1', group: 'Глаголы', de: 'Trennbare Verben', ru: 'Глаголы с отделяемой приставкой', summary: 'Ich stehe um 7 Uhr auf.' },
   { id: 'modalverben', level: 'A1', group: 'Глаголы', de: 'Modalverben', ru: 'Модальные глаголы', summary: 'Ich will heute Deutsch lernen.' },
+  { id: 'imperativ', level: 'A1', group: 'Глаголы', de: 'Imperativ: du, ihr, Sie', ru: 'Повелительное наклонение', summary: 'Komm! Kommt! Kommen Sie!' },
   { id: 'perfekt-haben', level: 'A1', group: 'Прошедшее время', de: 'Perfekt mit haben', ru: 'Perfekt: слабые глаголы', summary: 'Ich habe gekocht.' },
   { id: 'perfekt-sein', level: 'A1', group: 'Прошедшее время', de: 'Perfekt: starke Verben, haben oder sein', ru: 'Perfekt: сильные глаголы, haben или sein', summary: 'Ich bin gefahren, ich habe gegessen.' },
   { id: 'perfekt-besonders', level: 'A1', group: 'Прошедшее время', de: 'Perfekt: trennbare Verben, -ieren', ru: 'Perfekt: приставки и -ieren', summary: 'aufgestanden, besucht, studiert' },

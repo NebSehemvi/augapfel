@@ -10,7 +10,8 @@ import { article, contract, GENDER_ART, nounForm, prepCase } from '../grammar/ar
 import { getNoun, getTheme } from '../data/themes';
 import type { Frame, Pair } from '../data/themes/types';
 import type { Ctx, Act } from './context';
-import { clauseAct, MODALS, pickActs, pickSubject, pickSubjects, pickTime, pickTimes, spec, TENSE_LABEL } from './context';
+import { A2_NOUNS } from '../data/nouns';
+import { clauseAct, MODALS, preferLevel, pickActs, pickSubject, pickSubjects, pickTime, pickTimes, spec, TENSE_LABEL } from './context';
 import type { BankItem, ChoiceItem, Exercise, FillItem, FormsItem, OrderItem, Seg } from './types';
 import { ALL_PREPS, daForm, findPrepVerb, woForm } from '../data/prepVerbs';
 
@@ -561,7 +562,7 @@ export function matchEx(title: string, instruction: string, pairs: [string, stri
 // nouns & articles
 
 export function themeNouns(ctx: Ctx, n: number, pred: (x: ReturnType<typeof getNoun>) => boolean = () => true) {
-  return sample(ctx.rng, ctx.theme.nouns.filter(pred), n);
+  return preferLevel(ctx, ctx.rng, ctx.theme.nouns.filter(pred), (x) => A2_NOUNS.has(x.de)).slice(0, n);
 }
 
 export function choiceGender(ctx: Ctx, n = 8): Exercise {
@@ -633,12 +634,13 @@ export function frameItem(ctx: Ctx, f: Frame): { parts: Seg[]; form: string; opt
 }
 
 export function framesEx(ctx: Ctx, pred: (f: Frame) => boolean, mode: 'fill' | 'choice', n: number, title: string, instruction: string): Exercise {
-  let frames = ctx.theme.frames.filter(pred);
+  const harder = (f: Frame) => A2_NOUNS.has(f.n);
+  let frames = preferLevel(ctx, ctx.rng, ctx.theme.frames.filter(pred), harder);
   if (frames.length < n) {
     // top up from other themes
     const extra = ['family', 'food', 'work', 'leisure', 'school'].flatMap((id) => (id === ctx.theme.id ? [] : getTheme(id).frames.filter(pred)));
-    frames = [...shuffle(ctx.rng, frames), ...shuffle(ctx.rng, extra)];
-  } else frames = shuffle(ctx.rng, frames);
+    frames = [...frames, ...preferLevel(ctx, ctx.rng, extra, harder)];
+  }
   const chosen = frames.slice(0, n);
   const items = chosen.map((f) => frameItem(ctx, f));
   if (mode === 'fill') {

@@ -5,6 +5,7 @@ import { SatzbauInversion } from './SatzbauInversion';
 import { Fragen } from './Fragen';
 import { Trennbare } from './Trennbare';
 import { Modalverben } from './Modalverben';
+import { Imperativ } from './Imperativ';
 import { PerfektHaben } from './PerfektHaben';
 import { PerfektSein } from './PerfektSein';
 import { PerfektBesonders } from './PerfektBesonders';
@@ -31,6 +32,7 @@ export const EXPLAIN: Record<string, ComponentType> = {
   'fragen': Fragen,
   'trennbare': Trennbare,
   'modalverben': Modalverben,
+  'imperativ': Imperativ,
   'perfekt-haben': PerfektHaben,
   'perfekt-sein': PerfektSein,
   'perfekt-besonders': PerfektBesonders,
