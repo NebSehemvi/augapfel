@@ -41,7 +41,7 @@ The code is organised like this:
 - `src/grammar/`: conjugation, articles, and word order (`clause.ts` renders V2, inversion, the verb bracket and subordinate clauses).
 - `src/data/`: the verb database (`verbs.ts`), the case each verb takes (`verbGov.ts`), verbs with prepositions, and vocabulary themes.
 - `src/exercises/`: exercise generators (`builders.ts`) and session assembly.
-- `src/topics/`: topic list, exercise plans per topic, and explanations.
+- `src/topics/`: topic list and exercise plans per topic; `src/topics/explanations/` has one explanation component per topic.
 - `src/pages/<page>/`: one folder per page — `index.tsx` with the page component, one file per sub-component and the page's own CSS module. Components and styles shared by several pages live in `src/pages/common/`.
 - `src/components/`: exercise views and the word popup (React + CSS modules).
 
