@@ -24,6 +24,7 @@ export const TOPIC_FOCUS: Record<string, string> = {
   'praesens-regular': 'Present tense of regular verbs: endings -e, -st, -t, -en, -t, -en; stems ending in -t/-d (arbeitest, findet) and -s/-z (du tanzt).',
   'praesens-irregular': 'Present tense of strong verbs with vowel change in du/er (e→i: nimmt, e→ie: liest, a→ä: fährt) and sein/haben/werden/wissen.',
   'satzbau-inversion': 'Verb-second word order and inversion: when a time/place expression starts the sentence the subject follows the verb (Am Abend habe ich …). Include the verb bracket with Perfekt and modal verbs.',
+  negation: 'Negation with kein for indefinite or bare nouns (Nom/Akk, brief Dat), nicht for verbs, adjectives, manner adverbs, prepositional phrases and definite/possessive objects; nicht after objects/time but before predicate complements and the verb bracket; nicht/kein … sondern; ja/nein/doch with explicit positive or negative replies.',
   fragen: 'Questions: W-questions (W-word + verb + subject) and yes/no questions (verb first), also in Perfekt.',
   trennbare: 'Separable verbs: prefix at the end in main clauses (Ich stehe um 7 Uhr auf), together with modal verbs (Ich muss aufstehen); inseparable prefixes be-, ver-, er- …',
   modalverben: 'Modal verbs können, müssen, wollen, dürfen, sollen, möchten: conjugation (ich kann, er will) and the infinitive at the end.',

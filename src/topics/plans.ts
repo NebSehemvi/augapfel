@@ -9,6 +9,7 @@ import { PREP_VERBS } from '../data/prepVerbs';
 import { verbAllowed } from '../exercises/context';
 import { NUMBER_PLANS } from './plansNumbers';
 import { COMPARE_PLANS } from './plansCompare';
+import { NEGATION_PLANS } from './plansNegation';
 import { IMPERATIV_PLANS } from './plansImperativ';
 
 const noGe = (v: Verb) => B.ppType(v) === 2;
@@ -99,6 +100,7 @@ export const PLANS: Record<string, (ctx: Ctx) => Exercise[]> = {
   ...NUMBER_PLANS,
   ...COMPARE_PLANS,
   ...IMPERATIV_PLANS,
+  ...NEGATION_PLANS,
   'praesens-regular': (ctx) => [
     B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), title: 'Präsens: выберите форму' }),
     B.asBank(ctx, B.choiceVerbForm(ctx, { tense: 'pres', pred: (a) => isRegular(a.verb), n: 4, title: 'Präsens: банк слов' })),
